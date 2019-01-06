@@ -13,5 +13,4 @@ public class HealthCheckController {
 
     return "pream server is running now.";
   }
-
 }
