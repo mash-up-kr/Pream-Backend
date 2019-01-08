@@ -41,4 +41,7 @@ public class Filter {
 
   @OneToMany(mappedBy = "filter")
   private Set<FilterCategory> filterCategories;
+
+  @OneToMany(mappedBy = "filter")
+  private Set<Favorite> favorites;
 }
