@@ -41,7 +41,4 @@ public class User {
 
   @OneToMany(mappedBy = "user")
   private Set<UserFilter> userFilters;
-
-  @OneToMany(mappedBy = "user")
-  private Set<Favorite> favorites;
 }

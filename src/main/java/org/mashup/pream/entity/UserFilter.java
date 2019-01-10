@@ -21,9 +21,13 @@ public class UserFilter {
   @Column
   private Integer ordering;
 
+  @Column(columnDefinition = "boolean default false")
+  private Boolean favorite;
+
   @Column
   private Integer useCount;
 
+  //어떤 유저가 이 필터를 갖고 있는지에 대한 저보
   @ManyToOne
   @JoinColumn(name = "user_id")
   private User user;
