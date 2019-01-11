@@ -22,7 +22,7 @@ public class Category {
   private String name;
 
   @Column
-  private Integer groupOrder;
+  private Integer orderSequence;
 
   @OneToMany(mappedBy = "category")
   private Set<FilterCategory> filterCategories;

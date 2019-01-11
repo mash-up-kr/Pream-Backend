@@ -4,9 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.mashup.pream.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @Slf4j
 @RequestMapping("/user")
 public class UserController {
@@ -19,10 +21,10 @@ public class UserController {
   //localhost:8088/user/signup
 
   /* 회원 가입 */
-  @PostMapping("/signup")
-  public void signUp(){
-    
-  }
+//  @PostMapping("/signup")
+////  public void signUp(@RequestBody SignUpJson){
+////
+////  }
 
   /* 로그인 */
 

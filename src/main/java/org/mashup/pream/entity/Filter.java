@@ -1,5 +1,6 @@
 package org.mashup.pream.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 import javax.persistence.Column;
@@ -7,10 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Getter
 @Setter
@@ -23,18 +27,21 @@ public class Filter {
   @Column(length = 50, nullable = false)
   private String name;
 
-  @Column
-  private Long userId;
-
   @Column(nullable = false)
   @CreationTimestamp
   private LocalDateTime regDate;
 
-  @Column(columnDefinition = "boolean default false")
-  private Boolean visibility;
+  @Column
+  @UpdateTimestamp
+  private LocalDateTime updateDate;
 
-  @Column(nullable = false)
-  private Long category;
+  @Column(columnDefinition = "boolean default false")
+  private Boolean sharedYn;
+
+  //어떤 유저가 이 filter를 생성했는지에 대한 정보
+  @OneToMany
+  @JoinColumn(name = "user_id")
+  private Set<User> users;
 
   @OneToMany(mappedBy = "filter")
   private Set<UserFilter> userFilters;
