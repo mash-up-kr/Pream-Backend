@@ -26,7 +26,11 @@ public class UserServiceImpl implements UserService{
 
   @Override
   public boolean emailCheck(String email) {
-    return false;
+    //중복되면 return true
+    if (userRepository.findByEmail(email) == null) {
+      return false;
+    }
+      return true;
   }
 
   @Override

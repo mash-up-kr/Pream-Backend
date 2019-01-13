@@ -1,0 +1,27 @@
+package org.mashup.pream.user;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mashup.pream.persistence.UserRepository;
+import org.mashup.pream.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class UserTest {
+  @Autowired
+  UserRepository userRepository;
+  @Autowired
+  UserService userService;
+
+  @Test
+  public void User이메일중복검사() throws Exception{
+    //중복되면 return true;
+    if(userRepository.findByEmail("admin@naver.comm") != null)
+    System.out.println("중복이있네요");
+    else  System.out.println("중복이없네요");
+  }
+
+}
