@@ -24,4 +24,12 @@ public class UserTest {
     else  System.out.println("중복이없네요");
   }
 
+  @Test
+  public void User닉네임중복검사() throws Exception{
+    //중복되면 return true;
+    if(userRepository.findByNickname("관리자1") != null)
+      System.out.println("닉네임중복이있네요");
+    else  System.out.println("닉네임중복이없네요");
+  }
+
 }

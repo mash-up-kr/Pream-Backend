@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.mashup.pream.dto.SignUpJson;
 import org.mashup.pream.dto.user.UserCheckEmail;
+import org.mashup.pream.dto.user.UserCheckNickname;
 import org.mashup.pream.exception.AlreadyExistsException;
 import org.mashup.pream.exception.BadRequestException;
 import org.mashup.pream.model.ApiResponseModel;
@@ -62,15 +63,27 @@ public class UserController {
   }
 
 //  /* 닉네임 검사 */
-//  @PostMapping("/signup/check/nickname")
-//  public void checkNickname(String nickname){
-//    // 닉네임이 중복되는지 검사
-//    if(userService.nicknameCheck(nickname)){
-//      throw new AlreadyExistsException("회원가입시 입력한 닉네임이 중복됩니디.");
-//    }
-//
-//
-//  }
+@PostMapping("/signup/check/{nickname}")
+public ApiResponseModel<UserCheckNickname> checkNickname(@PathVariable String nickname){
+  ApiResponseModel<UserCheckNickname> response = new ApiResponseModel<>();
+
+  UserCheckNickname userCheckNickname =  new UserCheckNickname();
+
+  // 이메일이 중복되는지 검사
+  if(!userService.emailCheck(nickname)){
+    userCheckNickname.setNickname(nickname); //등록하려면 false값이 넘어와야함 . 즉 중복이 없을 때 false 값이 넘어와야함
+    log.info("중복이없네요");
+  } else {
+    log.info("중복이있네요");
+    throw new AlreadyExistsException("회원가입시 입력한 닉네임이 중복됩니다.");
+  }
+
+  response.setStatusCode(HttpStatus.OK.value());
+  response.setMessage(HttpStatus.OK.toString());
+  response.setResult(userCheckNickname);
+
+  return response;
+}
 //
 //
 //  /* 회원 가입 */

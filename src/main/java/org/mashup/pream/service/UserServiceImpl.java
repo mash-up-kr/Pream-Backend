@@ -34,8 +34,12 @@ public class UserServiceImpl implements UserService{
   }
 
   @Override
-  public boolean nicknameCheck(String email) {
-    return false;
+  public boolean nicknameCheck(String nickname) {
+    //중복되면 return true
+    if (userRepository.findByNickname(nickname) == null) {
+      return false;
+    }
+    return true;
   }
 
   @Override
