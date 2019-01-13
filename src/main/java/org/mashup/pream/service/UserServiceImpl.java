@@ -15,15 +15,6 @@ public class UserServiceImpl implements UserService{
     this.userRepository = userRepository;
   }
 
-  public void signUp(SignUpJson signUpJson){
-    User user = new User();
-    user.setEmail(signUpJson.getEmail());
-    user.setNickname(signUpJson.getNickname());
-    user.setPassword(signUpJson.getPassword());
-
-    userRepository.save(user);
-  }
-
   @Override
   public boolean emailCheck(String email) {
     //중복되면 return true
@@ -44,6 +35,11 @@ public class UserServiceImpl implements UserService{
 
   @Override
   public void save(SignUpJson signUpJson) {
+    User user = new User();
+    user.setEmail(signUpJson.getEmail());
+    user.setNickname(signUpJson.getNickname());
+    user.setPassword(signUpJson.getPassword());
 
+    userRepository.save(user);
   }
 }

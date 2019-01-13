@@ -55,6 +55,9 @@ public class UserController {
       throw new AlreadyExistsException("회원가입시 입력한 이메일이 중복됩니다.");
     }
 
+    /* 이메일 인증 구현 예정*/
+
+
     response.setStatusCode(HttpStatus.OK.value());
     response.setMessage(HttpStatus.OK.toString());
     response.setResult(userCheckEmail);
@@ -62,7 +65,7 @@ public class UserController {
     return response;
   }
 
-//  /* 닉네임 검사 */
+ /* 닉네임 검사 */
 @PostMapping("/signup/check/{nickname}")
 public ApiResponseModel<UserCheckNickname> checkNickname(@PathVariable String nickname){
   ApiResponseModel<UserCheckNickname> response = new ApiResponseModel<>();
@@ -84,19 +87,21 @@ public ApiResponseModel<UserCheckNickname> checkNickname(@PathVariable String ni
 
   return response;
 }
-//
-//
-//  /* 회원 가입 */
-//  // SignUpJson값이 모두 null이 아니면(중복검사 및 정확한 input으로 들어왔다면) db에 저장해준다.
-//  @PostMapping("/signup/save")
-//  public void signUp(@Valid @RequestBody SignUpJson signUpJson, BindingResult bindingResult){
-//    // 입력값이 모두 들어왔는지를 검사 -> BadRequestException
-//    if (bindingResult.hasErrors()){
-//      throw new BadRequestException("회원가입시 필요한 input 값을 모두 넣어주세요");
-//    }
-//    // 저장!
-//    userService.save(signUpJson);
-//  }
+
+  /* 회원 가입 */
+  // SignUpJson값이 모두 null이 아니면(중복검사 및 정확한 input으로 들어왔다면) db에 저장해준다.
+  @PostMapping("/signup/save")
+  public void signUp(@Valid @RequestBody SignUpJson signUpJson, BindingResult bindingResult){
+    signUpJson.setEmail("admin2@naver.com");
+    signUpJson.setNickname("관리");
+    signUpJson.setPassword("1234");
+    // 입력값이 모두 들어왔는지를 검사 -> BadRequestException
+    if (bindingResult.hasErrors()){
+      throw new BadRequestException("회원가입시 필요한 input 값이 모두 입력되지 않았습니다.");
+    }
+    // 저장!
+    userService.save(signUpJson);
+  }
 
   /* 로그인 */
 
