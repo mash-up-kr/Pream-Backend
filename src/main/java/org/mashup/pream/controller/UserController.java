@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.mashup.pream.dto.SignUpJson;
 import org.mashup.pream.dto.user.UserCheckEmail;
 import org.mashup.pream.dto.user.UserCheckNickname;
+import org.mashup.pream.dto.user.UserLoginInfo;
 import org.mashup.pream.exception.AlreadyExistsException;
 import org.mashup.pream.exception.BadRequestException;
 import org.mashup.pream.model.ApiResponseModel;
@@ -104,5 +105,23 @@ public ApiResponseModel<UserCheckNickname> checkNickname(@PathVariable String ni
   }
 
   /* 로그인 */
+  @PostMapping("/login")
+  public ApiResponseModel<UserLoginInfo> login(@Valid @RequestBody UserLoginInfo userLoginInfo, BindingResult bindingResult){
+    ApiResponseModel<UserLoginInfo> response = new ApiResponseModel<>();
+
+    if (bindingResult.hasErrors()) {
+      throw new BadRequestException("로그인시 필요한 input 값이 모두 입력되지 않았습니다.");
+    }
+
+    if (userService.login(userLoginInfo) == null){
+      throw new BadRequestException("로그인시 아이디 혹은 비밀번호가 잘못되었습니다.");
+    }
+
+    response.setStatusCode(HttpStatus.OK.value());
+    response.setMessage(HttpStatus.OK.toString());
+    response.setResult(userLoginInfo);
+
+    return response;
+  }
 
 }
