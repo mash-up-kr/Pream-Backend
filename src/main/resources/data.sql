@@ -1,0 +1,1 @@
+INSERT INTO user (email, password, nickname) VALUES ('admin@naver.com', 1111, '관리자');
