@@ -43,7 +43,7 @@ public class UserController {
   /* 이메일 검사 */
   @PostMapping("/signup/check/{email}")
   public ApiResponseModel<UserCheckEmail> checkEmail(@PathVariable String email){
-    ApiResponseModel<UserCheckEmail> response = new ApiResponseModel<>();
+    ApiResponseModel<UserCheckEmail> response = new ApiResponseModel<UserCheckEmail>();
 
     UserCheckEmail userCheckEmail =  new UserCheckEmail();
 
@@ -69,7 +69,7 @@ public class UserController {
  /* 닉네임 검사 */
 @PostMapping("/signup/check/{nickname}")
 public ApiResponseModel<UserCheckNickname> checkNickname(@PathVariable String nickname){
-  ApiResponseModel<UserCheckNickname> response = new ApiResponseModel<>();
+  ApiResponseModel<UserCheckNickname> response = new ApiResponseModel<UserCheckNickname>();
 
   UserCheckNickname userCheckNickname =  new UserCheckNickname();
 
@@ -107,7 +107,7 @@ public ApiResponseModel<UserCheckNickname> checkNickname(@PathVariable String ni
   /* 로그인 */
   @PostMapping("/login")
   public ApiResponseModel<UserLoginInfo> login(@Valid @RequestBody UserLoginInfo userLoginInfo, BindingResult bindingResult){
-    ApiResponseModel<UserLoginInfo> response = new ApiResponseModel<>();
+    ApiResponseModel<UserLoginInfo> response = new ApiResponseModel<UserLoginInfo>();
 
     if (bindingResult.hasErrors()) {
       throw new BadRequestException("로그인시 필요한 input 값이 모두 입력되지 않았습니다.");
