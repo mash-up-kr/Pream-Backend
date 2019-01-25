@@ -2,10 +2,10 @@
 
 
 ## Tech/framework used
-Language: JDK 1.8
-Application Framework: Spring Boot 2.0
-Database: MySQL, JPA(Java Persistence API)
-Deployment: AWS(EC2, RDS)
-Front-End: iOS
-IDE: IntelliJ
-Build Automation Tool: Gradle
+- Language: JDK 1.8
+- Application Framework: Spring Boot 2.0
+- Database: MySQL, JPA(Java Persistence API)
+- Deployment: AWS(EC2, RDS)
+- Front-End: iOS
+- IDE: IntelliJ
+- Build Automation Tool: Gradle
