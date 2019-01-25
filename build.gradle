@@ -1,7 +1,7 @@
 
 buildscript {
     ext {
-        springBootVersion = '1.5.14.RELEASE'
+        springBootVersion = '1.5.9.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -18,15 +18,12 @@ apply plugin: 'org.springframework.boot'
 
 group = 'org.mashup'
 version = '0.0.1-SNAPSHOT'
-description = """pream"""
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
 }
-
-
 
 repositories {
     mavenCentral()
@@ -51,8 +48,8 @@ dependencies {
     compileOnly('org.projectlombok:lombok:1.16.20')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 
-    //spring-cloud-aws
-    compile group: 'org.springframework.cloud', name: 'spring-cloud-aws-context', version: '1.2.1.RELEASE'
+//    //spring-cloud-aws
+//    compile group: 'org.springframework.cloud', name: 'spring-cloud-aws-context', version: '1.2.1.RELEASE'
 
 }
 
