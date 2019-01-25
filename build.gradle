@@ -1,82 +1,84 @@
-//apply plugin: 'java'
-//apply plugin: 'maven'
-//
-//group = 'org.mashup'
-//version = '0.0.1-SNAPSHOT'
-//
-//description = """pream"""
-//
-//sourceCompatibility = 1.5
-//targetCompatibility = 1.5
-//tasks.withType(JavaCompile) {
-//	options.encoding = 'UTF-8'
-//}
-//
-//
-//
-//repositories {
-//
-//     maven { url "http://repo.maven.apache.org/maven2" }
-//}
-//dependencies {
-//    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version:'2.1.1.RELEASE'
-//    compile group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version:'2.1.1.RELEASE'
-//    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:'2.1.1.RELEASE'
-//    compile group: 'org.projectlombok', name: 'lombok', version:'1.18.4'
-//    runtime group: 'org.springframework.boot', name: 'spring-boot-devtools', version:'2.1.1.RELEASE'
-//    runtime(group: 'mysql', name: 'mysql-connector-java', version:'8.0.13') {
-//exclude(module: 'protobuf-java')
-//    }
-//    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'2.1.1.RELEASE'
-//}
-//
-
-
-buildscript {
-    ext {
-        springBootVersion = '1.5.14.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
-}
-
 apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
+apply plugin: 'maven'
+
 
 group = 'org.mashup'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
+
+description = """pream"""
+
+sourceCompatibility = 1.5
+targetCompatibility = 1.5
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+
 
 repositories {
-    mavenCentral()
+
+     maven { url "http://repo.maven.apache.org/maven2" }
 }
-
-
 dependencies {
-    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
-    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
-
-
-    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.46'
-    compile('org.springframework.boot:spring-boot-starter-actuator')
-    compile('org.springframework.boot:spring-boot-starter-data-jpa')
-    compile('org.springframework.boot:spring-boot-starter-web')
-    // compile 'org.springframework.boot:spring-boot-starter'         //이메일 인증
-//    compile 'org.springframework.boot:spring-boot-starter-mail'         //이메일 인증
-//    compile('org.springframework.boot:spring-boot-starter-security')    //추가
-    compile('org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc3:1.16')      //추가
-    compile('net.sourceforge.nekohtml:nekohtml:1.9.22')
-    compile group: 'org.projectlombok', name: 'lombok', version:'1.16.20'//추가
-    runtime('org.springframework.boot:spring-boot-devtools')
-    runtime('mysql:mysql-connector-java')
-    compileOnly('org.projectlombok:lombok')
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-
-    //spring-cloud-aws
-    compile group: 'org.springframework.cloud', name: 'spring-cloud-aws-context', version: '1.2.1.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version:'2.1.1.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version:'2.1.1.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:'2.1.1.RELEASE'
+    compile group: 'org.projectlombok', name: 'lombok', version:'1.18.4'
+    runtime group: 'org.springframework.boot', name: 'spring-boot-devtools', version:'2.1.1.RELEASE'
+    runtime(group: 'mysql', name: 'mysql-connector-java', version:'8.0.13') {
+exclude(module: 'protobuf-java')
+    }
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'2.1.1.RELEASE'
 }
+
+
+
+//buildscript {
+//    ext {
+//        springBootVersion = '1.5.14.RELEASE'
+//    }
+//    repositories {
+//        mavenCentral()
+//    }
+//    dependencies {
+//        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+//    }
+//}
+//
+//apply plugin: 'java'
+//apply plugin: 'eclipse'
+//apply plugin: 'org.springframework.boot'
+//
+//group = 'org.mashup'
+//version = '0.0.1-SNAPSHOT'
+//sourceCompatibility = 1.8
+//
+//repositories {
+//    mavenCentral()
+//}
+//
+//
+//dependencies {
+//    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
+//    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
+//
+//
+//    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.46'
+//    compile('org.springframework.boot:spring-boot-starter-jdbc:1.2.7.RELEASE')
+//    compile('org.springframework.boot:spring-boot-starter-actuator')
+//    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+//    compile('org.springframework.boot:spring-boot-starter-web')
+//    // compile 'org.springframework.boot:spring-boot-starter'         //이메일 인증
+////    compile 'org.springframework.boot:spring-boot-starter-mail'         //이메일 인증
+////    compile('org.springframework.boot:spring-boot-starter-security')    //추가
+//    compile('org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc3:1.16')      //추가
+//    compile('net.sourceforge.nekohtml:nekohtml:1.9.22')
+//    compile group: 'org.projectlombok', name: 'lombok', version:'1.16.20'//추가
+//    runtime('org.springframework.boot:spring-boot-devtools')
+//    runtime('mysql:mysql-connector-java')
+//    compileOnly('org.projectlombok:lombok')
+//    testCompile('org.springframework.boot:spring-boot-starter-test')
+//
+//    //spring-cloud-aws
+//    compile group: 'org.springframework.cloud', name: 'spring-cloud-aws-context', version: '1.2.1.RELEASE'
+//}
