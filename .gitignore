@@ -1,6 +1,12 @@
 .gradle
 /build/
 !gradle/wrapper/gradle-wrapper.jar
+src/test/java/com/mashup6th/preambackend/user/UserTest.java
+src/test/java/com/mashup6th/preambackend/PreamBackendApplicationTests.java
+
+src/main/resources/application-config.properties
+src/main/resources/application-rds.properties
+src/main/resources/application-dev.properties
 
 ### STS ###
 .apt_generated
