@@ -9,6 +9,7 @@ import com.mashup6th.preambackend.exception.AlreadyExistsException;
 import com.mashup6th.preambackend.exception.BadRequestException;
 import com.mashup6th.preambackend.model.ApiResponseModel;
 import com.mashup6th.preambackend.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/v1/user")
+@RequestMapping("/api/v1/user")
 public class UserController {
   /*
  user 관련 API controller
@@ -39,11 +40,14 @@ public class UserController {
   //localhost:8088/user/signup
 
   /* 이메일 검사 */
-  @PostMapping("/api/signup/check/{email}")
-  public ApiResponseModel<UserCheckEmail> checkEmail(@PathVariable String email){
-    ApiResponseModel<UserCheckEmail> response = new ApiResponseModel<UserCheckEmail>();
+  @ApiOperation(value = "apiCheckEmail",notes = "회원가입시 이메일 인증 / 중복시 에러")
+  @PostMapping("/signup/check/{email}")
+  public ApiResponseModel<UserCheckEmail> apiCheckEmail(@PathVariable String email){
+    ApiResponseModel<UserCheckEmail> response = new ApiResponseModel<>();
 
     UserCheckEmail userCheckEmail =  new UserCheckEmail();
+
+    log.info("체크체크");
 
     // 이메일이 중복되는지 검사
     if(!userService.emailCheck(email)){
@@ -67,7 +71,7 @@ public class UserController {
   /* 닉네임 검사 */
   @PostMapping("/signup/check/{nickname}")
   public ApiResponseModel<UserCheckNickname> checkNickname(@PathVariable String nickname){
-    ApiResponseModel<UserCheckNickname> response = new ApiResponseModel<UserCheckNickname>();
+    ApiResponseModel<UserCheckNickname> response = new ApiResponseModel<>();
 
     UserCheckNickname userCheckNickname =  new UserCheckNickname();
 
@@ -105,7 +109,7 @@ public class UserController {
   /* 로그인 */
   @PostMapping("/login")
   public ApiResponseModel<UserLoginInfo> login(@Valid @RequestBody UserLoginInfo userLoginInfo, BindingResult bindingResult){
-    ApiResponseModel<UserLoginInfo> response = new ApiResponseModel<UserLoginInfo>();
+    ApiResponseModel<UserLoginInfo> response = new ApiResponseModel<>();
 
     if (bindingResult.hasErrors()) {
       throw new BadRequestException("로그인시 필요한 input 값이 모두 입력되지 않았습니다.");
