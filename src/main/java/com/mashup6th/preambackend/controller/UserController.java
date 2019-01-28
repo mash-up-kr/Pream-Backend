@@ -76,7 +76,7 @@ public class UserController {
     UserCheckNickname userCheckNickname =  new UserCheckNickname();
 
     // 이메일이 중복되는지 검사
-    if(!userService.emailCheck(nickname)){
+    if(!userService.nicknameCheck(nickname)){
       userCheckNickname.setNickname(nickname); //등록하려면 false값이 넘어와야함 . 즉 중복이 없을 때 false 값이 넘어와야함
       log.info("중복이없네요");
     } else {
@@ -94,16 +94,24 @@ public class UserController {
   /* 회원 가입 */
   // SignUpJson값이 모두 null이 아니면(중복검사 및 정확한 input으로 들어왔다면) db에 저장해준다.
   @PostMapping("/signup/save")
-  public void signUp(@Valid @RequestBody SignUpJson signUpJson, BindingResult bindingResult){
-    signUpJson.setEmail("admin2@naver.com");
-    signUpJson.setNickname("관리");
-    signUpJson.setPassword("1234");
+  public ApiResponseModel<SignUpJson> signUp(@Valid @RequestBody SignUpJson signUpJson, BindingResult bindingResult){
+    ApiResponseModel<SignUpJson> response = new ApiResponseModel<>();
+
+    signUpJson.setEmail(signUpJson.getEmail());
+    signUpJson.setNickname(signUpJson.getNickname());
+    signUpJson.setPassword(signUpJson.getPassword());
     // 입력값이 모두 들어왔는지를 검사 -> BadRequestException
     if (bindingResult.hasErrors()){
       throw new BadRequestException("회원가입시 필요한 input 값이 모두 입력되지 않았습니다.");
     }
     // 저장!
     userService.save(signUpJson);
+
+    response.setStatusCode(HttpStatus.CREATED.value());
+    response.setMessage(HttpStatus.CREATED.toString());
+    response.setResult(signUpJson);
+
+    return response;
   }
 
   /* 로그인 */
