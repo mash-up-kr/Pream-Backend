@@ -27,6 +27,9 @@ public class UserFilter {
   @Column
   private Integer useCount;
 
+  @Column
+  private Long categoryId;
+
   //어떤 유저가 이 필터를 갖고 있는지에 대한 저보
   @ManyToOne
   @JoinColumn(name = "user_id")
@@ -35,4 +38,5 @@ public class UserFilter {
   @ManyToOne
   @JoinColumn(name = "filter_id")
   private Filter filter;
+
 }
