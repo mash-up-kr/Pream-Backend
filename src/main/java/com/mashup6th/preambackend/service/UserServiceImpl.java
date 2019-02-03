@@ -49,9 +49,10 @@ public class UserServiceImpl implements UserService{
       throw new NotFoundException("해당 이메일에 해당하는 유저가 없습니다.");
     }
 
-    //이메일이 존재하나 비밀번호가 맞지 않을 때
+
     user = userRepository.findByEmail(userLoginInfo.getEmail());
 
+    //이메일이 존재하나 비밀번호가 맞지 않을 때
     if (! user.getPassword().equals(userLoginInfo.getPassword())) {
       log.info("비밀번호가 틀리네요 숙덕숙덕");
       return null;
