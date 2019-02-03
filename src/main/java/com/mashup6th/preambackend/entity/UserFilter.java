@@ -1,5 +1,6 @@
 package com.mashup6th.preambackend.entity;
 
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,8 +29,8 @@ public class UserFilter {
   @Column
   private Integer useCount;
 
-  @Column
-  private Long categoryId;
+  @ManyToOne
+  private Category category;
 
   //어떤 유저가 이 필터를 갖고 있는지에 대한 저보
   @ManyToOne

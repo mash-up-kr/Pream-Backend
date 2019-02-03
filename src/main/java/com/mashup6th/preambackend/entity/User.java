@@ -2,6 +2,7 @@ package com.mashup6th.preambackend.entity;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -41,5 +42,5 @@ public class User {
   private LocalDateTime regDate;
 
   @OneToMany(mappedBy = "user")
-  private Set<UserFilter> userFilters;
+  private List<UserFilter> userFilters;
 }

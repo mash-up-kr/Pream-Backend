@@ -1,6 +1,7 @@
 package com.mashup6th.preambackend.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -81,13 +82,13 @@ public class Filter {
     //어떤 유저가 이 filter를 생성했는지에 대한 정보
     @OneToMany
     @JoinColumn(name = "user_id")
-    private Set<User> users;
+    private List<User> users;
 
     @OneToMany(mappedBy = "filter")
-    private Set<UserFilter> userFilters;
+    private List<UserFilter> userFilters;
 
     @OneToMany(mappedBy = "filter")
-    private Set<FilterCategory> filterCategories;
+    private List<FilterCategory> filterCategories;
 
 
 
