@@ -14,4 +14,6 @@ public interface MyFilterService {
     Filter modify(FilterModel filterModify);
 
     Page<Filter> getAll(Pageable pageable);
+
+    List<Filter> findAll(Filter filter);
 }

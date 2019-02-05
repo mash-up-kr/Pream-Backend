@@ -36,4 +36,9 @@ public class MyFilterServiceImpl implements MyFilterService {
     public Page<Filter> getAll(Pageable pageable) {
         return filterRepository.findByAll(pageable);
     }
+
+    @Override
+    public List<Filter> findAll(Filter filter) {
+        return filterRepository.findAll(filter);
+    }
 }
