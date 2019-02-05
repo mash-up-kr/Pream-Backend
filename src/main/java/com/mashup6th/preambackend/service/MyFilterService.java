@@ -20,4 +20,6 @@ public interface MyFilterService {
     Page<Filter> getAll(Pageable pageable);
 
     List<Filter> findAll(Filter filter);
+
+    Filter delete(String name);
 }

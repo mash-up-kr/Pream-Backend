@@ -13,5 +13,6 @@ public interface MyFilterRepository extends JpaRepository<Filter, Long> {
     Filter findByCategory(List<String> category);
     Page<Filter> findByAll(Pageable pageable);
     List<Filter> findAll(Filter filter);
+    Filter deleteByName(String name);
 
 }
