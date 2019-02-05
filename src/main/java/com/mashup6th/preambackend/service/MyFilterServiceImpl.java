@@ -44,6 +44,15 @@ public class MyFilterServiceImpl implements MyFilterService {
         userFilterRepository.save(userFilter);
     }
 
+//    @Override
+//    public Filter create(String name, String value) {
+//        Filter filter = new Filter();
+//        filter.setName(name);
+//        filter.setValue(value);
+//
+//        filterRepository.save(filter);
+//    }
+
     @Override
     public Filter modify(String name, FilterModel filterModify) {
         Filter filter = filterRepository.findByName(name).orElseThrow(()->new IllegalArgumentException("해당 이름으로 필터가 존재하지 않습니다."));
