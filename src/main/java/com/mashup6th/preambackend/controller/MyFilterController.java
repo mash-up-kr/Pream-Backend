@@ -66,4 +66,19 @@ public class MyFilterController {
 
         return response;
     }
+
+    @GetMapping("/filter/all")
+    public ApiResponseModel<FilterModel> apiFilterGetAll(@RequestBody Filter filter, BindingResult bindingResult) {
+        ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
+
+        filterService.findAll(filter);
+
+        if (bindingResult.hasErrors()) {
+            throw new BadRequestException("");
+        }
+
+        response.setStatusCode(HttpStatus.OK.value());
+
+        return response;
+    }
 }
