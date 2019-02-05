@@ -22,13 +22,12 @@ public class CategoryServiceImpl implements CategoryService{
 
   @Override
   public Boolean save(CategoryInfo categoryInfo) {
-    // Category 테이블에 등록
+    // category 테이블에 등록
     Category category = new Category();
-
     category.setName(categoryInfo.getName());
     category =  categoryRepository.save(category);
 
-    // User_Category 관계테이블에 등록
+    // user_category 관계테이블에 등록
     User user = new User();
     user.setId(categoryInfo.getUserId());
 
@@ -42,5 +41,18 @@ public class CategoryServiceImpl implements CategoryService{
     }
     else {
       return  false; }
+  }
+
+  @Override
+  public CategoryInfo modify(CategoryInfo categoryInfo) {
+    // category_id로 그 카테고리 객체를 불러오기
+    Category category = categoryRepository.getOne(categoryInfo.getCategoryId());
+    category.setName(categoryInfo.getName());
+
+    // category 테이블에서 수정
+    category = categoryRepository.save(category);
+    categoryInfo.setName(category.getName());
+
+    return categoryInfo;
   }
 }

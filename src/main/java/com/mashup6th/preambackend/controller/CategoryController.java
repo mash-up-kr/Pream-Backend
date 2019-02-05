@@ -39,8 +39,6 @@ public class CategoryController {
       throw new BadRequestException("사용자의 id가 입력되지 않았습니다.");
     }
 
-    log.info("컨트롤러 userId " +  categoryInfo.getUserId());
-
     if (categoryService.save(categoryInfo) == null){
       throw new BadRequestException("카테고리 명이 등록되지 않았습니다.");
     }
@@ -55,12 +53,27 @@ public class CategoryController {
 
   /* 카테고리명 수정 api */
   @ApiOperation(value = "apiCategoryModify", notes = "카테고리 명이 입력되지 않았다면 에러 / 카테고리 명 등록이 제대로 되지 않았다면 에러")
-  @PostMapping("/modify/{name}")
-  public ApiResponseModel<CategoryInfo> apiCategoryModify(@PathVariable String name){
+  @PostMapping("/modify")
+  public ApiResponseModel<CategoryInfo> apiCategoryModify(@Valid @RequestBody CategoryInfo categoryInfo){
     ApiResponseModel<CategoryInfo> response = new ApiResponseModel<>();
-    CategoryInfo categoryInfo = new CategoryInfo();
 
+    if (categoryInfo.getName() == null){
+      throw new BadRequestException("카테고리 명이 입력되지 않았습니다.");
+    }
 
+    if (categoryInfo.getUserId() == null){
+      throw new BadRequestException("사용자의 id가 입력되지 않았습니다.");
+    }
+
+    if (categoryInfo.getCategoryId() == null){
+      throw new BadRequestException("카테고리 id가 입력되지 않았습니다.");
+    }
+
+    categoryInfo = categoryService.modify(categoryInfo);
+
+    response.setStatusCode(HttpStatus.OK.value());
+    response.setMessage(HttpStatus.OK.toString());
+    response.setResult(categoryInfo);
 
     return response;
   }

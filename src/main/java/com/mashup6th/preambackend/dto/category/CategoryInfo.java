@@ -9,8 +9,10 @@ import lombok.ToString;
 @ToString
 public class CategoryInfo {
   @NotNull
-  Long userId;
+  private Long userId;
+
+  private Long categoryId;
 
   @NotNull
-  String name;
+  private String name;
 }
