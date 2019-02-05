@@ -24,6 +24,15 @@ public class MyFilterServiceImpl implements MyFilterService {
         filterRepository.save(filter);
     }
 
+//    @Override
+//    public Filter create(String name, String value) {
+//        Filter filter = new Filter();
+//        filter.setName(name);
+//        filter.setValue(value);
+//
+//        filterRepository.save(filter);
+//    }
+
     @Override
     public Filter modify(FilterModel filterModify) {
         Filter filter = filterRepository.findByName(filterModify.getName());
