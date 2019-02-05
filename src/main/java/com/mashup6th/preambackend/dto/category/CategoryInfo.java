@@ -5,10 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
-@Setter
+@Getter @Setter
 @ToString
-public class CategoryAddInfo {
+public class CategoryInfo {
+  @NotNull
+  Long userId;
+
   @NotNull
   String name;
 }

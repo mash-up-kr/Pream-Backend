@@ -4,6 +4,7 @@ package com.mashup6th.preambackend.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -49,7 +50,7 @@ public class User {
   @OneToMany(mappedBy = "user")
   private List<UserFilter> userFilters;
 
-  @OneToMany(mappedBy = "user")
+  @OneToMany(mappedBy = "user", targetEntity = UserCategory.class, cascade = CascadeType.ALL)
   private List<UserCategory> userCategories;
 
   @OneToMany(mappedBy = "user" )

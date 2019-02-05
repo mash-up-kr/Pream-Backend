@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -48,6 +49,6 @@ public class Category {
   @OneToMany(mappedBy = "category")
   private List<UserFilter> userFilters;
 
-  @OneToMany(mappedBy = "category")
+  @OneToMany(mappedBy = "category", targetEntity = UserCategory.class, cascade = CascadeType.ALL)
   private List<UserCategory> userCategories;
 }
