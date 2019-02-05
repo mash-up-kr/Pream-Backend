@@ -67,7 +67,7 @@ public class MyFilterController {
         return response;
     }
 
-    @GetMapping("/filter/all")
+    @GetMapping("/all")
     public ApiResponseModel<FilterModel> apiFilterGetAll(@RequestBody Filter filter, BindingResult bindingResult) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
@@ -76,6 +76,17 @@ public class MyFilterController {
         if (bindingResult.hasErrors()) {
             throw new BadRequestException("");
         }
+
+        response.setStatusCode(HttpStatus.OK.value());
+
+        return response;
+    }
+
+    @DeleteMapping("/delete")
+    public ApiResponseModel<FilterModel> apiFilterDelete(@PathVariable String name) {
+        ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
+
+        filterService.delete(name);
 
         response.setStatusCode(HttpStatus.OK.value());
 
