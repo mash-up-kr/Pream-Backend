@@ -1,14 +1,15 @@
 package com.mashup6th.preambackend.controller;
 
-import com.mashup6th.preambackend.dto.SignUpJson;
 import com.mashup6th.preambackend.dto.category.CategoryAddInfo;
 import com.mashup6th.preambackend.exception.BadRequestException;
 import com.mashup6th.preambackend.model.ApiResponseModel;
+import com.mashup6th.preambackend.service.CategoryService;
 import io.swagger.annotations.ApiOperation;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,20 +19,36 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/category/*")
 public class CategoryController {
+  private CategoryService categoryService;
+
+  public CategoryController(CategoryService categoryService) {
+    this.categoryService = categoryService;
+  }
 
   /* 카테고리명 등록 api */
-  // 1 ~ 99 번까지는 운영자가 등록할 수 있는 초기 카테고리 명
-  // 100번 부터 사용자가 등록한 카테고리 명이 등록됨
   @ApiOperation(value = "apiCategoryAdd", notes = "회원가입시 필요한 값이 모두 입력되지 않았다면 에러")
-  @PostMapping("/add")
-  public ApiResponseModel<CategoryAddInfo> apiCategoryAdd(@Valid @RequestBody CategoryAddInfo categoryAddInfo, BindingResult bindingResult){
+  @PostMapping("/add/{name}")
+  public ApiResponseModel<CategoryAddInfo> apiCategoryAdd(@PathVariable String name){
     ApiResponseModel<CategoryAddInfo> response = new ApiResponseModel<>();
 
-    // 카테고리명 중복체크 (한 유저가 가지고있는 카테고리 내에서만)
+    CategoryAddInfo categoryAddInfo = new CategoryAddInfo();
 
+    if (name == null){
+      throw new BadRequestException("카테고리 명이 입력되지 않았습니다.");
+    }
 
+      categoryAddInfo.setName(name);
+
+    if (categoryService.save(categoryAddInfo) == null){
+      throw new BadRequestException("카테고리 명이 등록되지 않았습니다.");
+    }
+
+    response.setStatusCode(HttpStatus.CREATED.value());
+    response.setMessage(HttpStatus.CREATED.toString());
+    response.setResult(categoryAddInfo);
 
     return response;
+
   }
 
 

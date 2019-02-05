@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Getter
 @Setter
@@ -41,6 +42,16 @@ public class User {
   @CreationTimestamp
   private LocalDateTime regDate;
 
+  @Column
+  @UpdateTimestamp
+  private LocalDateTime updateDate;
+
   @OneToMany(mappedBy = "user")
   private List<UserFilter> userFilters;
+
+  @OneToMany(mappedBy = "user")
+  private List<UserCategory> userCategories;
+
+  @OneToMany(mappedBy = "user" )
+  private List<Filter> filters;
 }

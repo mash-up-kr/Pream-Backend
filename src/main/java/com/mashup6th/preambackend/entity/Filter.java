@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
@@ -80,16 +81,12 @@ public class Filter {
     private Float colorFilter;
 
     //어떤 유저가 이 filter를 생성했는지에 대한 정보
-    @OneToMany
-    @JoinColumn(name = "user_id")
-    private List<User> users;
+    @ManyToOne
+    private User user;
 
     @OneToMany(mappedBy = "filter")
     private List<UserFilter> userFilters;
 
     @OneToMany(mappedBy = "filter")
     private List<FilterCategory> filterCategories;
-
-
-
 }
