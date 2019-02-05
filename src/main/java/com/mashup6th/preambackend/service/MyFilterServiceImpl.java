@@ -91,4 +91,9 @@ public class MyFilterServiceImpl implements MyFilterService {
         Filter filter = filterRepository.findByName(name).orElseThrow(ForbiddenTargetException::new);
         filterRepository.deleteById(filter.getId());
     }
+
+    @Override
+    public List<Filter> findAll(Filter filter) {
+        return filterRepository.findAll(filter);
+    }
 }
