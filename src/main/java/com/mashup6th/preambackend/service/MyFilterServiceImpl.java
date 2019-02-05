@@ -3,8 +3,10 @@ package com.mashup6th.preambackend.service;
 import com.mashup6th.preambackend.dto.filter.FilterModel;
 import com.mashup6th.preambackend.entity.Filter;
 import com.mashup6th.preambackend.persistence.MyFilterRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 @Service
@@ -31,7 +33,7 @@ public class MyFilterServiceImpl implements MyFilterService {
     }
 
     @Override
-    public List<Filter> getAll(Filter filter) {
-        return filterRepository.findByAll(filter);
+    public Page<Filter> getAll(Pageable pageable) {
+        return filterRepository.findByAll(pageable);
     }
 }
