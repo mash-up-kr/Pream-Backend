@@ -49,6 +49,6 @@ public class Category {
   @OneToMany(mappedBy = "category")
   private List<UserFilter> userFilters;
 
-  @OneToMany(mappedBy = "category", targetEntity = UserCategory.class, cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
   private List<UserCategory> userCategories;
 }

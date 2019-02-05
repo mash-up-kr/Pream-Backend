@@ -26,7 +26,7 @@ public class CategoryController {
   }
 
   /* 카테고리명 등록 api */
-  @ApiOperation(value = "apiCategoryAdd", notes = "카테고리 명이 입력되지 않았다면 에러 / 카테고리 명 등록이 제대로 되지 않았다면 에러")
+  @ApiOperation(value = "apiCategoryAdd", notes = "카테고리 명이 입력되지 않았다면 에러 / 카테고리 명 등록이 제대로 되지 않았다면 에러 / 사용자의 id를 전해주지 않았다면 에러")
   @PostMapping("/add")
   public ApiResponseModel<CategoryInfo> apiCategoryAdd(@Valid @RequestBody CategoryInfo categoryInfo){
     ApiResponseModel<CategoryInfo> response = new ApiResponseModel<>();
@@ -52,7 +52,7 @@ public class CategoryController {
   }
 
   /* 카테고리명 수정 api */
-  @ApiOperation(value = "apiCategoryModify", notes = "카테고리 명이 입력되지 않았다면 에러 / 카테고리 명 등록이 제대로 되지 않았다면 에러")
+  @ApiOperation(value = "apiCategoryModify", notes = "카테고리 명이 입력되지 않았다면 에러 / 카테고리 명 수정이 제대로 되지 않았다면 에러 / 사용자의 id를 전해주지 않았다면 에러")
   @PostMapping("/modify")
   public ApiResponseModel<CategoryInfo> apiCategoryModify(@Valid @RequestBody CategoryInfo categoryInfo){
     ApiResponseModel<CategoryInfo> response = new ApiResponseModel<>();
@@ -78,7 +78,28 @@ public class CategoryController {
     return response;
   }
 
-  /* 카테고리명 삭제 -> 삭제시 사진은 삭제되지 않고 '모든사진' 카테고리로 */
+//  /* 카테고리명 삭제 -> 삭제시 사진은 삭제되지 않고 '모든사진' 카테고리로 */
+//  @ApiOperation(value = "apiCategoryDelete", notes = "카테고리 명이 입력되지 않았다면 에러 / 카테고리 명 수정이 제대로 되지 않았다면 에러 / 사용자의 id를 전해주지 않았다면 에러")
+//  @PostMapping("/delete")
+//  public ApiResponseModel<CategoryInfo> apiCategoryDelete(@Valid @RequestBody CategoryInfo categoryInfo) {
+//    ApiResponseModel<CategoryInfo> response = new ApiResponseModel<>();
+//
+//    if (categoryInfo.getUserId() == null){
+//      throw new BadRequestException("사용자의 id가 입력되지 않았습니다.");
+//    }
+//
+//    if (categoryInfo.getCategoryId() == null){
+//      throw new BadRequestException("카테고리 id가 입력되지 않았습니다.");
+//    }
+//
+//    categoryService.delete( categoryInfo.getUserId(),categoryInfo.getCategoryId());
+//
+//    return response;
+//  }
+
+
+  // 유저 카테고리의 그 카테고리를 가지는 컬럼을 함께 삭제.
+  // 등록된 필터를 '모든사진' 카테고리로 옮겨주는 기능
 
   /* 카테고리 리스트를 가져오는 api */
 

@@ -8,11 +8,9 @@ import lombok.ToString;
 @Getter @Setter
 @ToString
 public class CategoryInfo {
-  @NotNull
   private Long userId;
 
   private Long categoryId;
 
-  @NotNull
   private String name;
 }

@@ -15,3 +15,5 @@ INSERT INTO category (id, name, order_sequence, reg_date) VALUES (6, '풍경 사
 INSERT INTO category (name, reg_date) VALUES ('풍경 사진', '2018-12-25 10:22:05');
 INSERT INTO category (name, reg_date) VALUES ('유저 2꺼', '2018-12-25 10:22:05');
 INSERT INTO category (name, reg_date) VALUES ('유저 3꺼', '2018-12-25 10:22:05');
+
+INSERT INTO user_category (user_id, category_id) VALUES (2, 8);

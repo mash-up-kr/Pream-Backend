@@ -1,5 +1,6 @@
 package com.mashup6th.preambackend.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,11 +18,11 @@ public class UserCategory {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.REMOVE)
   @JoinColumn(name = "user_id")
   private User user;
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.REMOVE)
   @JoinColumn(name = "category_id")
   private Category category;
 

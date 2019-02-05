@@ -55,4 +55,29 @@ public class CategoryServiceImpl implements CategoryService{
 
     return categoryInfo;
   }
+
+  @Override
+  public Boolean delete(Long userId, Long categoryId) {
+    log.info("서비스당");
+    Category category = new Category();
+    category.setId(categoryId);
+
+    log.info("카테고리의 아이디는" + categoryId);
+
+    categoryRepository.delete(category);
+
+    User user = new User();
+    user.setId(userId);
+
+//    UserCategory userCategory = new UserCategory();
+//    userCategory.setUser(user);
+//    userCategory.setCategory(category);
+//
+//    userCategory = userCategoryRepository.findByCategoryId(categoryId);
+//    log.info("유저카테고리의 아이디" + userCategory.getId());
+//
+//    userCategoryRepository.delete(userCategory);
+
+    return null;
+  }
 }

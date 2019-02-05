@@ -5,5 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserCategoryRepository extends JpaRepository<UserCategory, Long> {
   public UserCategory save(UserCategory userCategory);
+  public UserCategory findByCategoryId(Long categoryId);
 
 }
+
