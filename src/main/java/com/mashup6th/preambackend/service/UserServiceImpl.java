@@ -4,6 +4,7 @@ package com.mashup6th.preambackend.service;
 import com.mashup6th.preambackend.dto.SignUpJson;
 import com.mashup6th.preambackend.dto.user.UserLoginInfo;
 import com.mashup6th.preambackend.entity.User;
+import com.mashup6th.preambackend.entity.constant.AuthNumber;
 import com.mashup6th.preambackend.exception.NotFoundException;
 import com.mashup6th.preambackend.persistence.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -73,13 +74,14 @@ public class UserServiceImpl implements UserService{
 
   @Override
   public String sendEmail(String email) {
-    String authNumber = "넌바보야!";
+
+    String authNumber = new AuthNumber().makeAuthNumber();
 
     SimpleMailMessage msg = new SimpleMailMessage();
-    msg.setFrom("preambackend@gmail.com");
+    msg.setFrom("Pream");
     msg.setTo(email);
-    msg.setSubject("Send mail from Spring Boot");
-    msg.setText(authNumber);
+    msg.setSubject("[Pream]이메일 인증 번호 확인");
+    msg.setText("Pream 어플리케이션에서 인증번호를 입력해주세요. \n 인증번호 : " + authNumber);
     this.sender.send(msg);
 
     return authNumber;
