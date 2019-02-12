@@ -35,10 +35,9 @@ public class UserController {
   /* 이메일 검사 */
   @ApiOperation(value = "apiCheckEmail", notes = "회원가입시 이메일 중복시 에러")
   @PostMapping("/signup/check/email/{email}")
-  public ApiResponseModel<UserCheckEmail> apiCheckEmail(@PathVariable String email){
-    ApiResponseModel<UserCheckEmail> response = new ApiResponseModel<>();
+  public ApiResponseModel<UserEmailAuth> apiCheckEmail(@PathVariable String email){
+    ApiResponseModel<UserEmailAuth> response = new ApiResponseModel<>();
 
-    UserCheckEmail userCheckEmail =  new UserCheckEmail();
     UserEmailAuth userEmailAuth = new UserEmailAuth();
     String check = null;
 
@@ -50,13 +49,12 @@ public class UserController {
     }
 
     if (check != null) {
-        userCheckEmail.setEmail(email);
         userEmailAuth.setAuthNumber(userService.sendEmail(email));
     } else throw new AlreadyExistsException("회원가입시 입력한 이메일이 중복됩니다.");
 
     response.setStatusCode(HttpStatus.OK.value());
     response.setMessage(HttpStatus.OK.toString());
-    response.setResult(userCheckEmail);
+    response.setResult(userEmailAuth);
 
     return response;
   }
