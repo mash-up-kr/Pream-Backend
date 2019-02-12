@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -43,12 +44,12 @@ public class Category {
   @UpdateTimestamp
   private LocalDateTime updateDate;
 
-  @OneToMany(mappedBy = "category")
+  @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
   private List<FilterCategory> filterCategories;
 
-  @OneToMany(mappedBy = "category")
+  @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
   private List<UserFilter> userFilters;
 
-  @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<UserCategory> userCategories;
 }

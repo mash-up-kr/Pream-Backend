@@ -7,21 +7,32 @@ import com.mashup6th.preambackend.entity.User;
 import com.mashup6th.preambackend.exception.NotFoundException;
 import com.mashup6th.preambackend.persistence.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
 public class UserServiceImpl implements UserService{
   private UserRepository userRepository;
+  private MailSender sender;
 
-  public UserServiceImpl(UserRepository userRepository) {
+  public UserServiceImpl(UserRepository userRepository, MailSender sender) {
     this.userRepository = userRepository;
+    this.sender = sender;
   }
 
   @Override
-  public boolean emailCheck(String email) {
-    //중복되면 return true
-    return userRepository.findByEmail(email) != null;
+  public String emailCheck(String email) {
+    //중복되면 중복된 email을 보내줌
+    log.info("입력한 email은" +  email);
+    User user = userRepository.findByEmail(email);
+
+    log.info("user는" + user);
+    if ( user == null){
+      return email;
+    } else return null;
+
   }
 
   @Override
@@ -58,5 +69,19 @@ public class UserServiceImpl implements UserService{
     }
 
     return user;
+  }
+
+  @Override
+  public String sendEmail(String email) {
+    String authNumber = "넌바보야!";
+
+    SimpleMailMessage msg = new SimpleMailMessage();
+    msg.setFrom("preambackend@gmail.com");
+    msg.setTo(email);
+    msg.setSubject("Send mail from Spring Boot");
+    msg.setText(authNumber);
+    this.sender.send(msg);
+
+    return authNumber;
   }
 }

@@ -4,12 +4,14 @@ package com.mashup6th.preambackend.controller;
 import com.mashup6th.preambackend.dto.SignUpJson;
 import com.mashup6th.preambackend.dto.user.UserCheckEmail;
 import com.mashup6th.preambackend.dto.user.UserCheckNickname;
+import com.mashup6th.preambackend.dto.user.UserEmailAuth;
 import com.mashup6th.preambackend.dto.user.UserLoginInfo;
 import com.mashup6th.preambackend.exception.AlreadyExistsException;
 import com.mashup6th.preambackend.exception.BadRequestException;
 import com.mashup6th.preambackend.model.ApiResponseModel;
 import com.mashup6th.preambackend.service.UserService;
 import io.swagger.annotations.ApiOperation;
+import java.net.URLDecoder;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -37,17 +39,21 @@ public class UserController {
     ApiResponseModel<UserCheckEmail> response = new ApiResponseModel<>();
 
     UserCheckEmail userCheckEmail =  new UserCheckEmail();
+    UserEmailAuth userEmailAuth = new UserEmailAuth();
+    String check = null;
 
     // 이메일이 중복되는지 검사
-    if(!userService.emailCheck(email)){
-      userCheckEmail.setEmail(email);
-    } else {
-      throw new AlreadyExistsException("회원가입시 입력한 이메일이 중복됩니다.");
+    try{
+      check = URLDecoder.decode(userService.emailCheck(email), "utf-8");
+    }catch (Exception e){
+      e.printStackTrace();
     }
 
-    /*
-     * 이메일 인증 구현 예정*
-     */
+    if (check != null) {
+        userCheckEmail.setEmail(email);
+        userEmailAuth.setAuthNumber(userService.sendEmail(email));
+    } else throw new AlreadyExistsException("회원가입시 입력한 이메일이 중복됩니다.");
+
     response.setStatusCode(HttpStatus.OK.value());
     response.setMessage(HttpStatus.OK.toString());
     response.setResult(userCheckEmail);

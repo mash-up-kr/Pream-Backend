@@ -6,6 +6,10 @@ import com.mashup6th.preambackend.entity.User;
 import com.mashup6th.preambackend.entity.UserCategory;
 import com.mashup6th.preambackend.persistence.CategoryRepository;
 import com.mashup6th.preambackend.persistence.UserCategoryRepository;
+import com.mashup6th.preambackend.persistence.UserRepository;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class CategoryServiceImpl implements CategoryService{
   private CategoryRepository categoryRepository;
   private UserCategoryRepository userCategoryRepository;
+  private UserRepository userRepository;
 
   public CategoryServiceImpl(CategoryRepository categoryRepository, UserCategoryRepository userCategoryRepository) {
     this.categoryRepository = categoryRepository;
@@ -58,16 +63,13 @@ public class CategoryServiceImpl implements CategoryService{
 
   @Override
   public Boolean delete(Long userId, Long categoryId) {
-    log.info("서비스당");
-    Category category = new Category();
-    category.setId(categoryId);
+    UserCategory userCategory = userCategoryRepository.findByUserIdAndCategoryId(userId, categoryId);;
+    userCategoryRepository.delete(userCategory);
 
-    log.info("카테고리의 아이디는" + categoryId);
-
-    categoryRepository.delete(category);
-
-    User user = new User();
-    user.setId(userId);
+//    Category category = categoryRepository.getOne(categoryId);
+//    categoryRepository.delete(category);
+//
+//    log.info("카테고리의 아이디는" + categoryId);
 
 //    UserCategory userCategory = new UserCategory();
 //    userCategory.setUser(user);
@@ -78,6 +80,22 @@ public class CategoryServiceImpl implements CategoryService{
 //
 //    userCategoryRepository.delete(userCategory);
 
-    return null;
+
+
+    return true;
+  }
+
+  @Override
+  public List<Category> getCategory(Long userId) {
+    // user_category테이블에서 현재 유저가 가진 category_id를 가져오기
+    List<UserCategory> userCategories = userCategoryRepository.findByUserId(userId);
+    List<Category> categories = new ArrayList<>();
+
+    //받아온 category_id를 이용하여, category테이블에서 조회.
+    for (UserCategory userCategory : userCategories){
+      Category category = categoryRepository.getOne(userCategory.getCategory().getId());
+      categories.add(category);
+    }
+    return categories;
   }
 }

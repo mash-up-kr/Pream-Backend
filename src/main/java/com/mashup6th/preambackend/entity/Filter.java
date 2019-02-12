@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -84,9 +85,9 @@ public class Filter {
     @ManyToOne
     private User user;
 
-    @OneToMany(mappedBy = "filter")
+    @OneToMany(mappedBy = "filter", fetch = FetchType.LAZY)
     private List<UserFilter> userFilters;
 
-    @OneToMany(mappedBy = "filter")
+    @OneToMany(mappedBy = "filter", fetch = FetchType.LAZY)
     private List<FilterCategory> filterCategories;
 }
