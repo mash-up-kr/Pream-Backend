@@ -1,13 +1,16 @@
 package com.mashup6th.preambackend.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
@@ -79,16 +82,12 @@ public class Filter {
     private Float colorFilter;
 
     //어떤 유저가 이 filter를 생성했는지에 대한 정보
-    @OneToMany
-    @JoinColumn(name = "user_id")
-    private Set<User> users;
+    @ManyToOne
+    private User user;
 
-    @OneToMany(mappedBy = "filter")
-    private Set<UserFilter> userFilters;
+    @OneToMany(mappedBy = "filter", fetch = FetchType.LAZY)
+    private List<UserFilter> userFilters;
 
-    @OneToMany(mappedBy = "filter")
-    private Set<FilterCategory> filterCategories;
-
-
-
+    @OneToMany(mappedBy = "filter", fetch = FetchType.LAZY)
+    private List<FilterCategory> filterCategories;
 }

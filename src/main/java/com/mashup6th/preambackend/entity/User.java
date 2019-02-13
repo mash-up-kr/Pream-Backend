@@ -2,9 +2,12 @@ package com.mashup6th.preambackend.entity;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +15,7 @@ import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Getter
 @Setter
@@ -40,6 +44,16 @@ public class User {
   @CreationTimestamp
   private LocalDateTime regDate;
 
-  @OneToMany(mappedBy = "user")
-  private Set<UserFilter> userFilters;
+  @Column
+  @UpdateTimestamp
+  private LocalDateTime updateDate;
+
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+  private List<UserFilter> userFilters;
+
+  @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+  private List<UserCategory> userCategories;
+
+  @OneToMany(mappedBy = "user" )
+  private List<Filter> filters;
 }
