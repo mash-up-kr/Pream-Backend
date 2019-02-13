@@ -3,6 +3,7 @@ package com.mashup6th.preambackend.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -27,6 +28,9 @@ public class Filter {
 
     @Column(length = 50, nullable = false)
     private String name;
+
+    @Column
+    private String imgUrl;
 
     @Column(nullable = false)
     @CreationTimestamp
@@ -85,7 +89,7 @@ public class Filter {
     @ManyToOne
     private User user;
 
-    @OneToMany(mappedBy = "filter", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "filter", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<UserFilter> userFilters;
 
     @OneToMany(mappedBy = "filter", fetch = FetchType.LAZY)

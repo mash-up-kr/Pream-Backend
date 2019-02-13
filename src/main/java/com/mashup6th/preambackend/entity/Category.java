@@ -45,9 +45,6 @@ public class Category {
   private LocalDateTime updateDate;
 
   @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
-  private List<FilterCategory> filterCategories;
-
-  @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
   private List<UserFilter> userFilters;
 
   @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

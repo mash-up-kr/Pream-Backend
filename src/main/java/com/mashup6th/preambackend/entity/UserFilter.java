@@ -33,9 +33,8 @@ public class UserFilter {
   private Category category;
 
   //어떤 유저가 이 필터를 갖고 있는지에 대한 저보
-  @ManyToOne
-  @JoinColumn(name = "user_id")
-  private User user;
+  @Column(nullable = false)
+  private Long userId;
 
   @ManyToOne
   @JoinColumn(name = "filter_id")
