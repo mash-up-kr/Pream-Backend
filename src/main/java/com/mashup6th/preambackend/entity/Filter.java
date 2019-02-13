@@ -40,43 +40,43 @@ public class Filter {
     private int sharedCount;
 
     @Column
-    private Float exposure;
+    private Float exposure = 0.0f;
 
     @Column
-    private Float contrast;
+    private Float contrast = 0.0f;
 
     @Column
-    private Float adjust;
+    private Float adjust = 0.0f;
 
     @Column
-    private Float sharpen;
+    private Float sharpen = 0.0f;
 
     @Column
-    private Float clarity;
+    private Float clarity = 0.0f;
 
     @Column
-    private Float saturation;
+    private Float saturation = 0.0f;
 
     @Column
-    private Float tone;
+    private Float tone = 0.0f;
 
     @Column
-    private Float whiteBalance;
+    private Float whiteBalance = 0.0f;
 
     @Column
-    private Float vignette;
+    private Float vignette = 0.0f;
 
     @Column
-    private Float grain;
+    private Float grain = 0.0f;
 
     @Column
-    private Float fade;
+    private Float fade = 0.0f;
 
     @Column
-    private Float splitTone;
+    private Float splitTone = 0.0f;
 
     @Column
-    private Float colorFilter;
+    private Float colorFilter = 0.0f;
 
     //어떤 유저가 이 filter를 생성했는지에 대한 정보
     @OneToMany

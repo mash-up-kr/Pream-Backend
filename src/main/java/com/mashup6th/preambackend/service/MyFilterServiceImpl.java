@@ -34,20 +34,25 @@ public class MyFilterServiceImpl implements MyFilterService {
 //    }
 
     @Override
-    public Filter modify(FilterModel filterModify) {
-        Filter filter = filterRepository.findByName(filterModify.getName());
+    public Filter modify(String name, FilterModel filterModify) {
+        Filter filter = filterRepository.findByName(name);
         filterRepository.save(filter);
 
         return filter;
     }
 
     @Override
-    public Page<Filter> getAll(Pageable pageable) {
-        return filterRepository.findByAll(pageable);
+    public boolean nameCheck(String name) {
+        return filterRepository.findByName(name) != null;
     }
 
     @Override
-    public List<Filter> findAll(Filter filter) {
-        return filterRepository.findAll(filter);
+    public List<Filter> findAll() {
+        return filterRepository.findAll();
+    }
+
+    @Override
+    public Filter delete(String name) {
+        return filterRepository.deleteByName(name);
     }
 }

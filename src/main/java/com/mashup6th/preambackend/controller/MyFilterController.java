@@ -1,26 +1,21 @@
 package com.mashup6th.preambackend.controller;
 
+import com.mashup6th.preambackend.dto.filter.FilterCheckName;
 import com.mashup6th.preambackend.dto.filter.FilterModel;
 import com.mashup6th.preambackend.entity.Filter;
-import com.mashup6th.preambackend.entity.User;
+import com.mashup6th.preambackend.exception.AlreadyExistsException;
 import com.mashup6th.preambackend.exception.BadRequestException;
-import com.mashup6th.preambackend.exception.NotFoundException;
 import com.mashup6th.preambackend.model.ApiResponseModel;
 import com.mashup6th.preambackend.service.MyFilterService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/myfilter/*")
+@RequestMapping("/api/v1/myfilter")
 public class MyFilterController {
 
     private MyFilterService filterService;
@@ -29,12 +24,33 @@ public class MyFilterController {
         this.filterService = filterService;
     }
 
-    @PostMapping("/create/save")
+    @PostMapping
     public ApiResponseModel<FilterModel> apiFilterCreate(@RequestBody FilterModel filterModel, BindingResult bindingResult) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
+        FilterCheckName filterCheckName = new FilterCheckName();
+
+        // 필터 이름이 중복되는지 검사
+        if (!filterService.nameCheck(filterModel.getName())) {
+            filterCheckName.setName(filterModel.getName());
+        } else {
+            throw new AlreadyExistsException("Duplicate name");
+        }
+
         filterModel.setName(filterModel.getName());
-        filterModel.setValue(filterModel.getValue());
+        filterModel.setExposure(filterModel.getExposure());
+        filterModel.setContrast(filterModel.getContrast());
+        filterModel.setAdjust(filterModel.getAdjust());
+        filterModel.setSharpen(filterModel.getSharpen());
+        filterModel.setClarity(filterModel.getClarity());
+        filterModel.setSaturation(filterModel.getSaturation());
+        filterModel.setTone(filterModel.getTone());
+        filterModel.setWhiteBalance(filterModel.getWhiteBalance());
+        filterModel.setVignette(filterModel.getVignette());
+        filterModel.setGrain(filterModel.getGrain());
+        filterModel.setFade(filterModel.getFade());
+        filterModel.setSplitTone(filterModel.getSplitTone());
+        filterModel.setColorFilter(filterModel.getColorFilter());
 
         if (bindingResult.hasErrors()) {
             throw new BadRequestException("필터 생성시 필요한 값이 모두 입력되지 않았습니다.");
@@ -47,18 +63,29 @@ public class MyFilterController {
         return response;
     }
 
-    @PutMapping("/create/modify")
-    public ApiResponseModel<FilterModel> apiFilterModify(@RequestBody FilterModel filterModel, BindingResult bindingResult) {
+    @PutMapping("/{filterId}")
+    public ApiResponseModel<FilterModel> apiFilterModify(@PathVariable String name, @RequestBody FilterModel filterModel, BindingResult bindingResult) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
-        filterModel.setName(filterModel.getName());
-        filterModel.setValue(filterModel.getValue());
+        filterModel.setExposure(filterModel.getExposure());
+        filterModel.setContrast(filterModel.getContrast());
+        filterModel.setAdjust(filterModel.getAdjust());
+        filterModel.setSharpen(filterModel.getSharpen());
+        filterModel.setClarity(filterModel.getClarity());
+        filterModel.setSaturation(filterModel.getSaturation());
+        filterModel.setTone(filterModel.getTone());
+        filterModel.setWhiteBalance(filterModel.getWhiteBalance());
+        filterModel.setVignette(filterModel.getVignette());
+        filterModel.setGrain(filterModel.getGrain());
+        filterModel.setFade(filterModel.getFade());
+        filterModel.setSplitTone(filterModel.getSplitTone());
+        filterModel.setColorFilter(filterModel.getColorFilter());
 
         if (bindingResult.hasErrors()) {
             throw new BadRequestException("변경값을 제대로 입력해주세요.");
         }
 
-        filterService.save(filterModel);
+        filterService.modify(name, filterModel);
 
         response.setStatusCode(HttpStatus.OK.value());
         response.setMessage(HttpStatus.OK.toString());
@@ -67,11 +94,11 @@ public class MyFilterController {
         return response;
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ApiResponseModel<FilterModel> apiFilterGetAll(@RequestBody Filter filter, BindingResult bindingResult) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
-        filterService.findAll(filter);
+        filterService.findAll();
 
         if (bindingResult.hasErrors()) {
             throw new BadRequestException("");
@@ -82,7 +109,7 @@ public class MyFilterController {
         return response;
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping
     public ApiResponseModel<FilterModel> apiFilterDelete(@PathVariable String name) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
