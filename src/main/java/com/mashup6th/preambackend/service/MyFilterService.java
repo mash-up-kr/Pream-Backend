@@ -11,15 +11,11 @@ public interface MyFilterService {
 
     void save(FilterModel filterCreateNew);
 
-//    Filter create(String name, Float exposure, Float contrast, Float adjust, Float sharpen, Float clarity);
+    Filter modify(String name, FilterModel filterModify);
 
-//    Filter create(String name, String value);
+    boolean nameCheck(String name);
 
-    Filter modify(FilterModel filterModify);
-
-    Page<Filter> getAll(Pageable pageable);
-
-    List<Filter> findAll(Filter filter);
+    List<Filter> findAll();
 
     Filter delete(String name);
 }
