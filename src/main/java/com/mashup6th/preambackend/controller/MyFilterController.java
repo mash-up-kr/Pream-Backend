@@ -24,7 +24,7 @@ public class MyFilterController {
     }
 
     @PostMapping
-    public ApiResponseModel<FilterModel> apiCreateFilter(@RequestBody Long userId, FilterModel filterModel, BindingResult bindingResult) {
+    public ApiResponseModel<FilterModel> apiFilterCreate(@RequestBody FilterModel filterModel, BindingResult bindingResult) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
         FilterCheckName filterCheckName = new FilterCheckName();
@@ -55,26 +55,15 @@ public class MyFilterController {
             throw new BadRequestException("필터 생성시 필요한 값이 모두 입력되지 않았습니다.");
         }
 
-        filterService.save(userId, filterModel);
+        filterService.save(filterModel);
 
         response.setStatusCode(HttpStatus.CREATED.value());
 
         return response;
     }
 
-    @GetMapping
-    public ApiResponseModel<FilterModel> apiGetFilter(@RequestBody Long id, BindingResult bindingResult) {
-        ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
-
-        filterService.getFilter(id);
-
-        response.setStatusCode(HttpStatus.OK.value());
-
-        return response;
-    }
-
-    @PutMapping("{name}")
-    public ApiResponseModel<FilterModel> apiModifyFilter(@PathVariable String name, @RequestBody FilterModel filterModel, BindingResult bindingResult) {
+    @PutMapping
+    public ApiResponseModel<FilterModel> apiFilterModify(@PathVariable String name, @RequestBody FilterModel filterModel, BindingResult bindingResult) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
         filterModel.setExposure(filterModel.getExposure());
@@ -104,11 +93,11 @@ public class MyFilterController {
         return response;
     }
 
-    @GetMapping("/list")
-    public ApiResponseModel<FilterModel> apiGetFilters(@RequestBody String email, BindingResult bindingResult) {
+    @GetMapping
+    public ApiResponseModel<FilterModel> apiFilterGetAll(@PathVariable Long id, BindingResult bindingResult) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
-        filterService.getFilterList(email);
+        filterService.getFilterList(id);
 
         if (bindingResult.hasErrors()) {
             throw new BadRequestException("");
@@ -119,11 +108,11 @@ public class MyFilterController {
         return response;
     }
 
-    @DeleteMapping("{name}")
-    public ApiResponseModel<FilterModel> apiDeleteFilter(@PathVariable String name) {
+    @DeleteMapping
+    public ApiResponseModel<FilterModel> apiFilterDelete(@PathVariable Long id) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
-        filterService.delete(name);
+        filterService.delete(id);
         response.setStatusCode(HttpStatus.NO_CONTENT.value());
 
         return response;
