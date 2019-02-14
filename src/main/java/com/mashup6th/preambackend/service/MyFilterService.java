@@ -9,13 +9,13 @@ import java.util.List;
 
 public interface MyFilterService {
 
-    void save(FilterModel filterCreateNew);
+    void save(FilterModel filterModel);
 
-    Filter modify(String name, FilterModel filterModify);
+    Filter modify(String name, FilterModel filterModel);
 
     boolean nameCheck(String name);
 
-    List<Filter> findAll();
+    List<Filter> getFilterList(Long userId);
 
-    Filter delete(String name);
+    void delete(Long filterId);
 }

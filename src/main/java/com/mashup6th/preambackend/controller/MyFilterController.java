@@ -2,7 +2,6 @@ package com.mashup6th.preambackend.controller;
 
 import com.mashup6th.preambackend.dto.filter.FilterCheckName;
 import com.mashup6th.preambackend.dto.filter.FilterModel;
-import com.mashup6th.preambackend.entity.Filter;
 import com.mashup6th.preambackend.exception.AlreadyExistsException;
 import com.mashup6th.preambackend.exception.BadRequestException;
 import com.mashup6th.preambackend.model.ApiResponseModel;
@@ -63,7 +62,7 @@ public class MyFilterController {
         return response;
     }
 
-    @PutMapping("/{filterId}")
+    @PutMapping
     public ApiResponseModel<FilterModel> apiFilterModify(@PathVariable String name, @RequestBody FilterModel filterModel, BindingResult bindingResult) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
@@ -95,10 +94,10 @@ public class MyFilterController {
     }
 
     @GetMapping
-    public ApiResponseModel<FilterModel> apiFilterGetAll(@RequestBody Filter filter, BindingResult bindingResult) {
+    public ApiResponseModel<FilterModel> apiFilterGetAll(@PathVariable Long id, BindingResult bindingResult) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
-        filterService.findAll();
+        filterService.getFilterList(id);
 
         if (bindingResult.hasErrors()) {
             throw new BadRequestException("");
@@ -110,12 +109,11 @@ public class MyFilterController {
     }
 
     @DeleteMapping
-    public ApiResponseModel<FilterModel> apiFilterDelete(@PathVariable String name) {
+    public ApiResponseModel<FilterModel> apiFilterDelete(@PathVariable Long id) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
-        filterService.delete(name);
-
-        response.setStatusCode(HttpStatus.OK.value());
+        filterService.delete(id);
+        response.setStatusCode(HttpStatus.NO_CONTENT.value());
 
         return response;
     }
