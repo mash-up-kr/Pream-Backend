@@ -2,17 +2,20 @@ package com.mashup6th.preambackend.service;
 
 import com.mashup6th.preambackend.dto.filter.FilterModel;
 import com.mashup6th.preambackend.entity.Filter;
+import com.mashup6th.preambackend.exception.NotFoundException;
 import com.mashup6th.preambackend.persistence.MyFilterRepository;
-import org.springframework.data.domain.Page;
+import com.mashup6th.preambackend.persistence.UserRepository;
+import netscape.security.ForbiddenTargetException;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 @Service
 public class MyFilterServiceImpl implements MyFilterService {
 
     private MyFilterRepository filterRepository;
+
+    private UserRepository userRepository;
 
     public MyFilterServiceImpl(MyFilterRepository filterRepository) {this.filterRepository = filterRepository;}
 
@@ -23,15 +26,6 @@ public class MyFilterServiceImpl implements MyFilterService {
 
         filterRepository.save(filter);
     }
-
-//    @Override
-//    public Filter create(String name, String value) {
-//        Filter filter = new Filter();
-//        filter.setName(name);
-//        filter.setValue(value);
-//
-//        filterRepository.save(filter);
-//    }
 
     @Override
     public Filter modify(String name, FilterModel filterModify) {
@@ -47,12 +41,14 @@ public class MyFilterServiceImpl implements MyFilterService {
     }
 
     @Override
-    public List<Filter> findAll() {
+    public List<Filter> getFilterList(Long userId) {
+        userRepository.findById(userId).orElseThrow(()->new NotFoundException("No Found UserId"));
         return filterRepository.findAll();
     }
 
     @Override
-    public Filter delete(String name) {
-        return filterRepository.deleteByName(name);
+    public void delete(Long filterId) {
+        Filter filter = filterRepository.findById(filterId).orElseThrow(ForbiddenTargetException::new);
+        filterRepository.deleteById(filter.getId());
     }
 }

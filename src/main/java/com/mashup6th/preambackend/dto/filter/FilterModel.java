@@ -9,6 +9,8 @@ import lombok.ToString;
 @ToString
 public class FilterModel {
 
+    private Long id;
+
     private String name;
 
     private Float exposure;
