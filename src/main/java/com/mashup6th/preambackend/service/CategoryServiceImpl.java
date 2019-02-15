@@ -37,7 +37,7 @@ public class CategoryServiceImpl implements CategoryService{
     user.setId(categoryInfo.getUserId());
 
     UserCategory userCategory = new UserCategory();
-    userCategory.setUser(user);
+    userCategory.setUserId(categoryInfo.getUserId());
     userCategory.setCategory(category);
     userCategory = userCategoryRepository.save(userCategory);
 

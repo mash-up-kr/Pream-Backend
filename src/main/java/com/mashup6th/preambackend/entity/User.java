@@ -48,12 +48,6 @@ public class User {
   @UpdateTimestamp
   private LocalDateTime updateDate;
 
-  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-  private List<UserFilter> userFilters;
-
-  @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-  private List<UserCategory> userCategories;
-
   @OneToMany(mappedBy = "user" )
   private List<Filter> filters;
 }

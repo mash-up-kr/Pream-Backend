@@ -3,15 +3,8 @@ package com.mashup6th.preambackend.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -27,6 +20,9 @@ public class Filter {
 
     @Column(length = 50, nullable = false)
     private String name;
+
+    @Column
+    private String imgUrl;
 
     @Column(nullable = false)
     @CreationTimestamp
@@ -85,9 +81,12 @@ public class Filter {
     @ManyToOne
     private User user;
 
-    @OneToMany(mappedBy = "filter", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "filter", cascade = CascadeType.ALL)
     private List<UserFilter> userFilters;
 
-    @OneToMany(mappedBy = "filter", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "filter")
     private List<FilterCategory> filterCategories;
+
+
+
 }
