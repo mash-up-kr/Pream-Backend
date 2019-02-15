@@ -1,6 +1,7 @@
 package com.mashup6th.preambackend.service;
 
 import com.mashup6th.preambackend.dto.category.CategoryInfo;
+import com.mashup6th.preambackend.dto.usercategory.UserCategoryInfo;
 import com.mashup6th.preambackend.entity.Category;
 import com.mashup6th.preambackend.entity.User;
 import com.mashup6th.preambackend.entity.UserCategory;
@@ -83,13 +84,13 @@ public class CategoryServiceImpl implements CategoryService{
 
   @Override
   @Transactional
-  public void delete(CategoryInfo categoryInfo) {
-    User user = userRepository.findByEmail(categoryInfo.getEmail());
+  public void delete(UserCategoryInfo userCategoryInfo) {
+    User user = userRepository.findByEmail(userCategoryInfo.getEmail());
     if (user == null) {
       throw new NotFoundException("이 이메일로 등록된 user가 존재하지 않습니다.");
     }
 
-    UserCategory userCategory = userCategoryRepository.findByUserIdAndCategoryId(user.getId(), categoryInfo.getCategoryId());
+    UserCategory userCategory = userCategoryRepository.findByUserIdAndCategoryId(user.getId(), userCategoryInfo.getCategoryId());
     if(userCategory == null) {
       throw new NotFoundException("현재 user는 해당 category를 소유하지 않습니다.");
     }

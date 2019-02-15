@@ -2,6 +2,7 @@ package com.mashup6th.preambackend.controller;
 
 import com.mashup6th.preambackend.dto.category.CategoryInfo;
 import com.mashup6th.preambackend.dto.category.CategoryList;
+import com.mashup6th.preambackend.dto.usercategory.UserCategoryInfo;
 import com.mashup6th.preambackend.entity.Category;
 import com.mashup6th.preambackend.exception.BadRequestException;
 import com.mashup6th.preambackend.model.ApiResponseModel;
@@ -99,22 +100,22 @@ public class CategoryController {
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Success"),
       @ApiResponse(code = 400, message = "Current user cannot modify this category name"),
-      @ApiResponse(code = 404, message = "Current user does not have this category. Check the category Id"),
+      @ApiResponse(code = 404, message = "Current user does not have this category. check the categoryId or userId"),
       @ApiResponse(code = 500, message = "Failure")})
   @ApiOperation(value = "apiCategoryDelete", notes = "카테고리 명이 입력되지 않았다면 에러 / 카테고리 명 수정이 제대로 되지 않았다면 에러 / 사용자의 id를 전해주지 않았다면 에러")
   @PostMapping("/delete")
-  public ResponseEntity<ApiResponseModel> apiCategoryDelete(@Valid @RequestBody CategoryInfo categoryInfo) {
+  public ResponseEntity<ApiResponseModel> apiCategoryDelete(@Valid @RequestBody UserCategoryInfo userCategoryInfo) {
     ApiResponseModel response = new ApiResponseModel();
 
-    if (categoryInfo.getEmail() == null){
+    if (userCategoryInfo.getEmail() == null){
       throw new BadRequestException("사용자의 id가 입력되지 않았습니다.");
     }
 
-    if (categoryInfo.getCategoryId() == null){
+    if (userCategoryInfo.getCategoryId() == null){
       throw new BadRequestException("카테고리 id가 입력되지 않았습니다.");
     }
 
-    categoryService.delete(categoryInfo);
+    categoryService.delete(userCategoryInfo);
 
     response.setStatusCode(HttpStatus.OK.value());
     response.setMessage(HttpStatus.OK.toString());
