@@ -3,11 +3,8 @@ package com.mashup6th.preambackend.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -48,6 +45,6 @@ public class User {
   @UpdateTimestamp
   private LocalDateTime updateDate;
 
-  @OneToMany(mappedBy = "user" )
+  @OneToMany(mappedBy = "user")
   private List<Filter> filters;
 }

@@ -7,7 +7,6 @@ import com.mashup6th.preambackend.entity.UserCategory;
 import com.mashup6th.preambackend.persistence.CategoryRepository;
 import com.mashup6th.preambackend.persistence.UserCategoryRepository;
 import com.mashup6th.preambackend.persistence.UserRepository;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
