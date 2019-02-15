@@ -62,8 +62,8 @@ public class MyFilterController {
         return response;
     }
 
-    @PutMapping
-    public ApiResponseModel<FilterModel> apiFilterModify(@PathVariable String name, @RequestBody FilterModel filterModel, BindingResult bindingResult) {
+    @PutMapping("{name}")
+    public ApiResponseModel<FilterModel> apiModifyFilter(@PathVariable String name, @RequestBody FilterModel filterModel, BindingResult bindingResult) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
         filterModel.setExposure(filterModel.getExposure());
@@ -94,10 +94,10 @@ public class MyFilterController {
     }
 
     @GetMapping
-    public ApiResponseModel<FilterModel> apiFilterGetAll(@PathVariable Long id, BindingResult bindingResult) {
+    public ApiResponseModel<FilterModel> apiGetFilter(@RequestBody Long userId, BindingResult bindingResult) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
-        filterService.getFilterList(id);
+        filterService.getFilterList(userId);
 
         if (bindingResult.hasErrors()) {
             throw new BadRequestException("");
@@ -109,7 +109,7 @@ public class MyFilterController {
     }
 
     @DeleteMapping
-    public ApiResponseModel<FilterModel> apiFilterDelete(@PathVariable Long id) {
+    public ApiResponseModel<FilterModel> apiDeleteFilter(@PathVariable Long id) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
         filterService.delete(id);
