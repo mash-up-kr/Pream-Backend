@@ -10,5 +10,6 @@ public interface UserService {
   public void save(SignUpJson signUpJson);
   public User login(UserLoginInfo userLoginInfo);
   public String sendEmail(String email);
+  public String getUserNickname(String email);
 
   }

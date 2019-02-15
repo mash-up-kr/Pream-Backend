@@ -86,4 +86,11 @@ public class UserServiceImpl implements UserService{
 
     return authNumber;
   }
+
+  // 사용자의 정보(이메일)를 받아, 닉네임을 구해줌
+  @Override
+  public String getUserNickname(String email) {
+    User user = userRepository.findByEmail(email);
+    return user.getNickname();
+  }
 }
