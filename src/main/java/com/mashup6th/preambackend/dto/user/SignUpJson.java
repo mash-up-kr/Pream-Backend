@@ -1,4 +1,4 @@
-package com.mashup6th.preambackend.dto;
+package com.mashup6th.preambackend.dto.user;
 
 import javax.validation.constraints.NotNull;
 import lombok.Getter;

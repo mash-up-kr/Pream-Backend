@@ -1,8 +1,7 @@
 package com.mashup6th.preambackend.controller;
 
 
-import com.mashup6th.preambackend.dto.SignUpJson;
-import com.mashup6th.preambackend.dto.user.UserCheckEmail;
+import com.mashup6th.preambackend.dto.user.SignUpJson;
 import com.mashup6th.preambackend.dto.user.UserCheckNickname;
 import com.mashup6th.preambackend.dto.user.UserEmailAuth;
 import com.mashup6th.preambackend.dto.user.UserLoginInfo;
