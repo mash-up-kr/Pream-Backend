@@ -44,6 +44,9 @@ public class Category {
   @UpdateTimestamp
   private LocalDateTime updateDate;
 
+  @Column(columnDefinition = "boolean default false")
+  private Boolean adminYn;
+
   @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
   private List<UserFilter> userFilters;
 

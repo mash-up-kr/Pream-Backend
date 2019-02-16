@@ -40,11 +40,17 @@ public class Filter {
     @UpdateTimestamp
     private LocalDateTime updateDate;
 
+    @Column
+    private LocalDateTime shareDate;
+
     @Column(columnDefinition = "boolean default false")
     private Boolean sharedYn;
 
     @Column(nullable = false)
     private int sharedCount;
+
+    @Column
+    private int useCount;
 
     @Column
     private Float exposure;
@@ -84,6 +90,10 @@ public class Filter {
 
     @Column
     private Float colorFilter;
+
+    //관리자가 등록한 필터값이면 true
+    @Column(columnDefinition = "boolean default false")
+    private Boolean adminYn;
 
     //어떤 유저가 이 filter를 생성했는지에 대한 정보
     @ManyToOne
