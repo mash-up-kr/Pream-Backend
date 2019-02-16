@@ -53,6 +53,29 @@ public class MyFilterServiceImpl implements MyFilterService {
     }
 
     @Override
+    public FilterModel getFilter(Long id) {
+        Filter filter = filterRepository.findById(id).orElseThrow(()->new IllegalArgumentException("해당 이름을 가진 필터가 존재하지 않습니다."));
+
+        FilterModel filterModel = new FilterModel();
+        filterModel.setColorFilter(filter.getColorFilter());
+        filterModel.setSplitTone(filter.getSplitTone());
+        filterModel.setFade(filter.getFade());
+        filterModel.setGrain(filter.getGrain());
+        filterModel.setVignette(filter.getVignette());
+        filterModel.setWhiteBalance(filter.getWhiteBalance());
+        filterModel.setTone(filter.getTone());
+        filterModel.setSaturation(filter.getSaturation());
+        filterModel.setClarity(filter.getClarity());
+        filterModel.setSharpen(filter.getSharpen());
+        filterModel.setAdjust(filter.getAdjust());
+        filterModel.setContrast(filter.getContrast());
+        filterModel.setExposure(filter.getExposure());
+        filterModel.setName(filter.getName());
+
+        return filterModel;
+    }
+
+    @Override
     public boolean nameCheck(String name) {
         return filterRepository.findByName(name).isPresent();
     }

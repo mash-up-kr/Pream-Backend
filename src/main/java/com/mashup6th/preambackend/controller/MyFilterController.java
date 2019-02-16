@@ -2,7 +2,6 @@ package com.mashup6th.preambackend.controller;
 
 import com.mashup6th.preambackend.dto.filter.FilterCheckName;
 import com.mashup6th.preambackend.dto.filter.FilterModel;
-import com.mashup6th.preambackend.entity.UserFilter;
 import com.mashup6th.preambackend.exception.AlreadyExistsException;
 import com.mashup6th.preambackend.exception.BadRequestException;
 import com.mashup6th.preambackend.model.ApiResponseModel;
@@ -25,7 +24,7 @@ public class MyFilterController {
     }
 
     @PostMapping
-    public ApiResponseModel<FilterModel> apiFilterCreate(@RequestBody Long userId, FilterModel filterModel, BindingResult bindingResult) {
+    public ApiResponseModel<FilterModel> apiCreateFilter(@RequestBody Long userId, FilterModel filterModel, BindingResult bindingResult) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
         FilterCheckName filterCheckName = new FilterCheckName();
@@ -63,6 +62,17 @@ public class MyFilterController {
         return response;
     }
 
+    @GetMapping
+    public ApiResponseModel<FilterModel> apiGetFilter(@RequestBody Long id, BindingResult bindingResult) {
+        ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
+
+        filterService.getFilter(id);
+
+        response.setStatusCode(HttpStatus.OK.value());
+
+        return response;
+    }
+
     @PutMapping("{name}")
     public ApiResponseModel<FilterModel> apiModifyFilter(@PathVariable String name, @RequestBody FilterModel filterModel, BindingResult bindingResult) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
@@ -94,8 +104,8 @@ public class MyFilterController {
         return response;
     }
 
-    @GetMapping
-    public ApiResponseModel<FilterModel> apiGetFilter(@RequestBody String email, BindingResult bindingResult) {
+    @GetMapping("/list")
+    public ApiResponseModel<FilterModel> apiGetFilters(@RequestBody String email, BindingResult bindingResult) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
         filterService.getFilterList(email);

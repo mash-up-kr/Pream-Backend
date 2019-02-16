@@ -11,6 +11,8 @@ public interface MyFilterService {
 
     Filter modify(String name, FilterModel filterModel);
 
+    FilterModel getFilter(Long id);
+
     boolean nameCheck(String name);
 
     List<Filter> getFilterList(String email);
