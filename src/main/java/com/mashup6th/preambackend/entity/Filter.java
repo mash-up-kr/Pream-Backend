@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
-
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -32,11 +31,17 @@ public class Filter {
     @UpdateTimestamp
     private LocalDateTime updateDate;
 
+    @Column
+    private LocalDateTime shareDate;
+
     @Column(columnDefinition = "boolean default false")
     private Boolean sharedYn;
 
     @Column(nullable = false)
     private int sharedCount;
+  
+    @Column
+    private int useCount;
 
     @Column
     private Float exposure = 0.0f;
@@ -77,11 +82,15 @@ public class Filter {
     @Column
     private Float colorFilter = 0.0f;
 
+    //관리자가 등록한 필터값이면 true
+    @Column(columnDefinition = "boolean default false")
+    private Boolean adminYn;
+
     //어떤 유저가 이 filter를 생성했는지에 대한 정보
     @ManyToOne
     private User user;
 
-    @OneToMany(mappedBy = "filter", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "filter", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<UserFilter> userFilters;
 
     @OneToMany(mappedBy = "filter")

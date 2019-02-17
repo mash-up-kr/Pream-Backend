@@ -36,9 +36,9 @@ public class UserController {
 
   /* 이메일 검사 */
   @ApiResponses(value = {
-          @ApiResponse(code = 204, message = "Success"),
-          @ApiResponse(code = 409, message = "Already Exists"),
-          @ApiResponse(code = 500, message = "Failure")})
+      @ApiResponse(code = 204, message = "Success"),
+      @ApiResponse(code = 409, message = "Already Exists"),
+      @ApiResponse(code = 500, message = "Failure")})
   @ApiOperation(value = "apiCheckEmail", notes = "회원가입시 이메일 중복시 에러")
   @PostMapping("/signup/check/email/{email}")
   public ApiResponseModel<UserEmailAuth> apiCheckEmail(@PathVariable String email){
@@ -67,9 +67,9 @@ public class UserController {
 
   /* 닉네임 검사 */
   @ApiResponses(value = {
-          @ApiResponse(code = 204, message = "Success"),
-          @ApiResponse(code = 409, message = "Already Exists"),
-          @ApiResponse(code = 500, message = "Failure")})
+      @ApiResponse(code = 204, message = "Success"),
+      @ApiResponse(code = 409, message = "Already Exists"),
+      @ApiResponse(code = 500, message = "Failure")})
   @ApiOperation(value = "apiCheckNickname", notes = "회원가입시 닉네임 중복시 에러")
   @PostMapping("/signup/check/nickname/{nickname}")
   public ApiResponseModel<UserCheckNickname> apiCheckNickname(@PathVariable String nickname){
@@ -94,9 +94,9 @@ public class UserController {
   /* 회원 가입 */
   // SignUpJson값이 모두 null이 아니면(중복검사 및 정확한 input으로 들어왔다면) db에 저장해준다.
   @ApiResponses(value = {
-          @ApiResponse(code = 204, message = "Success"),
-          @ApiResponse(code = 400, message = "Not all required values are entered."),
-          @ApiResponse(code = 500, message = "Failure")})
+      @ApiResponse(code = 204, message = "Success"),
+      @ApiResponse(code = 400, message = "Not all required values are entered."),
+      @ApiResponse(code = 500, message = "Failure")})
   @ApiOperation(value = "apiSignUp", notes = "회원가입시 필요한 값이 모두 입력되지 않았다면 에러")
   @PostMapping("/signup/save")
   public ApiResponseModel<SignUpJson> apiSignUp(@Valid @RequestBody SignUpJson signUpJson, BindingResult bindingResult){
@@ -121,10 +121,10 @@ public class UserController {
 
   /* 로그인 */
   @ApiResponses(value = {
-          @ApiResponse(code = 204, message = "Success"),
-          @ApiResponse(code = 400, message = "Email or password is incorrect"),
-          @ApiResponse(code = 400, message = "Email or password is not entered"),
-          @ApiResponse(code = 500, message = "Failure")})
+      @ApiResponse(code = 204, message = "Success"),
+      @ApiResponse(code = 400, message = "Email or password is incorrect"),
+      @ApiResponse(code = 400, message = "Email or password is not entered"),
+      @ApiResponse(code = 500, message = "Failure")})
   @ApiOperation(value = "apiLogin", notes = "로그인시 필요한 input이 모두 입력되지 않을 때 / 아이디 혹은 비밀번호가 잘못되었을 때 에러")
   @PostMapping("/login")
   public ApiResponseModel<UserLoginResult> apiLogin(@Valid @RequestBody UserLoginInfo userLoginInfo, BindingResult bindingResult){

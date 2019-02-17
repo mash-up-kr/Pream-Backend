@@ -1,7 +1,6 @@
 package com.mashup6th.preambackend.entity;
 
 import javax.persistence.*;
-
 import lombok.Getter;
 import lombok.Setter;
 
