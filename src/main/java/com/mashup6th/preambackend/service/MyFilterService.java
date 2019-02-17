@@ -1,9 +1,9 @@
 package com.mashup6th.preambackend.service;
 
-import com.mashup6th.preambackend.dto.filter.FilterModel;
-import com.mashup6th.preambackend.entity.Filter;
+    import com.mashup6th.preambackend.dto.filter.FilterModel;
+    import com.mashup6th.preambackend.entity.Filter;
 
-import java.util.List;
+    import java.util.List;
 
 public interface MyFilterService {
 

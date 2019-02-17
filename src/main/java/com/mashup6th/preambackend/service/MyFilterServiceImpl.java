@@ -2,10 +2,8 @@ package com.mashup6th.preambackend.service;
 
 import com.mashup6th.preambackend.dto.filter.FilterModel;
 import com.mashup6th.preambackend.entity.Filter;
-import com.mashup6th.preambackend.entity.UserFilter;
 import com.mashup6th.preambackend.exception.NotFoundException;
 import com.mashup6th.preambackend.persistence.MyFilterRepository;
-import com.mashup6th.preambackend.persistence.UserFilterRepository;
 import com.mashup6th.preambackend.persistence.UserRepository;
 import netscape.security.ForbiddenTargetException;
 import org.springframework.stereotype.Service;
@@ -19,15 +17,11 @@ public class MyFilterServiceImpl implements MyFilterService {
 
     private UserRepository userRepository;
 
-    private UserFilterRepository userFilterRepository;
-
     public MyFilterServiceImpl(
             MyFilterRepository filterRepository,
-            UserFilterRepository userFilterRepository,
             UserRepository userRepository) {
 
         this.filterRepository = filterRepository;
-        this.userFilterRepository = userFilterRepository;
         this.userRepository = userRepository;
     }
 
@@ -36,8 +30,8 @@ public class MyFilterServiceImpl implements MyFilterService {
         Filter filter = new Filter();
         filter.setName(filterModel.getName());
 
-        UserFilter userFilter = new UserFilter();
-        userFilter.setUserId(userId);
+//        UserFilter userFilter = new UserFilter();
+//        userFilter.setUserId(userId);
 
         filterRepository.save(filter);
     }

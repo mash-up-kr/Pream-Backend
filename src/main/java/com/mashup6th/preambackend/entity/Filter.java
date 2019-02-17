@@ -34,8 +34,8 @@ public class Filter {
     @Column
     private LocalDateTime shareDate;
 
-    @Column(columnDefinition = "boolean default false")
-    private Boolean sharedYn;
+//    @Column(columnDefinition = "boolean default false")
+//    private Boolean sharedYn;
 
     @Column(nullable = false)
     private int sharedCount;
@@ -89,13 +89,7 @@ public class Filter {
     //어떤 유저가 이 filter를 생성했는지에 대한 정보
     @ManyToOne
     private User user;
-
-    @OneToMany(mappedBy = "filter", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<UserFilter> userFilters;
-
-    @OneToMany(mappedBy = "filter")
-    private List<FilterCategory> filterCategories;
-
-
-
+//
+//    @OneToMany(mappedBy = "filter", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private List<UserFilter> userFilters;
 }
