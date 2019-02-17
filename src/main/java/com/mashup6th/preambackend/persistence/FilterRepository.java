@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface MyFilterRepository extends JpaRepository<Filter, Long> {
+public interface FilterRepository extends JpaRepository<Filter, Long> {
 
     Optional<Filter> findByName(String name);
 
