@@ -11,9 +11,11 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -128,35 +130,27 @@ public class CategoryController {
   // 등록된 필터를 '모든사진' 카테고리로 옮겨주는 기능
 
   /* 카테고리 리스트를 가져오는 api */
-//  @ApiOperation(value = "apiCategoryGet", notes = "카테고리 명이 입력되지 않았다면 에러 / 카테고리 명 수정이 제대로 되지 않았다면 에러 / 사용자의 id를 전해주지 않았다면 에러")
-//  @GetMapping("/{userId}")
-//  public ApiResponseModel<List<CategoryList>> apiCategoryGet(@PathVariable Long userId) {
-//    ApiResponseModel<List<CategoryList>> response = new ApiResponseModel<>();
-//    List<CategoryList> categoryLists = new ArrayList<>();
-//    CategoryList categoryList =  new CategoryList();
-//
-//    log.info("유저아이디는" + userId);
-//    List<Category> categories = categoryService.getCategory(userId);
-//
-//    for (Category category : categories){
-//      log.info("카테고리의 이름은" + category.getName());
-//      categoryList.setCategoryName(category.getName());
-//      categoryLists.add(categoryList);
-//    }
-//
-//    for (CategoryList cl : categoryLists){
-//      log.info(cl.getCategoryName());
-//    }
-//
-//    response.setStatusCode(HttpStatus.OK.value());
-//    response.setMessage(HttpStatus.OK.toString());
-//    response.setResult(categoryLists);
-//
-//
-//    return response;
-//  }
+  @ApiOperation(value = "apiCategoryGet", notes = "카테고리 명이 입력되지 않았다면 에러 / 카테고리 명 수정이 제대로 되지 않았다면 에러 / 사용자의 id를 전해주지 않았다면 에러")
+  @GetMapping("/{email}")
+  public ApiResponseModel<List<CategoryList>> apiCategoryGet(@PathVariable String email) {
+    ApiResponseModel<List<CategoryList>> response = new ApiResponseModel<>();
+    List<CategoryList> categoryLists = new ArrayList<>();
 
 
-    /* 즐겨찾기에 필터를 등록하는 api */
+    log.info("유저아이디는" + email);
+    List<Category> categories = categoryService.getCategory(email);
 
+    for (Category category : categories){
+      log.info("카테고리의 이름은" + category.getName());
+    }
+
+    //sort
+
+    response.setStatusCode(HttpStatus.OK.value());
+    response.setMessage(HttpStatus.OK.toString());
+    response.setResult(categoryLists);
+
+
+    return response;
+  }
 }

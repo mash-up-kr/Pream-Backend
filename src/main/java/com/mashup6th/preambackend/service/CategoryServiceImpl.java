@@ -7,15 +7,22 @@ import com.mashup6th.preambackend.entity.User;
 import com.mashup6th.preambackend.entity.UserCategory;
 import com.mashup6th.preambackend.exception.BadRequestException;
 import com.mashup6th.preambackend.exception.NotFoundException;
+import com.mashup6th.preambackend.model.CategoryNameComparator;
 import com.mashup6th.preambackend.persistence.CategoryRepository;
 import com.mashup6th.preambackend.persistence.UserCategoryRepository;
 import com.mashup6th.preambackend.persistence.UserRepository;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import javax.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import sun.misc.Request;
 
 @Slf4j
 @Service
@@ -31,7 +38,6 @@ public class CategoryServiceImpl implements CategoryService{
   }
 
   @Override
-  @Transactional
   public Boolean save(CategoryInfo categoryInfo) {
     // category 테이블에 등록
     Category category = new Category();
@@ -55,7 +61,6 @@ public class CategoryServiceImpl implements CategoryService{
   }
 
   @Override
-  @Transactional
   public CategoryInfo modify(CategoryInfo categoryInfo) {
 
 
@@ -83,7 +88,6 @@ public class CategoryServiceImpl implements CategoryService{
   }
 
   @Override
-  @Transactional
   public void delete(UserCategoryInfo userCategoryInfo) {
     User user = userRepository.findByEmail(userCategoryInfo.getEmail());
     if (user == null) {
@@ -99,16 +103,24 @@ public class CategoryServiceImpl implements CategoryService{
   }
 
   @Override
-  public List<Category> getCategory(Long userId) {
+  @Transactional(readOnly = true)
+  public List<Category> getCategory(String email) {
+    User user = userRepository.findByEmail(email);
+
     // user_category테이블에서 현재 유저가 가진 category_id를 가져오기
-    List<UserCategory> userCategories = userCategoryRepository.findByUserId(userId);
+    List<UserCategory> userCategories = userCategoryRepository.findByUserId(user.getId());
     List<Category> categories = new ArrayList<>();
 
     //받아온 category_id를 이용하여, category테이블에서 조회.
     for (UserCategory userCategory : userCategories){
-      Category category = categoryRepository.getOne(userCategory.getCategory().getId());
+      Category category = new Category();
+      category = categoryRepository.getOne(userCategory.getCategory().getId());
       categories.add(category);
     }
+
+    // 이름순 정렬
+    Collections.sort(categories);
+
     return categories;
   }
 }

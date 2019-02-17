@@ -25,7 +25,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Getter
 @Setter
 @Entity
-public class Category {
+public class Category implements Comparable<Category>{
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -44,9 +44,17 @@ public class Category {
   @UpdateTimestamp
   private LocalDateTime updateDate;
 
+  @Column(columnDefinition = "boolean default false")
+  private Boolean adminYn;
+
   @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
   private List<UserFilter> userFilters;
 
   @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<UserCategory> userCategories;
+
+  @Override
+  public int compareTo(Category category) {
+    return name.compareTo(category.getName());
+  }
 }
