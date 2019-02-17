@@ -29,9 +29,6 @@ public class FilterServiceImpl implements FilterService {
         Filter filter = new Filter();
         filter.setName(filterModel.getName());
 
-//        UserFilter userFilter = new UserFilter();
-//        userFilter.setUserId(userId);
-
         filterRepository.save(filter);
     }
 

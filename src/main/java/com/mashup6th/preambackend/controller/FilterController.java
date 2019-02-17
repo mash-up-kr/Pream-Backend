@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/filter")
+@RequestMapping("/api/v1/myfilter")
 public class FilterController {
 
     private FilterService filterService;
@@ -119,17 +119,15 @@ public class FilterController {
         return response;
     }
 
-//    @DeleteMapping("{name}")
-//    public ApiResponseModel<FilterModel> apiDeleteFilter(@PathVariable String name) {
-//        ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
-//
-//        filterService.delete(name);
-//        response.setStatusCode(HttpStatus.NO_CONTENT.value());
-//
-//        return response;
-//    }
+    @DeleteMapping("{name}")
+    public ApiResponseModel<FilterModel> apiDeleteFilter(@PathVariable String name) {
+        ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
+        filterService.delete(name);
+        response.setStatusCode(HttpStatus.NO_CONTENT.value());
 
+        return response;
+    }
 
 
 }
