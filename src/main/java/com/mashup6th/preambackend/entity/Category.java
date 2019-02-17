@@ -46,7 +46,7 @@ public class Category {
 
   @Column(columnDefinition = "boolean default false")
   private Boolean adminYn;
-
+  
   @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
   private List<UserFilter> userFilters;
 

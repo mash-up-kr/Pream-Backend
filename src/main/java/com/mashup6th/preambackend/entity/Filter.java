@@ -3,16 +3,7 @@ package com.mashup6th.preambackend.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -48,48 +39,48 @@ public class Filter {
 
     @Column(nullable = false)
     private int sharedCount;
-
+  
     @Column
     private int useCount;
 
     @Column
-    private Float exposure;
+    private Float exposure = 0.0f;
 
     @Column
-    private Float contrast;
+    private Float contrast = 0.0f;
 
     @Column
-    private Float adjust;
+    private Float adjust = 0.0f;
 
     @Column
-    private Float sharpen;
+    private Float sharpen = 0.0f;
 
     @Column
-    private Float clarity;
+    private Float clarity = 0.0f;
 
     @Column
-    private Float saturation;
+    private Float saturation = 0.0f;
 
     @Column
-    private Float tone;
+    private Float tone = 0.0f;
 
     @Column
-    private Float whiteBalance;
+    private Float whiteBalance = 0.0f;
 
     @Column
-    private Float vignette;
+    private Float vignette = 0.0f;
 
     @Column
-    private Float grain;
+    private Float grain = 0.0f;
 
     @Column
-    private Float fade;
+    private Float fade = 0.0f;
 
     @Column
-    private Float splitTone;
+    private Float splitTone = 0.0f;
 
     @Column
-    private Float colorFilter;
+    private Float colorFilter = 0.0f;
 
     //관리자가 등록한 필터값이면 true
     @Column(columnDefinition = "boolean default false")
@@ -102,6 +93,9 @@ public class Filter {
     @OneToMany(mappedBy = "filter", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<UserFilter> userFilters;
 
-    @OneToMany(mappedBy = "filter", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "filter")
     private List<FilterCategory> filterCategories;
+
+
+
 }

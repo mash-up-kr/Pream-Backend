@@ -55,7 +55,7 @@ public class UserController {
     }
 
     if (check != null) {
-        userEmailAuth.setAuthNumber(userService.sendEmail(email));
+      userEmailAuth.setAuthNumber(userService.sendEmail(email));
     } else throw new AlreadyExistsException("회원가입시 입력한 이메일이 중복됩니다.");
 
     response.setStatusCode(HttpStatus.OK.value());
