@@ -5,7 +5,7 @@ import com.mashup6th.preambackend.entity.Filter;
 import com.mashup6th.preambackend.exception.NotFoundException;
 import com.mashup6th.preambackend.persistence.MyFilterRepository;
 import com.mashup6th.preambackend.persistence.UserRepository;
-import netscape.security.ForbiddenTargetException;
+//import netscape.security.ForbiddenTargetException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -77,10 +77,10 @@ public class MyFilterServiceImpl implements MyFilterService {
         userRepository.findByEmail(email);
         return filterRepository.findAll();
     }
-
-    @Override
-    public void delete(String name) {
-        Filter filter = filterRepository.findByName(name).orElseThrow(ForbiddenTargetException::new);
-        filterRepository.deleteById(filter.getId());
-    }
+//
+//    @Override
+//    public void delete(String name) {
+//        Filter filter = filterRepository.findByName(name).orElseThrow(ForbiddenTargetException::new);
+//        filterRepository.deleteById(filter.getId());
+//    }
 }

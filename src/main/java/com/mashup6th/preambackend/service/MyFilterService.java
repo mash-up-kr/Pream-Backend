@@ -17,5 +17,5 @@ public interface MyFilterService {
 
     List<Filter> getFilterList(String email);
 
-    void delete(String name);
+//    void delete(String name);
 }
