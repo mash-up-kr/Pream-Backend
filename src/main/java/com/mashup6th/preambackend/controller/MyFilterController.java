@@ -24,7 +24,7 @@ public class MyFilterController {
     }
 
     @PostMapping
-    public ApiResponseModel<FilterModel> apiFilterCreate(@RequestBody FilterModel filterModel, BindingResult bindingResult) {
+    public ApiResponseModel<FilterModel> apiCreateFilter(@RequestBody Long userId, FilterModel filterModel, BindingResult bindingResult) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
         FilterCheckName filterCheckName = new FilterCheckName();
@@ -55,9 +55,20 @@ public class MyFilterController {
             throw new BadRequestException("필터 생성시 필요한 값이 모두 입력되지 않았습니다.");
         }
 
-        filterService.save(filterModel);
+        filterService.save(userId, filterModel);
 
         response.setStatusCode(HttpStatus.CREATED.value());
+
+        return response;
+    }
+
+    @GetMapping
+    public ApiResponseModel<FilterModel> apiGetFilter(@RequestBody Long id, BindingResult bindingResult) {
+        ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
+
+        filterService.getFilter(id);
+
+        response.setStatusCode(HttpStatus.OK.value());
 
         return response;
     }
@@ -93,11 +104,11 @@ public class MyFilterController {
         return response;
     }
 
-    @GetMapping
-    public ApiResponseModel<FilterModel> apiGetFilter(@RequestBody Long userId, BindingResult bindingResult) {
+    @GetMapping("/list")
+    public ApiResponseModel<FilterModel> apiGetFilters(@RequestBody String email, BindingResult bindingResult) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
-        filterService.getFilterList(userId);
+        filterService.getFilterList(email);
 
         if (bindingResult.hasErrors()) {
             throw new BadRequestException("");
@@ -108,11 +119,11 @@ public class MyFilterController {
         return response;
     }
 
-    @DeleteMapping
-    public ApiResponseModel<FilterModel> apiDeleteFilter(@PathVariable Long id) {
+    @DeleteMapping("{name}")
+    public ApiResponseModel<FilterModel> apiDeleteFilter(@PathVariable String name) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
-        filterService.delete(id);
+        filterService.delete(name);
         response.setStatusCode(HttpStatus.NO_CONTENT.value());
 
         return response;
