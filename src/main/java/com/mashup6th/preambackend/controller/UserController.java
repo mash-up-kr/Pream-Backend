@@ -2,14 +2,18 @@ package com.mashup6th.preambackend.controller;
 
 
 import com.mashup6th.preambackend.dto.user.SignUpJson;
-import com.mashup6th.preambackend.dto.user.UserCheckEmail;
 import com.mashup6th.preambackend.dto.user.UserCheckNickname;
+import com.mashup6th.preambackend.dto.user.UserEmailAuth;
 import com.mashup6th.preambackend.dto.user.UserLoginInfo;
+import com.mashup6th.preambackend.dto.user.UserLoginResult;
 import com.mashup6th.preambackend.exception.AlreadyExistsException;
 import com.mashup6th.preambackend.exception.BadRequestException;
 import com.mashup6th.preambackend.model.ApiResponseModel;
 import com.mashup6th.preambackend.service.UserService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import java.net.URLDecoder;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -31,31 +35,41 @@ public class UserController {
   }
 
   /* 이메일 검사 */
+  @ApiResponses(value = {
+          @ApiResponse(code = 204, message = "Success"),
+          @ApiResponse(code = 409, message = "Already Exists"),
+          @ApiResponse(code = 500, message = "Failure")})
   @ApiOperation(value = "apiCheckEmail", notes = "회원가입시 이메일 중복시 에러")
   @PostMapping("/signup/check/email/{email}")
-  public ApiResponseModel<UserCheckEmail> apiCheckEmail(@PathVariable String email){
-    ApiResponseModel<UserCheckEmail> response = new ApiResponseModel<>();
+  public ApiResponseModel<UserEmailAuth> apiCheckEmail(@PathVariable String email){
+    ApiResponseModel<UserEmailAuth> response = new ApiResponseModel<>();
 
-    UserCheckEmail userCheckEmail =  new UserCheckEmail();
+    UserEmailAuth userEmailAuth = new UserEmailAuth();
+    String check = null;
 
     // 이메일이 중복되는지 검사
-    if(!userService.emailCheck(email)){
-      userCheckEmail.setEmail(email);
-    } else {
-      throw new AlreadyExistsException("회원가입시 입력한 이메일이 중복됩니다.");
+    try{
+      check = URLDecoder.decode(userService.emailCheck(email), "utf-8");
+    }catch (Exception e){
+      e.printStackTrace();
     }
 
-    /*
-     * 이메일 인증 구현 예정*
-     */
+    if (check != null) {
+      userEmailAuth.setAuthNumber(userService.sendEmail(email));
+    } else throw new AlreadyExistsException("회원가입시 입력한 이메일이 중복됩니다.");
+
     response.setStatusCode(HttpStatus.OK.value());
     response.setMessage(HttpStatus.OK.toString());
-    response.setResult(userCheckEmail);
+    response.setResult(userEmailAuth);
 
     return response;
   }
 
   /* 닉네임 검사 */
+  @ApiResponses(value = {
+          @ApiResponse(code = 204, message = "Success"),
+          @ApiResponse(code = 409, message = "Already Exists"),
+          @ApiResponse(code = 500, message = "Failure")})
   @ApiOperation(value = "apiCheckNickname", notes = "회원가입시 닉네임 중복시 에러")
   @PostMapping("/signup/check/nickname/{nickname}")
   public ApiResponseModel<UserCheckNickname> apiCheckNickname(@PathVariable String nickname){
@@ -79,6 +93,10 @@ public class UserController {
 
   /* 회원 가입 */
   // SignUpJson값이 모두 null이 아니면(중복검사 및 정확한 input으로 들어왔다면) db에 저장해준다.
+  @ApiResponses(value = {
+          @ApiResponse(code = 204, message = "Success"),
+          @ApiResponse(code = 400, message = "Not all required values are entered."),
+          @ApiResponse(code = 500, message = "Failure")})
   @ApiOperation(value = "apiSignUp", notes = "회원가입시 필요한 값이 모두 입력되지 않았다면 에러")
   @PostMapping("/signup/save")
   public ApiResponseModel<SignUpJson> apiSignUp(@Valid @RequestBody SignUpJson signUpJson, BindingResult bindingResult){
@@ -102,10 +120,15 @@ public class UserController {
   }
 
   /* 로그인 */
+  @ApiResponses(value = {
+          @ApiResponse(code = 204, message = "Success"),
+          @ApiResponse(code = 400, message = "Email or password is incorrect"),
+          @ApiResponse(code = 400, message = "Email or password is not entered"),
+          @ApiResponse(code = 500, message = "Failure")})
   @ApiOperation(value = "apiLogin", notes = "로그인시 필요한 input이 모두 입력되지 않을 때 / 아이디 혹은 비밀번호가 잘못되었을 때 에러")
   @PostMapping("/login")
-  public ApiResponseModel<UserLoginInfo> apiLogin(@Valid @RequestBody UserLoginInfo userLoginInfo, BindingResult bindingResult){
-    ApiResponseModel<UserLoginInfo> response = new ApiResponseModel<>();
+  public ApiResponseModel<UserLoginResult> apiLogin(@Valid @RequestBody UserLoginInfo userLoginInfo, BindingResult bindingResult){
+    ApiResponseModel<UserLoginResult> response = new ApiResponseModel<>();
 
     if (bindingResult.hasErrors()) {
       throw new BadRequestException("로그인시 필요한 input 값이 모두 입력되지 않았습니다.");
@@ -115,9 +138,16 @@ public class UserController {
       throw new BadRequestException("로그인시 아이디 혹은 비밀번호가 잘못되었습니다.");
     }
 
+    // 닉네임 구하기
+    String userNickname = userService.getUserNickname(userLoginInfo.getEmail());
+
+    UserLoginResult userLoginResult = new UserLoginResult();
+    userLoginResult.setNickname(userNickname);
+
+
     response.setStatusCode(HttpStatus.OK.value());
     response.setMessage(HttpStatus.OK.toString());
-    response.setResult(userLoginInfo);
+    response.setResult(userLoginResult);
 
     return response;
   }
