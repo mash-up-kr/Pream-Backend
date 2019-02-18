@@ -1,7 +1,9 @@
 package com.mashup6th.preambackend.service;
 
 import com.mashup6th.preambackend.dto.filter.FilterModel;
+import com.mashup6th.preambackend.dto.user.UserCheckEmail;
 import com.mashup6th.preambackend.entity.Filter;
+import com.mashup6th.preambackend.entity.User;
 import com.mashup6th.preambackend.persistence.FilterRepository;
 import com.mashup6th.preambackend.persistence.UserRepository;
 import netscape.security.ForbiddenTargetException;
@@ -25,9 +27,25 @@ public class FilterServiceImpl implements FilterService {
     }
 
     @Override
-    public void save(Long userId, FilterModel filterModel) {
+    public void save(String email, String imgUrl, FilterModel filterModel) {
+        userRepository.findByEmail(email);
+
         Filter filter = new Filter();
         filter.setName(filterModel.getName());
+        filter.setExposure(filterModel.getExposure());
+        filter.setContrast(filterModel.getContrast());
+        filter.setAdjust(filterModel.getAdjust());
+        filter.setSharpen(filterModel.getSharpen());
+        filter.setClarity(filterModel.getClarity());
+        filter.setSaturation(filterModel.getSaturation());
+        filter.setTone(filterModel.getTone());
+        filter.setWhiteBalance(filterModel.getWhiteBalance());
+        filter.setVignette(filterModel.getVignette());
+        filter.setGrain(filterModel.getGrain());
+        filter.setFade(filterModel.getFade());
+        filter.setSplitTone(filterModel.getSplitTone());
+        filter.setColorFilter(filterModel.getColorFilter());
+        filter.setImgUrl(imgUrl);
 
         filterRepository.save(filter);
     }
@@ -41,8 +59,8 @@ public class FilterServiceImpl implements FilterService {
     }
 
     @Override
-    public FilterModel getFilter(Long id) {
-        Filter filter = filterRepository.findById(id).orElseThrow(()->new IllegalArgumentException("해당 이름을 가진 필터가 존재하지 않습니다."));
+    public FilterModel getFilter(String name) {
+        Filter filter = filterRepository.findByName(name).orElseThrow(()->new IllegalArgumentException("해당 이름을 가진 필터가 존재하지 않습니다."));
 
         FilterModel filterModel = new FilterModel();
         filterModel.setColorFilter(filter.getColorFilter());
@@ -76,7 +94,7 @@ public class FilterServiceImpl implements FilterService {
 
     @Override
     public void delete(String name) {
-        Filter filter = filterRepository.findByName(name).orElseThrow(ForbiddenTargetException::new);
+        Filter filter = filterRepository.findByName(name).orElseThrow(()->new IllegalArgumentException("해당 이름의 필터가 존재하지 않습니다."));
         filterRepository.deleteById(filter.getId());
     }
 }

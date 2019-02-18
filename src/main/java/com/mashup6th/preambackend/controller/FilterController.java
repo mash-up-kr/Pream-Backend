@@ -6,10 +6,18 @@ import com.mashup6th.preambackend.exception.AlreadyExistsException;
 import com.mashup6th.preambackend.exception.BadRequestException;
 import com.mashup6th.preambackend.model.ApiResponseModel;
 import com.mashup6th.preambackend.service.FilterService;
+import com.mashup6th.preambackend.service.StorageService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 
 @Slf4j
@@ -17,14 +25,27 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/myfilter")
 public class FilterController {
 
+    private final StorageService storageService;
+
     private FilterService filterService;
 
-    public FilterController(FilterService filterService) {
+    public FilterController(
+            FilterService filterService,
+            StorageService storageService) {
         this.filterService = filterService;
+        this.storageService = storageService;
     }
 
-    @PostMapping
-    public ApiResponseModel<FilterModel> apiCreateFilter(@RequestBody Long userId, FilterModel filterModel, BindingResult bindingResult) {
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Created", response = FilterModel.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 500, message = "Failure")})
+    @ApiOperation(value = "apiCreateFilter", notes = "필터 이름 중복시 에러")
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ApiResponseModel<FilterModel> apiCreateFilter(@RequestPart(value = "img") MultipartFile img,
+                                                         @RequestPart(value = "email") String email,
+                                                         @RequestPart(value = "filter") FilterModel filterModel, BindingResult bindingResult) throws IOException {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
         FilterCheckName filterCheckName = new FilterCheckName();
@@ -35,6 +56,15 @@ public class FilterController {
         } else {
             throw new AlreadyExistsException("Duplicate name");
         }
+
+        if (img == null) {
+            throw new BadRequestException("이미지를 넣어주세요.");
+        }
+
+        // upload img to storage
+        String imgUrl = storageService.upload(img, "image");
+
+        filterModel.setImgUrl(imgUrl);
 
         filterModel.setName(filterModel.getName());
         filterModel.setExposure(filterModel.getExposure());
@@ -55,7 +85,7 @@ public class FilterController {
             throw new BadRequestException("필터 생성시 필요한 값이 모두 입력되지 않았습니다.");
         }
 
-        filterService.save(userId, filterModel);
+        filterService.save(email, imgUrl, filterModel);
 
         response.setStatusCode(HttpStatus.CREATED.value());
 
@@ -63,10 +93,10 @@ public class FilterController {
     }
 
     @GetMapping
-    public ApiResponseModel<FilterModel> apiGetFilter(@RequestBody Long id, BindingResult bindingResult) {
+    public ApiResponseModel<FilterModel> apiGetFilter(@RequestBody String name, BindingResult bindingResult) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
-        filterService.getFilter(id);
+        filterService.getFilter(name);
 
         response.setStatusCode(HttpStatus.OK.value());
 
