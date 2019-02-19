@@ -21,6 +21,9 @@ public class Filter {
     private String name;
 
     @Column
+    private String description;
+
+    @Column
     private String imgUrl;
 
     @Column(nullable = false)
@@ -85,6 +88,8 @@ public class Filter {
     //관리자가 등록한 필터값이면 true
     @Column(columnDefinition = "boolean default false")
     private Boolean adminYn;
+
+    @Column
 
     //어떤 유저가 이 filter를 생성했는지에 대한 정보
     @ManyToOne
