@@ -26,6 +26,12 @@ public class FeedController {
   }
 
   /* 공유피드에서 피드를 받아오는 api */
+  @GetMapping()
+  public ApiResponseModel<List<Fi>> apiGetFeed(){
+
+  }
+
+
 //  @ApiResponses(value = {
 //      @ApiResponse(code = 204, message = "Success"),
 //      @ApiResponse(code = 409, message = "Already Exists"),
