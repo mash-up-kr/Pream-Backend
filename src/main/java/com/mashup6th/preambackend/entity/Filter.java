@@ -38,7 +38,7 @@ public class Filter {
     private int sharedCount;
   
     @Column
-    private int useCount;
+    private int useCount = 0;
 
     @Column
     private Float exposure = 0.0f;
