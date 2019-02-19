@@ -15,6 +15,8 @@ public class FilterModel {
 
     private String imgUrl;
 
+    private int useCount;
+
     private Float exposure;
 
     private Float contrast;

@@ -22,7 +22,7 @@ import java.io.IOException;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/myfilter")
+@RequestMapping("/api/v1/filter")
 public class FilterController {
 
     private final StorageService storageService;
@@ -36,6 +36,7 @@ public class FilterController {
         this.storageService = storageService;
     }
 
+
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Created", response = FilterModel.class),
             @ApiResponse(code = 400, message = "Bad Request"),
@@ -45,15 +46,27 @@ public class FilterController {
     @RequestMapping(method = RequestMethod.POST, consumes = {"multipart/form-data"})
     public ApiResponseModel<FilterModel> apiCreateFilter(@RequestParam(value = "image") MultipartFile image,
                                                          @RequestParam(value = "email") String email,
-                                                         @RequestParam(value = "filter") FilterModel filter,
-                                                         BindingResult bindingResult) throws IOException {
+                                                         @RequestParam(value = "name") String name,
+                                                         @RequestParam(value = "exposure") Float exposure,
+                                                         @RequestParam(value = "contrast") Float contrast,
+                                                         @RequestParam(value = "adjust") Float adjust,
+                                                         @RequestParam(value = "sharpen") Float sharpen,
+                                                         @RequestParam(value = "clarity") Float clarity,
+                                                         @RequestParam(value = "saturation") Float saturation,
+                                                         @RequestParam(value = "tone") Float tone,
+                                                         @RequestParam(value = "whiteBalance") Float whiteBalance,
+                                                         @RequestParam(value = "vignette") Float vignette,
+                                                         @RequestParam(value = "grain") Float grain,
+                                                         @RequestParam(value = "fade") Float fade,
+                                                         @RequestParam(value = "splitTone") Float splitTone,
+                                                         @RequestParam(value = "colorFilter") Float colorFilter) throws IOException {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
         FilterCheckName filterCheckName = new FilterCheckName();
 
         // 필터 이름이 중복되는지 검사
-        if (!filterService.nameCheck(filter.getName())) {
-            filterCheckName.setName(filter.getName());
+        if (!filterService.nameCheck(name)) {
+            filterCheckName.setName(name);
         } else {
             throw new AlreadyExistsException("Duplicate name");
         }
@@ -65,32 +78,30 @@ public class FilterController {
         // upload img to storage
         String imageUrl = storageService.upload(image, "image");
 
-        filter.setImgUrl(imageUrl);
+        FilterModel filterModel = new FilterModel();
 
-        filter.setName(filter.getName());
-        filter.setExposure(filter.getExposure());
-        filter.setContrast(filter.getContrast());
-        filter.setAdjust(filter.getAdjust());
-        filter.setSharpen(filter.getSharpen());
-        filter.setClarity(filter.getClarity());
-        filter.setSaturation(filter.getSaturation());
-        filter.setTone(filter.getTone());
-        filter.setWhiteBalance(filter.getWhiteBalance());
-        filter.setVignette(filter.getVignette());
-        filter.setGrain(filter.getGrain());
-        filter.setFade(filter.getFade());
-        filter.setSplitTone(filter.getSplitTone());
-        filter.setColorFilter(filter.getColorFilter());
+        filterModel.setImgUrl(imageUrl);
+        filterModel.setName(name);
+        filterModel.setUseCount(0);
+        filterModel.setExposure(exposure);
+        filterModel.setContrast(contrast);
+        filterModel.setAdjust(adjust);
+        filterModel.setSharpen(sharpen);
+        filterModel.setClarity(clarity);
+        filterModel.setSaturation(saturation);
+        filterModel.setTone(tone);
+        filterModel.setWhiteBalance(whiteBalance);
+        filterModel.setVignette(vignette);
+        filterModel.setGrain(grain);
+        filterModel.setFade(fade);
+        filterModel.setSplitTone(splitTone);
+        filterModel.setColorFilter(colorFilter);
 
-        if (bindingResult.hasErrors()) {
-            throw new BadRequestException("필터 생성시 필요한 값이 모두 입력되지 않았습니다.");
-        }
-
-        filterService.save(email, imageUrl, filter);
+        filterService.save(email, imageUrl, filterModel);
 
         System.out.println(email);
         System.out.println(imageUrl);
-        System.out.println(filter);
+        System.out.println(filterModel);
 
         response.setStatusCode(HttpStatus.CREATED.value());
 
