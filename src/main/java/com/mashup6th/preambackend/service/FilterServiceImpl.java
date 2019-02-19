@@ -2,8 +2,7 @@ package com.mashup6th.preambackend.service;
 
 import com.mashup6th.preambackend.dto.filter.FilterModel;
 import com.mashup6th.preambackend.entity.Filter;
-import com.mashup6th.preambackend.exception.NotFoundException;
-import com.mashup6th.preambackend.persistence.MyFilterRepository;
+import com.mashup6th.preambackend.persistence.FilterRepository;
 import com.mashup6th.preambackend.persistence.UserRepository;
 //import netscape.security.ForbiddenTargetException;
 import org.springframework.stereotype.Service;
@@ -11,14 +10,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class MyFilterServiceImpl implements MyFilterService {
+public class FilterServiceImpl implements FilterService {
 
-    private MyFilterRepository filterRepository;
+    private FilterRepository filterRepository;
 
     private UserRepository userRepository;
 
-    public MyFilterServiceImpl(
-            MyFilterRepository filterRepository,
+    public FilterServiceImpl(
+            FilterRepository filterRepository,
             UserRepository userRepository) {
 
         this.filterRepository = filterRepository;

@@ -5,7 +5,7 @@ import com.mashup6th.preambackend.dto.filter.FilterModel;
 import com.mashup6th.preambackend.exception.AlreadyExistsException;
 import com.mashup6th.preambackend.exception.BadRequestException;
 import com.mashup6th.preambackend.model.ApiResponseModel;
-import com.mashup6th.preambackend.service.MyFilterService;
+import com.mashup6th.preambackend.service.FilterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/myfilter")
-public class MyFilterController {
+@RequestMapping("/api/v1/filter")
+public class FilterController {
 
-    private MyFilterService filterService;
+    private FilterService filterService;
 
-    public MyFilterController(MyFilterService filterService) {
+    public FilterController(FilterService filterService) {
         this.filterService = filterService;
     }
 
@@ -128,6 +128,8 @@ public class MyFilterController {
 //
 //        return response;
 //    }
+
+
 
 
 }

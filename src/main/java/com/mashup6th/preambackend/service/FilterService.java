@@ -5,7 +5,7 @@ package com.mashup6th.preambackend.service;
 
     import java.util.List;
 
-public interface MyFilterService {
+public interface FilterService {
 
     void save(Long userId, FilterModel filterModel);
 
