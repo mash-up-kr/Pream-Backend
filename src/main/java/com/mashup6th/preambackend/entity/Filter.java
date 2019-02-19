@@ -88,13 +88,11 @@ public class Filter {
     //관리자가 등록한 필터값이면 true
     @Column(columnDefinition = "boolean default false")
     private Boolean adminYn;
-
-    @Column
-
+    
     //어떤 유저가 이 filter를 생성했는지에 대한 정보
     @ManyToOne
     private User user;
-//
-//    @OneToMany(mappedBy = "filter", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private List<UserFilter> userFilters;
+
+    @OneToMany(mappedBy = "filter", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<UserFilter> userFilters;
 }
