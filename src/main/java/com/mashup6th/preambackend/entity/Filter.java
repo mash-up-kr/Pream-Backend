@@ -43,44 +43,44 @@ public class Filter {
     @Column
     private int useCount;
 
-    @Column
-    private Float exposure = 0.0f;
+    @Column(columnDefinition = "float default 0.0")
+    private Float exposure;
 
-    @Column
-    private Float contrast = 0.0f;
+    @Column(columnDefinition = "float default 0.0")
+    private Float contrast;
 
-    @Column
-    private Float adjust = 0.0f;
+    @Column(columnDefinition = "float default 0.0")
+    private Float adjust;
 
-    @Column
-    private Float sharpen = 0.0f;
+    @Column(columnDefinition = "float default 0.0")
+    private Float sharpen;
 
-    @Column
-    private Float clarity = 0.0f;
+    @Column(columnDefinition = "float default 0.0")
+    private Float clarity;
 
-    @Column
-    private Float saturation = 0.0f;
+    @Column(columnDefinition = "float default 0.0")
+    private Float saturation;
 
-    @Column
-    private Float tone = 0.0f;
+    @Column(columnDefinition = "float default 0.0")
+    private Float tone;
 
-    @Column
-    private Float whiteBalance = 0.0f;
+    @Column(columnDefinition = "float default 0.0")
+    private Float whiteBalance;
 
-    @Column
-    private Float vignette = 0.0f;
+    @Column(columnDefinition = "float default 0.0")
+    private Float vignette;
 
-    @Column
-    private Float grain = 0.0f;
+    @Column(columnDefinition = "float default 0.0")
+    private Float grain;
 
-    @Column
-    private Float fade = 0.0f;
+    @Column(columnDefinition = "float default 0.0")
+    private Float fade;
 
-    @Column
-    private Float splitTone = 0.0f;
+    @Column(columnDefinition = "float default 0.0")
+    private Float splitTone;
 
-    @Column
-    private Float colorFilter = 0.0f;
+    @Column(columnDefinition = "float default 0.0")
+    private Float colorFilter;
 
     //관리자가 등록한 필터값이면 true
     @Column(columnDefinition = "boolean default false")
