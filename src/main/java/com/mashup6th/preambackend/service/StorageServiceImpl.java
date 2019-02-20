@@ -1,11 +1,11 @@
 package com.mashup6th.preambackend.service;
 
-import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -19,11 +19,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
-@RequiredArgsConstructor    // final 멤버변수를 생성자 항목에 포함시킨다. (amazonS3Client만 포함)
 @Component
 public class StorageServiceImpl implements StorageService {
 
-    private AmazonS3Client amazonS3Client;
+    private AmazonS3 amazonS3;
 
     @Value("${cloud.aws.endpointurl}")
     private String endpointUrl;
@@ -39,8 +38,8 @@ public class StorageServiceImpl implements StorageService {
 
     @PostConstruct
     private void initializeAmazon() {
-        AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
-        this.amazonS3Client = new AmazonS3Client(credentials);
+        BasicAWSCredentials creds = new BasicAWSCredentials(this.accessKey, this.secretKey);
+        amazonS3 = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(creds)).build();
     }
 
     @Override
@@ -61,8 +60,8 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public String put(File file, String fileName) {
-        amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, file).withCannedAcl(CannedAccessControlList.PublicRead));
-        return amazonS3Client.getUrl(bucket, fileName).toString();
+        amazonS3.putObject(new PutObjectRequest(bucket, fileName, file).withCannedAcl(CannedAccessControlList.PublicRead));
+        return amazonS3.getUrl(bucket, fileName).toString();
     }
 
     @Override

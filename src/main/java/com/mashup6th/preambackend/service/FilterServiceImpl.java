@@ -1,12 +1,9 @@
 package com.mashup6th.preambackend.service;
 
 import com.mashup6th.preambackend.dto.filter.FilterModel;
-import com.mashup6th.preambackend.dto.user.UserCheckEmail;
 import com.mashup6th.preambackend.entity.Filter;
-import com.mashup6th.preambackend.entity.User;
 import com.mashup6th.preambackend.persistence.FilterRepository;
 import com.mashup6th.preambackend.persistence.UserRepository;
-import netscape.security.ForbiddenTargetException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
