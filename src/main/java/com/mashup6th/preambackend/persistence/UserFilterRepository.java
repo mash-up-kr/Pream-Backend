@@ -21,4 +21,5 @@ public interface UserFilterRepository extends JpaRepository<UserFilter, Long> {
 ////  List<Member> findMembersByNameInOrders(@Param("name") String name);
 
 //  UserFilter findBy
+  public UserFilter save(UserFilter userFilter);
 }

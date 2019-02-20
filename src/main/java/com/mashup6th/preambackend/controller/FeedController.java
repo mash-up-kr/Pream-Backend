@@ -53,7 +53,11 @@ public class FeedController {
       @PathVariable Long filterId){
     ApiResponseModel<FeedFilterInfo> response = new ApiResponseModel<>();
 
-    
+    FeedFilterInfo feedFilterInfo = feedService.downloadFilter(email, filterId);
+
+    log.info("다운받은 필터의 아이디와 이름은");
+    log.info(feedFilterInfo.getId() +"/"+ feedFilterInfo.getName());
+
     return response;
   }
 

@@ -5,4 +5,5 @@ import java.util.List;
 
 public interface FeedService {
   public List<FeedFilterInfo> getFilterList(String email);
+  public FeedFilterInfo downloadFilter(String email, Long filterId);
 }
