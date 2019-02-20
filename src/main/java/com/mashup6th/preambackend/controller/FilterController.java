@@ -100,7 +100,7 @@ public class FilterController {
         filterService.save(email, imageUrl, filterModel);
 
         System.out.println(email);
-        System.out.println(imageUrl);
+        System.out.println("s3 url : " + imageUrl);
         System.out.println(filterModel);
 
         response.setStatusCode(HttpStatus.CREATED.value());
