@@ -2,7 +2,6 @@ package com.mashup6th.preambackend.service;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -46,9 +45,6 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public String upload(MultipartFile multipartFile, String dirName) throws IOException {
-//        System.out.println("bucket size " + amazonS3Client.listBuckets().size());
-//        System.out.println(amazonS3Client.listBuckets().get(0));
-//        System.out.println(bucket);
         File uploadFile = convert(multipartFile).orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환 실패하였습니다."));
 
         return upload(uploadFile, dirName);
@@ -80,7 +76,6 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public Optional<File> convert(MultipartFile file) throws IOException {
-//        System.out.println(file.getOriginalFilename());
         File convertFile = File.createTempFile(getUuid(), ".jpg");
         try (FileOutputStream fos = new FileOutputStream(convertFile)) {
             fos.write(file.getBytes());
