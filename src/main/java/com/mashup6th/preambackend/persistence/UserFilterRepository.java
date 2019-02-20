@@ -2,6 +2,7 @@ package com.mashup6th.preambackend.persistence;
 
 import com.mashup6th.preambackend.entity.UserFilter;
 import java.util.List;
+import org.hibernate.annotations.Parent;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -10,8 +11,27 @@ import org.springframework.data.repository.query.Param;
 public interface UserFilterRepository extends JpaRepository<UserFilter, Long> {
  // 그 유저가 가진 필터 중에서 해당필터아이디에 해당하는 것이 있는가?
 
-//  @Query(value = "select us from UserFilter as us where us.user_id in (select u.id from USER as u where u.email = (:email))")
-//  List<UserFilter> findUserFilterByUserHave(@Param("email") String email);
+  //돌아감
+  @Query(value = "select us from UserFilter us where us.userId in (select u.id from User as u where u.email = (:email))")
+  List<UserFilter> findUserFilterByUserHave(@Param("email") String email);
+
+/*  @Query(value = "select us.filterId from UserFilter us where us.userId in (select u.id from User as u where u.email = (:email))")
+  List<Long> findUserFilterByUserHaveFilter(@Param("email") String email);*/
+
+////
+//  @Query(value = "select us from UserFilter us where us.userId in (select u.id from User as u where u.email = (:email)) AND us.filterId <> :filterId")
+//  UserFilter findUserFilterByUserHaveThisFilter(@Param("email") String email, @Param("filterId") Long filterId);
+
+  @Query(value = "select us from UserFilter us where us.userId=(:userId)")
+  UserFilter findByUserIdHaveFilter(@Param("userId") Long userId);
+
+
+//  // 주문번호로  주문한 회원 검색하기.
+//  @Query(value = "select me from Member as me where me.id in (select distinct o.member from ORDERS as o where o.orderNumber = (:orderNumber)) order by me.id asc")
+//   findMembersByOrderNumberInOrders(@Param("orderNumber") String orderNumber);
+//
+//  @Query(value = "select me from Member me where me.loginId=(:loginId)")
+//  Member findByIdContaining(@Param("loginId") String loginId);
 
 //SELECT filter_id from user_filter where user_id = (select id from user where user.email = ‘admin@naver.com’);
 

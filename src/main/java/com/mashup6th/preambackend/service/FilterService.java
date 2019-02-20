@@ -7,15 +7,15 @@ package com.mashup6th.preambackend.service;
 
 public interface FilterService {
 
-    void save(Long userId, FilterModel filterModel);
+    void save(String imgUrl, String email, FilterModel filterModel);
 
     Filter modify(String name, FilterModel filterModel);
 
-    FilterModel getFilter(Long id);
+    FilterModel getFilter(String name);
 
     boolean nameCheck(String name);
 
     List<Filter> getFilterList(String email);
 
-//    void delete(String name);
+    void delete(String name);
 }

@@ -10,7 +10,7 @@
 //import org.springframework.transaction.annotation.Transactional;
 //
 //@RunWith(SpringRunner.class)
-//@SpringBootTest
+//@SpringBootTest(classes = PreamBackendApplication.class)
 //public class PreamBackendApplicationTests {
 //
 //    @Test

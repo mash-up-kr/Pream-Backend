@@ -24,14 +24,14 @@
 //  @Autowired
 //  private UserFilterRepository userFilterRepository;
 //
-//  @Test
-//  public void 테스트() throws Exception{
-//    String email = "admin@naver.com";
-//    List<UserFilter> userFilters = userFilterRepository.findUserFilterByUserHave(email);
-//
-//    for (UserFilter userFilter : userFilters) {
-//      log.info(userFilter.getId());
-//    }
-//  }
+////  @Test
+////  public void 테스트() throws Exception{
+////    String email = "admin@naver.com";
+//////    List<UserFilter> userFilters = userFilterRepository.findUserFilterByUserHave(email);
+////
+////    for (UserFilter userFilter : userFilters) {
+////      log.info(userFilter.getId());
+////    }
+////  }
 //
 //}

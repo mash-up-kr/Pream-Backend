@@ -40,6 +40,7 @@ public class FeedController {
 
     for (FeedFilterInfo feedFilterInfo : feedFilterInfos){
       log.info(feedFilterInfo.getName());
+      log.info("다운여부" + feedFilterInfo.getDownload());
     }
 
     return response;
@@ -47,7 +48,7 @@ public class FeedController {
 
 
   /* 공유피드에 사용자가 필터를 다운받는 api */
-  @PostMapping("/downlaod/filter/{filterId}")
+  @PostMapping("/downlaod/fxilter/{filterId}")
   public ApiResponseModel<FeedFilterInfo> apiDownloadFilter(
       @RequestParam String email,
       @PathVariable Long filterId){

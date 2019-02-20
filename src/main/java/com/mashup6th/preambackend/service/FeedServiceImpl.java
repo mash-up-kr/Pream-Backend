@@ -12,7 +12,6 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sun.misc.ObjectInputFilter.FilterInfo;
 
 @Slf4j
 @Service
@@ -33,14 +32,22 @@ public class FeedServiceImpl implements FeedService {
   public List<FeedFilterInfo> getFilterList(String email) {
     User user = userRepository.findByEmail(email);
 
+
+//    UserFilter userFilter = userFilterRepository.findByUserIdHaveFilter(3L);
+//    log.info("레파지토리 테스트 ㅠㅠ");
+//    log.info("그래서 유저아이디는 3이나와야함" +userFilter.getUserId());
+
     // 다운받을 때 마다도 이 로직 넣어주기
     // 유저가 본인의 창구에서 필터를 삭제할 때에도 이 로직 넣어주기
 
     // 1. 그 필터아이디가 유저필터의 유저의 필터아이디와 일치하는게있는지
     // 2. 유저의 필터를 모두 가져와서 - 이게 낫겠다. 그 중에서 그 필터와 일치하는게 있는지를 검사
 
+    //유저필터에 그 필터아이디와 유저아이디에 해당하는 컬럼이 있다면
     List<Filter> filters = filterRepository.findAllByOrderByRegDate();
     List<FeedFilterInfo> feedFilterInfos = new ArrayList<>();
+
+    List<UserFilter> userFilters = userFilterRepository.findUserFilterByUserHave(email);
 
 
     for (Filter filter : filters){
@@ -67,17 +74,17 @@ public class FeedServiceImpl implements FeedService {
       feedFilterInfo.setWhiteBalance(filter.getWhiteBalance());
       feedFilterInfo.setDownload(false);
 
-//      if ( userFilterRepository.findUserFilterByUserHave(email) == null){
-//        feedFilterInfo.setDownload(false);
-//      } else {
-//        feedFilterInfo.setDownload(true);
-//      }
+      for (UserFilter userFilter :userFilters) {
+        if (userFilter.getFilter().getId().equals(filter.getId()))
+          feedFilterInfo.setDownload(true);
+      }
 
       feedFilterInfos.add(feedFilterInfo);
     }
     return feedFilterInfos;
   }
 
+  //해당유저가 가진 userfilter의 필터아이디를 쭉 뽑아오든지 (이게맞음). 여기서 filter와 일치하느게 있는가를 보자userfilter리스트를 뽑아오던지해서,
   @Override
   @Transactional
   public FeedFilterInfo downloadFilter(String email, Long filterId) {
