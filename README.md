@@ -1,4 +1,4 @@
 # Pream-Backend
 
-![image](https://user-images.githubusercontent.com/32324250/52286584-cdc69200-29ab-11e9-86a6-b562967bc755.png)
+![image](https://user-images.githubusercontent.com/32324250/53079182-3af42e80-3539-11e9-9346-f92898b10629.png)
 
