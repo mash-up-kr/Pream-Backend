@@ -47,6 +47,7 @@ public class FilterController {
     public ApiResponseModel<FilterModel> apiCreateFilter(@RequestParam(value = "image") MultipartFile image,
                                                          @RequestParam(value = "email") String email,
                                                          @RequestParam(value = "name") String name,
+                                                         @RequestParam(value = "description") String description,
                                                          @RequestParam(value = "exposure") Float exposure,
                                                          @RequestParam(value = "contrast") Float contrast,
                                                          @RequestParam(value = "adjust") Float adjust,
@@ -82,6 +83,7 @@ public class FilterController {
 
         filterModel.setImgUrl(imageUrl);
         filterModel.setName(name);
+        filterModel.setDescription(description);
         filterModel.setUseCount(0);
         filterModel.setExposure(exposure);
         filterModel.setContrast(contrast);

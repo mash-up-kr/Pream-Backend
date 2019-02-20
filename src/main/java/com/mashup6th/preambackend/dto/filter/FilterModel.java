@@ -13,6 +13,8 @@ public class FilterModel {
 
     private String name;
 
+    private String description;
+
     private String imgUrl;
 
     private int useCount;
