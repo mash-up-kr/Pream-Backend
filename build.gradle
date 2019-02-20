@@ -25,7 +25,9 @@ repositories {
 dependencies {
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.5.0'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.5.0'
+
     compile("org.springframework.boot:spring-boot-starter-mail")
+    compile('org.springframework.boot:spring-boot-starter-jdbc:2.1.2.RELEASE')
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -33,9 +35,11 @@ dependencies {
     runtimeOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'mysql:mysql-connector-java'
     compileOnly 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 
     annotationProcessor("org.projectlombok:lombok:1.16.20")
     compileOnly("org.projectlombok:lombok:1.16.20")
+//    testCompile('com.h2database:h2')
 
 }

@@ -8,7 +8,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class FilterList {
+public class FeedFilterInfo {
+  private Long id;
+
   private String name;
   private String imgUrl;
   private String description;

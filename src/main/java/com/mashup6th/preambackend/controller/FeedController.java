@@ -1,18 +1,16 @@
 package com.mashup6th.preambackend.controller;
 
-import com.mashup6th.preambackend.dto.user.UserCheckNickname;
-import com.mashup6th.preambackend.exception.AlreadyExistsException;
+import com.mashup6th.preambackend.dto.filter.FeedFilterInfo;
+import com.mashup6th.preambackend.exception.BadRequestException;
 import com.mashup6th.preambackend.model.ApiResponseModel;
 import com.mashup6th.preambackend.service.FeedService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -25,39 +23,39 @@ public class FeedController {
     this.feedService = feedService;
   }
 
-  /* 공유피드에서 피드를 받아오는 api */
-  @GetMapping()
-  public ApiResponseModel<List<Fi>> apiGetFeed(){
+  /* 공유피드에서 필터들을 보여주는 api */
+  @GetMapping("/lists")
+  public ApiResponseModel<List<FeedFilterInfo>> apiGetFeed(@RequestParam String email){
+    ApiResponseModel<List<FeedFilterInfo>> response = new ApiResponseModel<>();
 
+    log.info(email);
+
+    log.info("피드 컨트롤러");
+
+    if ( email == null) {
+      throw new BadRequestException("현재 로그인한 유저의 정보가 필요합니다.");
+    }
+
+    List<FeedFilterInfo> feedFilterInfos = feedService.getFilterList(email);
+
+    for (FeedFilterInfo feedFilterInfo : feedFilterInfos){
+      log.info(feedFilterInfo.getName());
+    }
+
+    return response;
   }
 
 
-//  @ApiResponses(value = {
-//      @ApiResponse(code = 204, message = "Success"),
-//      @ApiResponse(code = 409, message = "Already Exists"),
-//      @ApiResponse(code = 500, message = "Failure")})
-//  @ApiOperation(value = "apiCheckNickname", notes = "회원가입시 닉네임 중복시 에러")
-//  @PostMapping("/signup/check/nickname/{nickname}")
-//  public ApiResponseModel<UserCheckNickname> apiCheckNickname(@PathVariable String nickname){
-//    ApiResponseModel<UserCheckNickname> response = new ApiResponseModel<>();
-//
-//    UserCheckNickname userCheckNickname =  new UserCheckNickname();
-//
-//    // 이메일이 중복되는지 검사
-//    if(!userService.nicknameCheck(nickname)){
-//      userCheckNickname.setNickname(nickname);
-//    } else {
-//      throw new AlreadyExistsException("회원가입시 입력한 닉네임이 중복됩니다.");
-//    }
-//
-//    response.setStatusCode(HttpStatus.OK.value());
-//    response.setMessage(HttpStatus.OK.toString());
-//    response.setResult(userCheckNickname);
-//
-//    return response;
-//  }
+  /* 공유피드에 사용자가 필터를 다운받는 api */
+  @PostMapping("/downlaod/filter/{filterId}")
+  public ApiResponseModel<FeedFilterInfo> apiDownloadFilter(
+      @RequestParam String email,
+      @PathVariable Long filterId){
+    ApiResponseModel<FeedFilterInfo> response = new ApiResponseModel<>();
 
+    
+    return response;
+  }
 
-  /* 공유피드에 공유된 필터를 보여주는 api */
 
 }

@@ -14,4 +14,6 @@ public interface FilterRepository extends JpaRepository<Filter, Long> {
 
     Optional<Filter> findById(Long filterId);
 
+    List<Filter> findAllByOrderByRegDate();
+
 }
