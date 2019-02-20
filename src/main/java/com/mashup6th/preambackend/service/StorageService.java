@@ -17,4 +17,6 @@ public interface StorageService {
     void remove(File file);
 
     Optional<File> convert(MultipartFile file) throws IOException;
+
+    String getUuid();
 }
