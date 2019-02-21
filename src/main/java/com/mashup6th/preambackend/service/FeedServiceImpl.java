@@ -85,7 +85,6 @@ public class FeedServiceImpl implements FeedService {
   @Override
   @Transactional
   public FeedFilterInfo downloadFilter(String email, Long filterId) {
-    log.info("서비스 임플");
     User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found by userId"));
     Filter filter = filterRepository.findById(filterId).orElseThrow(() -> new NotFoundException("Not found by filterId"));
 

@@ -2,6 +2,7 @@ package com.mashup6th.preambackend.controller;
 
 import com.mashup6th.preambackend.dto.filter.FeedFilterInfo;
 import com.mashup6th.preambackend.exception.BadRequestException;
+import com.mashup6th.preambackend.exception.NotFoundException;
 import com.mashup6th.preambackend.model.ApiResponseModel;
 import com.mashup6th.preambackend.service.FeedService;
 import io.swagger.annotations.ApiImplicitParam;
@@ -11,6 +12,7 @@ import io.swagger.annotations.ApiResponses;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.annotation.RequestScope;
 
 @Slf4j
 @RestController
@@ -34,28 +37,35 @@ public class FeedController {
   /* 공유피드에서 필터들을 보여주는 api */
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Success"),
-      @ApiResponse(code = 404, message = "Not found by userEmail or filterId"),
+      @ApiResponse(code = 404, message = "Not found by userEmail or filterId or pageNumber"),
       @ApiResponse(code = 500, message = "Server Error")})
   @ApiImplicitParams({
       @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
-          value = "Results page you want to retrieve (0..N)"),
-      @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
-          value = "Number of records per page."),
+          value = "Results page you want to retrieve (0..N). Each page has 20 filters"),
   })
   @GetMapping("/lists")
-  public @ResponseBody ApiResponseModel<Page<FeedFilterInfo>> apiGetFeed(Pageable pageable, @RequestParam String email){
+  public @ResponseBody ApiResponseModel<Page<FeedFilterInfo>> apiGetFeed(
+      @RequestParam String email,
+      @RequestParam int page){
     ApiResponseModel<Page<FeedFilterInfo>> response = new ApiResponseModel<>();
+
+    if (page < 0) {
+      throw new NotFoundException ("해당 페이지 번호를 찾을 수 없습니다.");
+    }
+
+    int defaultFilterNum = 20;
+
+    Pageable pageable = PageRequest.of(page, defaultFilterNum);
     if ( email.equals("")) {
       throw new BadRequestException("현재 로그인한 유저의 정보가 필요합니다.");
     }
 
     Page<FeedFilterInfo> feedFilterInfos = feedService.getFilterList(email, pageable);
 
-    for (FeedFilterInfo feedFilterInfo : feedFilterInfos){
-      log.info(feedFilterInfo.getName());
-      log.info("다운여부" + feedFilterInfo.getDownload());
+    if (feedFilterInfos.getTotalPages() - 1 < page) {
+      throw new NotFoundException("해당 페이지 번호를 찾을 수 없습니다.");
     }
-
+    
     response.setStatusCode(HttpStatus.OK.value());
     response.setMessage(HttpStatus.OK.toString());
     response.setResult(feedFilterInfos);
