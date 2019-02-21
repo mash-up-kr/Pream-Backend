@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -45,6 +46,6 @@ public class User {
   @UpdateTimestamp
   private LocalDateTime updateDate;
 
-  @OneToMany(mappedBy = "user")
+  @OneToMany(mappedBy = "user", fetch= FetchType.LAZY)
   private List<Filter> filters;
 }

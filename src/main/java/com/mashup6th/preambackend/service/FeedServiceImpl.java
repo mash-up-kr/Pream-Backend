@@ -4,11 +4,13 @@ import com.mashup6th.preambackend.dto.filter.FeedFilterInfo;
 import com.mashup6th.preambackend.entity.Filter;
 import com.mashup6th.preambackend.entity.User;
 import com.mashup6th.preambackend.entity.UserFilter;
+import com.mashup6th.preambackend.exception.NotFoundException;
 import com.mashup6th.preambackend.persistence.FilterRepository;
 import com.mashup6th.preambackend.persistence.UserFilterRepository;
 import com.mashup6th.preambackend.persistence.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.Null;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,21 +31,10 @@ public class FeedServiceImpl implements FeedService {
   }
 
   @Override
+  @Transactional
   public List<FeedFilterInfo> getFilterList(String email) {
-    User user = userRepository.findByEmail(email);
+    User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found by userId"));
 
-
-//    UserFilter userFilter = userFilterRepository.findByUserIdHaveFilter(3L);
-//    log.info("레파지토리 테스트 ㅠㅠ");
-//    log.info("그래서 유저아이디는 3이나와야함" +userFilter.getUserId());
-
-    // 다운받을 때 마다도 이 로직 넣어주기
-    // 유저가 본인의 창구에서 필터를 삭제할 때에도 이 로직 넣어주기
-
-    // 1. 그 필터아이디가 유저필터의 유저의 필터아이디와 일치하는게있는지
-    // 2. 유저의 필터를 모두 가져와서 - 이게 낫겠다. 그 중에서 그 필터와 일치하는게 있는지를 검사
-
-    //유저필터에 그 필터아이디와 유저아이디에 해당하는 컬럼이 있다면
     List<Filter> filters = filterRepository.findAllByOrderByRegDate();
     List<FeedFilterInfo> feedFilterInfos = new ArrayList<>();
 
@@ -88,27 +79,16 @@ public class FeedServiceImpl implements FeedService {
   @Override
   @Transactional
   public FeedFilterInfo downloadFilter(String email, Long filterId) {
-
     log.info("서비스 임플");
-    log.info("email / filterId" + email + filterId);
-
-
-
-    User user = userRepository.findByEmail(email);
-    Filter filter = filterRepository.getOne(filterId);
-
-    log.info("user" + user);
-    log.info("filter" + filter);
+    User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found by userId"));
+    Filter filter = filterRepository.findById(filterId).orElseThrow(() -> new NotFoundException("Not found by filterId"));
 
     UserFilter userFilter = new UserFilter();
-    log.info("userfilter" + userFilter);
     userFilter.setUserId(user.getId());
     userFilter.setFilter(filter);
     userFilter.setUseCount(1);
 
-
-    log.info("userfilter filtername" + userFilter.getFilter().getName());
-    userFilter = userFilterRepository.save(userFilter);
+    userFilterRepository.save(userFilter);
 
 
     FeedFilterInfo feedFilterInfo = new FeedFilterInfo();
@@ -133,6 +113,6 @@ public class FeedServiceImpl implements FeedService {
     feedFilterInfo.setWhiteBalance(filter.getWhiteBalance());
     feedFilterInfo.setDownload(true);
 
-    return  feedFilterInfo;
+    return feedFilterInfo;
   }
 }
