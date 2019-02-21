@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService{
   public String emailCheck(String email) {
     //중복되면 중복된 email을 보내줌
     log.info("입력한 email은" +  email);
-    User user = userRepository.findByEmail(email);
+    User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found by userId"));;
 
     log.info("user는" + user);
     if ( user == null){
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService{
     }
 
     //이메일이 존재하나 비밀번호가 맞지 않을 때
-    user = userRepository.findByEmail(userLoginInfo.getEmail());
+    user = userRepository.findByEmail(userLoginInfo.getEmail()).orElseThrow(() -> new NotFoundException("Not found by userId"));;
 
     if (! user.getPassword().equals(userLoginInfo.getPassword())) {
       log.info("비밀번호가 틀리네요 숙덕숙덕");
@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService{
   // 사용자의 정보(이메일)를 받아, 닉네임을 구해줌
   @Override
   public String getUserNickname(String email) {
-    User user = userRepository.findByEmail(email);
+    User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found by userId"));;
     return user.getNickname();
   }
 }

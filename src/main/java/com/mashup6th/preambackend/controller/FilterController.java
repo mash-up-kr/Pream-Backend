@@ -178,15 +178,16 @@ public class FilterController {
         return response;
     }
 
-    @DeleteMapping("{name}")
-    public ApiResponseModel<FilterModel> apiDeleteFilter(@PathVariable String name) {
-        ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
-        filterService.delete(name);
-        response.setStatusCode(HttpStatus.NO_CONTENT.value());
 
-        return response;
-    }
-
+//    @DeleteMapping("{name}")
+//    public ApiResponseModel<FilterModel> apiDeleteFilter(@PathVariable String name) {
+//        ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
+//
+//        filterService.delete(name);
+//        response.setStatusCode(HttpStatus.NO_CONTENT.value());
+//
+//        return response;
+//    }
 
 }
