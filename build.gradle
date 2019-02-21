@@ -20,17 +20,12 @@ sourceCompatibility = '1.8'
 
 repositories {
     mavenCentral()
-    maven { url 'https://repo.spring.io/libs-milestone'}
 }
 
 dependencyManagement {
     imports {
-        mavenBom 'org.springframework.cloud:spring-cloud-aws:2.0.0.RC2'
+        mavenBom 'org.springframework.cloud:spring-cloud-aws:2.0.0.RELEASE'
     }
-}
-
-test {
-    systemProperty 'spring.profiles.active', 'test'
 }
 
 dependencies {
@@ -43,7 +38,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-mail")
     compile('org.springframework.cloud:spring-cloud-starter-aws')
 
-//    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -53,4 +48,5 @@ dependencies {
 
     annotationProcessor("org.projectlombok:lombok:1.16.20")
     compileOnly("org.projectlombok:lombok:1.16.20")
+
 }
