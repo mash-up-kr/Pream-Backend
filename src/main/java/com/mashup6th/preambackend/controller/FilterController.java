@@ -7,6 +7,7 @@ import com.mashup6th.preambackend.exception.BadRequestException;
 import com.mashup6th.preambackend.model.ApiResponseModel;
 import com.mashup6th.preambackend.service.FilterService;
 import com.mashup6th.preambackend.service.StorageService;
+import com.mashup6th.preambackend.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -29,11 +30,15 @@ public class FilterController {
 
     private FilterService filterService;
 
+    private UserService userService;
+
     public FilterController(
             FilterService filterService,
-            StorageService storageService) {
+            StorageService storageService,
+            UserService userService) {
         this.filterService = filterService;
         this.storageService = storageService;
+        this.userService = userService;
     }
 
 
@@ -63,7 +68,14 @@ public class FilterController {
                                                          @RequestParam(value = "colorFilter") Float colorFilter) throws IOException {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
+
         FilterCheckName filterCheckName = new FilterCheckName();
+
+        if (userService.checkLogin(email)) {
+            System.out.println("로그인 상태 확인 완료");
+        } else {
+            throw new BadRequestException("로그인 상태가 아닙니다.");
+        }
 
         // 필터 이름이 중복되는지 검사
         if (!filterService.nameCheck(name)) {
