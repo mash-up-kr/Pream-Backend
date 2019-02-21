@@ -3,6 +3,8 @@ package com.mashup6th.preambackend.persistence;
 import com.mashup6th.preambackend.entity.UserFilter;
 import java.util.List;
 import org.hibernate.annotations.Parent;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -13,7 +15,7 @@ public interface UserFilterRepository extends JpaRepository<UserFilter, Long> {
 
   //돌아감
   @Query(value = "select us from UserFilter us where us.userId in (select u.id from User as u where u.email = (:email))")
-  List<UserFilter> findUserFilterByUserHave(@Param("email") String email);
+  Page<UserFilter> findUserFilterByUserHave(@Param("email") String email, Pageable pageable);
 
 /*  @Query(value = "select us.filterId from UserFilter us where us.userId in (select u.id from User as u where u.email = (:email))")
   List<Long> findUserFilterByUserHaveFilter(@Param("email") String email);*/

@@ -1,6 +1,8 @@
 package com.mashup6th.preambackend.persistence;
 
 import com.mashup6th.preambackend.entity.Filter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -14,6 +16,6 @@ public interface FilterRepository extends JpaRepository<Filter, Long> {
 
     Optional<Filter> findById(Long filterId);
 
-    List<Filter> findAllByOrderByRegDate();
+    Page<Filter> findAllByOrderByRegDate(Pageable pageable);
 
 }

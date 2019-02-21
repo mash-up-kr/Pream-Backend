@@ -4,16 +4,21 @@ import com.mashup6th.preambackend.dto.filter.FeedFilterInfo;
 import com.mashup6th.preambackend.exception.BadRequestException;
 import com.mashup6th.preambackend.model.ApiResponseModel;
 import com.mashup6th.preambackend.service.FeedService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -31,14 +36,20 @@ public class FeedController {
       @ApiResponse(code = 200, message = "Success"),
       @ApiResponse(code = 404, message = "Not found by userEmail or filterId"),
       @ApiResponse(code = 500, message = "Server Error")})
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
+          value = "Results page you want to retrieve (0..N)"),
+      @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
+          value = "Number of records per page."),
+  })
   @GetMapping("/lists")
-  public ApiResponseModel<List<FeedFilterInfo>> apiGetFeed(@RequestParam String email){
-    ApiResponseModel<List<FeedFilterInfo>> response = new ApiResponseModel<>();
+  public @ResponseBody ApiResponseModel<Page<FeedFilterInfo>> apiGetFeed(Pageable pageable, @RequestParam String email){
+    ApiResponseModel<Page<FeedFilterInfo>> response = new ApiResponseModel<>();
     if ( email.equals("")) {
       throw new BadRequestException("현재 로그인한 유저의 정보가 필요합니다.");
     }
 
-    List<FeedFilterInfo> feedFilterInfos = feedService.getFilterList(email);
+    Page<FeedFilterInfo> feedFilterInfos = feedService.getFilterList(email, pageable);
 
     for (FeedFilterInfo feedFilterInfo : feedFilterInfos){
       log.info(feedFilterInfo.getName());

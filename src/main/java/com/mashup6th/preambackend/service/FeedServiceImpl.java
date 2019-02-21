@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.Null;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.support.PagedListHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,13 +36,13 @@ public class FeedServiceImpl implements FeedService {
 
   @Override
   @Transactional
-  public List<FeedFilterInfo> getFilterList(String email) {
+  public Page<FeedFilterInfo> getFilterList(String email, Pageable pageable) {
     User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found by userId"));
 
-    List<Filter> filters = filterRepository.findAllByOrderByRegDate();
+    Page<Filter> filters = filterRepository.findAllByOrderByRegDate(pageable);
     List<FeedFilterInfo> feedFilterInfos = new ArrayList<>();
 
-    List<UserFilter> userFilters = userFilterRepository.findUserFilterByUserHave(email);
+    Page<UserFilter> userFilters = userFilterRepository.findUserFilterByUserHave(email, pageable);
 
 
     for (Filter filter : filters){
@@ -72,7 +76,9 @@ public class FeedServiceImpl implements FeedService {
 
       feedFilterInfos.add(feedFilterInfo);
     }
-    return feedFilterInfos;
+    Page<FeedFilterInfo> pages = new PageImpl<FeedFilterInfo>(feedFilterInfos, pageable, feedFilterInfos.size());
+
+    return pages;
   }
 
   //해당유저가 가진 userfilter의 필터아이디를 쭉 뽑아오든지 (이게맞음). 여기서 filter와 일치하느게 있는가를 보자userfilter리스트를 뽑아오던지해서,
