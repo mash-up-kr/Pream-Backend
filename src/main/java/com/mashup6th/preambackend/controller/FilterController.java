@@ -161,13 +161,20 @@ public class FilterController {
     }
 
 
-
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Success. Deleted"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 404, message = "User who has this email does not exist / User does not have this filter"),
+        @ApiResponse(code = 500, message = "Failure")})
+    @ApiOperation(value = "apiDeleteFilter", notes = "현재 사용자가 가지고 있는 필터를 삭제한 '후' 호출하는 api")
     @DeleteMapping("/delete/{filterId}")
     public ApiResponseModel<FilterModel> apiDeleteFilter(@PathVariable Long filterId, @RequestParam String email) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
         filterService.delete(filterId, email);
+
         response.setStatusCode(HttpStatus.OK.value());
+        response.setMessage(HttpStatus.OK.toString());
 
         return response;
     }

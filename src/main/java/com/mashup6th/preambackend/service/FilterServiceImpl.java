@@ -129,12 +129,14 @@ public class FilterServiceImpl implements FilterService {
     @Override
     public void delete(Long filterId, String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new BadRequestException("Not found by userId"));
-        log.info("얻어온 유저의 이메일은");
-        log.info(user.getEmail());
 
         UserFilter userFilter = userFilterRepository.findByUserIdAndFilterId(user.getId(), filterId);
-        userFilterRepository.delete(userFilter);
 
+        if(userFilter == null) {
+            throw new NotFoundException("현재 user는 해당 filter를 가지고있지 않습니다.");
+        }
+
+        userFilterRepository.delete(userFilter);
     }
 
 
