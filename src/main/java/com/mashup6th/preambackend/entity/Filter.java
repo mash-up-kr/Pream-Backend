@@ -35,6 +35,7 @@ public class Filter {
     private LocalDateTime updateDate;
 
     @Column
+    @CreationTimestamp
     private LocalDateTime shareDate;
 
 //    @Column(columnDefinition = "boolean default false")

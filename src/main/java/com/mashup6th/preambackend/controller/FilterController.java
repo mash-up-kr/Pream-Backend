@@ -76,13 +76,6 @@ public class FilterController {
             throw new BadRequestException("로그인 상태가 아닙니다.");
         }
 
-        // 필터 이름이 중복되는지 검사
-        if (!filterService.nameCheck(name)) {
-            filterCheckName.setName(name);
-        } else {
-            throw new AlreadyExistsException("Duplicate name");
-        }
-
         if (image == null) {
             throw new BadRequestException("이미지를 넣어주세요.");
         }

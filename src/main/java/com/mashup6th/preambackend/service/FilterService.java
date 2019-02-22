@@ -13,7 +13,7 @@ public interface FilterService {
 
     FilterModel getFilter(String name);
 
-    boolean nameCheck(String name);
+//    boolean nameCheck(String name);
 
     List<Filter> getFilterList(String email);
 
