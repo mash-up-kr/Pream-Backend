@@ -47,11 +47,12 @@ public class FilterController {
     }
 
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Created", response = FilterModel.class),
-            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 201, message = "Filter Created", response = FilterModel.class),
+            @ApiResponse(code = 400, message = "No content. image does not exist"),
             @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 404, message = "Check the user email. User who has use this email does not exist"),
             @ApiResponse(code = 500, message = "Failure")})
-    @ApiOperation(value = "apiCreateFilter", notes = "필터 이름 중복시 에러")
+    @ApiOperation(value = "apiCreateFilter", notes = "이미지를 넣지 않았을 경우 : no content / 현재 email을 가지는 user가 존재하지 않을 때 에러")
     @RequestMapping(method = RequestMethod.POST, consumes = {"multipart/form-data"})
     public ApiResponseModel<FilterModel> apiCreateFilter(@RequestParam(value = "image") MultipartFile image,
                                                          @RequestParam(value = "email") String email,
@@ -76,14 +77,15 @@ public class FilterController {
         FilterCheckName filterCheckName = new FilterCheckName();
 
         if (userService.checkLogin(email)) {
-            System.out.println("로그인 상태 확인 완료");
+            log.info("로그인 상태 확인 완료");
         } else {
             throw new BadRequestException("로그인 상태가 아닙니다.");
         }
 
-        if (image == null) {
+        if (image.isEmpty()) {
             throw new BadRequestException("이미지를 넣어주세요.");
         }
+
 
         // upload img to storage
         String imageUrl = storageService.upload(image, "image");
@@ -115,6 +117,7 @@ public class FilterController {
         System.out.println(filterModel);
 
         response.setStatusCode(HttpStatus.CREATED.value());
+        response.setMessage(HttpStatus.CREATED.toString());
 
         return response;
     }
