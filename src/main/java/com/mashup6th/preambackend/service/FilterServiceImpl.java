@@ -119,6 +119,13 @@ public class FilterServiceImpl implements FilterService {
             filterModel.setSharpen(filter.getSharpen());
             filterModel.setContrast(filter.getContrast());
             filterModel.setExposure(filter.getExposure());
+            filterModel.setBrightness(filter.getBrightness());
+            filterModel.setHighlight(filter.getHighlight());
+            filterModel.setShadow(filter.getShadow());
+            filterModel.setColorFilterColor(filter.getColorFilterColor());
+            filterModel.setColorFilterValue(filter.getColorFilterValue());
+            filterModel.setWhiteBalanceTint(filter.getWhiteBalanceTint());
+            filterModel.setWhiteBalanceTemperature(filter.getWhiteBalanceTemperature());
 
             filterModels.add(filterModel);
         }
