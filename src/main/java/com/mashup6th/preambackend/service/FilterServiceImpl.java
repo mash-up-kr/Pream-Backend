@@ -72,8 +72,8 @@ public class FilterServiceImpl implements FilterService {
     }
 
     @Override
-    public FilterModel getFilter(String name) {
-        Filter filter = filterRepository.findByName(name).orElseThrow(()->new IllegalArgumentException("해당 이름을 가진 필터가 존재하지 않습니다."));
+    public FilterModel getFilter(Long id) {
+        Filter filter = filterRepository.findById(id).orElseThrow(()->new IllegalArgumentException("해당 이름을 가진 필터가 존재하지 않습니다."));
 
         FilterModel filterModel = new FilterModel();
         filterModel.setColorFilter(filter.getColorFilter());

@@ -11,7 +11,7 @@ public interface FilterService {
 
     Filter modify(String name, FilterModel filterModel);
 
-    FilterModel getFilter(String name);
+    FilterModel getFilter(Long id);
 
 //    boolean nameCheck(String name);
 

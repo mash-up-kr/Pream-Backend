@@ -114,13 +114,15 @@ public class FilterController {
         return response;
     }
 
-    @GetMapping
-    public ApiResponseModel<FilterModel> apiGetFilter(@RequestBody String name, BindingResult bindingResult) {
+    @GetMapping("/{filterId}")
+    public ApiResponseModel<FilterModel> apiGetFilter(@PathVariable Long filterId) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
-        filterService.getFilter(name);
+        FilterModel filterModel = filterService.getFilter(filterId);
 
         response.setStatusCode(HttpStatus.OK.value());
+        response.setMessage(HttpStatus.OK.toString());
+        response.setResult(filterModel);
 
         return response;
     }
