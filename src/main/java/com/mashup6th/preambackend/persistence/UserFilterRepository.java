@@ -25,7 +25,9 @@ public interface UserFilterRepository extends JpaRepository<UserFilter, Long> {
 //  UserFilter findUserFilterByUserHaveThisFilter(@Param("email") String email, @Param("filterId") Long filterId);
 
   @Query(value = "select us from UserFilter us where us.userId=(:userId)")
-  UserFilter findByUserIdHaveFilter(@Param("userId") Long userId);
+  List<UserFilter> findByUserIdHaveFilter(@Param("userId") Long userId);
+
+  public UserFilter findByUserIdAndFilterId(Long userId, Long filterId);
 
 
 //  // 주문번호로  주문한 회원 검색하기.

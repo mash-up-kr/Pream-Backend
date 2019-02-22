@@ -12,36 +12,22 @@ public class FilterModel {
     private Long id;
 
     private String name;
-
     private String description;
-
     private String imgUrl;
 
     private int useCount;
 
     private Float exposure;
-
     private Float contrast;
-
     private Float adjust;
-
     private Float sharpen;
-
     private Float clarity;
-
     private Float saturation;
-
     private Float tone;
-
     private Float whiteBalance;
-
     private Float vignette;
-
     private Float grain;
-
     private Float fade;
-
     private Float splitTone;
-
     private Float colorFilter;
 }

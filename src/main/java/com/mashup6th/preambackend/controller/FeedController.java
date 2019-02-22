@@ -7,6 +7,7 @@ import com.mashup6th.preambackend.model.ApiResponseModel;
 import com.mashup6th.preambackend.service.FeedService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import java.util.List;
@@ -43,6 +44,7 @@ public class FeedController {
       @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
           value = "Results page you want to retrieve (0..N). Each page has 20 filters"),
   })
+  @ApiOperation(value = "apiGetFeed", notes = "공유피드에서 필터들을 보여주는 api")
   @GetMapping("/lists")
   public @ResponseBody ApiResponseModel<Page<FeedFilterInfo>> apiGetFeed(
       @RequestParam String email,
@@ -79,6 +81,7 @@ public class FeedController {
       @ApiResponse(code = 200, message = "Success"),
       @ApiResponse(code = 404, message = "Not found by userEmail or filterId"),
       @ApiResponse(code = 500, message = "Server Error")})
+  @ApiOperation(value = "apiDownloadFilter", notes = "공유피드에 사용자가 필터를 다운받는 api")
   @PostMapping("/downlaod/filter/{filterId}")
   public ApiResponseModel<FeedFilterInfo> apiDownloadFilter(
       @RequestParam String email,

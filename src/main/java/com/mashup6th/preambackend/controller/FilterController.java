@@ -8,10 +8,16 @@ import com.mashup6th.preambackend.model.ApiResponseModel;
 import com.mashup6th.preambackend.service.FilterService;
 import com.mashup6th.preambackend.service.StorageService;
 import com.mashup6th.preambackend.service.UserService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -40,13 +46,13 @@ public class FilterController {
         this.userService = userService;
     }
 
-
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Created", response = FilterModel.class),
-            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 201, message = "Filter Created", response = FilterModel.class),
+            @ApiResponse(code = 400, message = "No content. image does not exist"),
             @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 404, message = "Check the user email. User who has this email does not exist"),
             @ApiResponse(code = 500, message = "Failure")})
-    @ApiOperation(value = "apiCreateFilter", notes = "필터 이름 중복시 에러")
+    @ApiOperation(value = "apiCreateFilter", notes = "이미지를 넣지 않았을 경우 : no content / 현재 email을 가지는 user가 존재하지 않을 때 에러")
     @RequestMapping(method = RequestMethod.POST, consumes = {"multipart/form-data"})
     public ApiResponseModel<FilterModel> apiCreateFilter(@RequestParam(value = "image") MultipartFile image,
                                                          @RequestParam(value = "email") String email,
@@ -71,21 +77,15 @@ public class FilterController {
         FilterCheckName filterCheckName = new FilterCheckName();
 
         if (userService.checkLogin(email)) {
-            System.out.println("로그인 상태 확인 완료");
+            log.info("로그인 상태 확인 완료");
         } else {
             throw new BadRequestException("로그인 상태가 아닙니다.");
         }
 
-        // 필터 이름이 중복되는지 검사
-        if (!filterService.nameCheck(name)) {
-            filterCheckName.setName(name);
-        } else {
-            throw new AlreadyExistsException("Duplicate name");
-        }
-
-        if (image == null) {
+        if (image.isEmpty()) {
             throw new BadRequestException("이미지를 넣어주세요.");
         }
+
 
         // upload img to storage
         String imageUrl = storageService.upload(image, "image");
@@ -117,44 +117,22 @@ public class FilterController {
         System.out.println(filterModel);
 
         response.setStatusCode(HttpStatus.CREATED.value());
+        response.setMessage(HttpStatus.CREATED.toString());
 
         return response;
     }
 
-    @GetMapping
-    public ApiResponseModel<FilterModel> apiGetFilter(@RequestBody String name, BindingResult bindingResult) {
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Success"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 404, message = "No content. This filterId does not exist"),
+        @ApiResponse(code = 500, message = "Failure")})
+    @ApiOperation(value = "apiGetFilter", notes = "현재 filterId에 해당하는 필터가 존재하지 않을 때 에러")
+    @GetMapping("/{filterId}")
+    public ApiResponseModel<FilterModel> apiGetFilter(@PathVariable Long filterId) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
-        filterService.getFilter(name);
-
-        response.setStatusCode(HttpStatus.OK.value());
-
-        return response;
-    }
-
-    @PutMapping("{name}")
-    public ApiResponseModel<FilterModel> apiModifyFilter(@PathVariable String name, @RequestBody FilterModel filterModel, BindingResult bindingResult) {
-        ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
-
-        filterModel.setExposure(filterModel.getExposure());
-        filterModel.setContrast(filterModel.getContrast());
-        filterModel.setAdjust(filterModel.getAdjust());
-        filterModel.setSharpen(filterModel.getSharpen());
-        filterModel.setClarity(filterModel.getClarity());
-        filterModel.setSaturation(filterModel.getSaturation());
-        filterModel.setTone(filterModel.getTone());
-        filterModel.setWhiteBalance(filterModel.getWhiteBalance());
-        filterModel.setVignette(filterModel.getVignette());
-        filterModel.setGrain(filterModel.getGrain());
-        filterModel.setFade(filterModel.getFade());
-        filterModel.setSplitTone(filterModel.getSplitTone());
-        filterModel.setColorFilter(filterModel.getColorFilter());
-
-        if (bindingResult.hasErrors()) {
-            throw new BadRequestException("변경값을 제대로 입력해주세요.");
-        }
-
-        filterService.modify(name, filterModel);
+        FilterModel filterModel = filterService.getFilter(filterId);
 
         response.setStatusCode(HttpStatus.OK.value());
         response.setMessage(HttpStatus.OK.toString());
@@ -163,31 +141,42 @@ public class FilterController {
         return response;
     }
 
-    @GetMapping("/list")
-    public ApiResponseModel<FilterModel> apiGetFilters(@RequestBody String email, BindingResult bindingResult) {
-        ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Success"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 404, message = "Check the user email. User who has this email does not exist"),
+        @ApiResponse(code = 500, message = "Failure")})
+    @ApiOperation(value = "apiGetFilters", notes = "현재 사용자가 가지고 있는(다운받은) 필터 불러오는 api")
+    @GetMapping("/list/{email}")
+    public ApiResponseModel<List<FilterModel>> apiGetFilters(@PathVariable String email) {
+        ApiResponseModel<List<FilterModel>> response = new ApiResponseModel<>();
 
-        filterService.getFilterList(email);
-
-        if (bindingResult.hasErrors()) {
-            throw new BadRequestException("");
-        }
+        List<FilterModel> filterModels = filterService.getFilterList(email);
 
         response.setStatusCode(HttpStatus.OK.value());
+        response.setMessage(HttpStatus.OK.toString());
+        response.setResult(filterModels);
 
         return response;
     }
 
 
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Success. Deleted"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 404, message = "User who has this email does not exist / User does not have this filter"),
+        @ApiResponse(code = 500, message = "Failure")})
+    @ApiOperation(value = "apiDeleteFilter", notes = "현재 사용자가 가지고 있는 필터를 삭제한 '후' 호출하는 api")
+    @DeleteMapping("/delete/{filterId}")
+    public ApiResponseModel<FilterModel> apiDeleteFilter(@PathVariable Long filterId, @RequestParam String email) {
+        ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
-//    @DeleteMapping("{name}")
-//    public ApiResponseModel<FilterModel> apiDeleteFilter(@PathVariable String name) {
-//        ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
-//
-//        filterService.delete(name);
-//        response.setStatusCode(HttpStatus.NO_CONTENT.value());
-//
-//        return response;
-//    }
+        filterService.delete(filterId, email);
+
+        response.setStatusCode(HttpStatus.OK.value());
+        response.setMessage(HttpStatus.OK.toString());
+
+        return response;
+    }
 
 }
