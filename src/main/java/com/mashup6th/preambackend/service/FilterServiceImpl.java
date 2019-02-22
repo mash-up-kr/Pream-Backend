@@ -38,7 +38,11 @@ public class FilterServiceImpl implements FilterService {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found by userId"));
 
         Filter filter = new Filter();
+
+        filter.setImgUrl(imgUrl);
         filter.setName(filterModel.getName());
+        filter.setDescription(filterModel.getDescription());
+
         filter.setExposure(filterModel.getExposure());
         filter.setContrast(filterModel.getContrast());
         filter.setSharpen(filterModel.getSharpen());
@@ -46,8 +50,13 @@ public class FilterServiceImpl implements FilterService {
         filter.setVignette(filterModel.getVignette());
         filter.setGrain(filterModel.getGrain());
         filter.setFade(filterModel.getFade());
-        filter.setImgUrl(imgUrl);
-        filter.setDescription(filterModel.getDescription());
+        filter.setBrightness(filterModel.getBrightness());
+        filter.setHighlight(filterModel.getHighlight());
+        filter.setShadow(filterModel.getShadow());
+        filter.setColorFilterColor(filterModel.getColorFilterColor());
+        filter.setColorFilterValue(filterModel.getColorFilterValue());
+
+        filter.setUseCount(0);
         filter.setAdminYn(false);
         filter.setUser(user);
 

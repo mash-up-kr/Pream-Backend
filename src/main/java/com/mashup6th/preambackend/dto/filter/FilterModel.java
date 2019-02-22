@@ -18,16 +18,19 @@ public class FilterModel {
     private int useCount;
 
     private Float exposure;
+    private Float brightness;
     private Float contrast;
-    private Float adjust;
     private Float sharpen;
-    private Float clarity;
     private Float saturation;
-    private Float tone;
-    private Float whiteBalance;
+    private Float highlight;
+    private Float shadow;
+    private Float whiteBalanceTint;
+    private Float whiteBalanceTemperature;
     private Float vignette;
     private Float grain;
     private Float fade;
-    private Float splitTone;
-    private Float colorFilter;
+    private Integer colorFilterColor;
+    private Float colorFilterValue;
+
+    private Boolean download;
 }
