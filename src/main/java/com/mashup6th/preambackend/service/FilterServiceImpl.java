@@ -91,11 +91,6 @@ public class FilterServiceImpl implements FilterService {
         return filterModel;
     }
 
-//    @Override
-//    public boolean nameCheck(String name) {
-//        return filterRepository.findByName(name).isPresent();
-//    }
-
     @Override
     public List<FilterModel> getFilterList(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found by userId"));
@@ -128,12 +123,9 @@ public class FilterServiceImpl implements FilterService {
 
             filterModels.add(filterModel);
         }
-
         return filterModels;
     }
 
-    //filter테이블에 그 userId와 일치하는지 확인하여 일치한다면 그 필터를 삭제 -> 이 기능은 피드에 들어가야 함
-    //userFilter에서 해당user아이디와 해당 filter아이디에 해당하는 필터를 지워주기.
     @Override
     public void delete(Long filterId, String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new BadRequestException("Not found by userId"));

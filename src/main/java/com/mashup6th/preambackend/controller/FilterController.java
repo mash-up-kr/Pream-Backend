@@ -50,7 +50,7 @@ public class FilterController {
             @ApiResponse(code = 201, message = "Filter Created", response = FilterModel.class),
             @ApiResponse(code = 400, message = "No content. image does not exist"),
             @ApiResponse(code = 401, message = "Unauthorized"),
-            @ApiResponse(code = 404, message = "Check the user email. User who has use this email does not exist"),
+            @ApiResponse(code = 404, message = "Check the user email. User who has this email does not exist"),
             @ApiResponse(code = 500, message = "Failure")})
     @ApiOperation(value = "apiCreateFilter", notes = "이미지를 넣지 않았을 경우 : no content / 현재 email을 가지는 user가 존재하지 않을 때 에러")
     @RequestMapping(method = RequestMethod.POST, consumes = {"multipart/form-data"})
@@ -141,6 +141,12 @@ public class FilterController {
         return response;
     }
 
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Success"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 404, message = "Check the user email. User who has this email does not exist"),
+        @ApiResponse(code = 500, message = "Failure")})
+    @ApiOperation(value = "apiGetFilters", notes = "현재 사용자가 가지고 있는(다운받은) 필터 불러오는 api")
     @GetMapping("/list/{email}")
     public ApiResponseModel<List<FilterModel>> apiGetFilters(@PathVariable String email) {
         ApiResponseModel<List<FilterModel>> response = new ApiResponseModel<>();
