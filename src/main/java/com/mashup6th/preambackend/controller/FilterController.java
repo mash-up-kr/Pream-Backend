@@ -122,6 +122,12 @@ public class FilterController {
         return response;
     }
 
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Success"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 404, message = "No content. This filterId does not exist"),
+        @ApiResponse(code = 500, message = "Failure")})
+    @ApiOperation(value = "apiGetFilter", notes = "현재 filterId에 해당하는 필터가 존재하지 않을 때 에러")
     @GetMapping("/{filterId}")
     public ApiResponseModel<FilterModel> apiGetFilter(@PathVariable Long filterId) {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();

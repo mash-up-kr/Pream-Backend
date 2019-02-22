@@ -11,11 +11,7 @@ public interface FilterService {
 
     void save(String imgUrl, String email, FilterModel filterModel);
 
-    Filter modify(String name, FilterModel filterModel);
-
     FilterModel getFilter(Long id);
-
-//    boolean nameCheck(String name);
 
     List<FilterModel> getFilterList(String email);
 

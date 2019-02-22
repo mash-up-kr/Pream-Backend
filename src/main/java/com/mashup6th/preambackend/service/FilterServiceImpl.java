@@ -69,16 +69,8 @@ public class FilterServiceImpl implements FilterService {
     }
 
     @Override
-    public Filter modify(String name, FilterModel filterModify) {
-        Filter filter = filterRepository.findByName(name).orElseThrow(()->new IllegalArgumentException("해당 이름으로 필터가 존재하지 않습니다."));
-        filterRepository.save(filter);
-
-        return filter;
-    }
-
-    @Override
     public FilterModel getFilter(Long id) {
-        Filter filter = filterRepository.findById(id).orElseThrow(()->new IllegalArgumentException("해당 이름을 가진 필터가 존재하지 않습니다."));
+        Filter filter = filterRepository.findById(id).orElseThrow(()->new NotFoundException("해당 이름을 가진 필터가 존재하지 않습니다."));
 
         FilterModel filterModel = new FilterModel();
         filterModel.setColorFilter(filter.getColorFilter());
@@ -109,14 +101,10 @@ public class FilterServiceImpl implements FilterService {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found by userId"));
         List<FilterModel> filterModels = new ArrayList<>();
 
-        //user_filter에서 user_id에 해당하는 filterid를 다 가져온다.
-        //그 필터아이디로 필터를 검색해서 필터모델리스트에 넣어서 보내준다.
         List<UserFilter> userFilterList = userFilterRepository.findByUserIdHaveFilter(user.getId());
 
-        log.info("filter서비스 임플" + userFilterList.size());
-
         for (UserFilter userFilter : userFilterList){
-            Filter filter = filterRepository.findById(userFilter.getFilter().getId()).orElseThrow(()->new IllegalArgumentException("해당 filterId에 해당하는 필터가 존재하지 않습니다."));
+            Filter filter = filterRepository.findById(userFilter.getFilter().getId()).orElseThrow(()->new NotFoundException("해당 filterId에 해당하는 필터가 존재하지 않습니다."));
             FilterModel filterModel = new FilterModel();
 
             filterModel.setId(filter.getId());
