@@ -55,6 +55,8 @@ public class FilterServiceImpl implements FilterService {
         filter.setShadow(filterModel.getShadow());
         filter.setColorFilterColor(filterModel.getColorFilterColor());
         filter.setColorFilterValue(filterModel.getColorFilterValue());
+        filter.setWhiteBalanceTint(filterModel.getWhiteBalanceTint());
+        filter.setWhiteBalanceTemperature(filterModel.getWhiteBalanceTemperature());
 
         filter.setUseCount(0);
         filter.setAdminYn(false);
@@ -75,6 +77,7 @@ public class FilterServiceImpl implements FilterService {
         Filter filter = filterRepository.findById(id).orElseThrow(()->new NotFoundException("해당 이름을 가진 필터가 존재하지 않습니다."));
 
         FilterModel filterModel = new FilterModel();
+
         filterModel.setFade(filter.getFade());
         filterModel.setGrain(filter.getGrain());
         filterModel.setVignette(filter.getVignette());
@@ -82,7 +85,13 @@ public class FilterServiceImpl implements FilterService {
         filterModel.setSharpen(filter.getSharpen());
         filterModel.setContrast(filter.getContrast());
         filterModel.setExposure(filter.getExposure());
-        filterModel.setName(filter.getName());
+        filterModel.setBrightness(filter.getBrightness());
+        filterModel.setHighlight(filter.getHighlight());
+        filterModel.setShadow(filter.getShadow());
+        filterModel.setColorFilterColor(filter.getColorFilterColor());
+        filterModel.setColorFilterValue(filter.getColorFilterValue());
+        filterModel.setWhiteBalanceTint(filter.getWhiteBalanceTint());
+        filterModel.setWhiteBalanceTemperature(filter.getWhiteBalanceTemperature());
 
         return filterModel;
     }

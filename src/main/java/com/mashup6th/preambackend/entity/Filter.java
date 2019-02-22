@@ -81,8 +81,8 @@ public class Filter {
     @Column(columnDefinition = "float default 0.0")
     private Float fade;
 
-    @Column
-    private Integer colorFilterColor;
+    @Column(columnDefinition = "int default 0")
+    private int colorFilterColor;
 
     @Column(columnDefinition = "float default 0.0")
     private Float colorFilterValue;
