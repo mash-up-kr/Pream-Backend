@@ -54,27 +54,26 @@ public class FilterController {
             @ApiResponse(code = 500, message = "Failure")})
     @ApiOperation(value = "apiCreateFilter", notes = "이미지를 넣지 않았을 경우 : no content / 현재 email을 가지는 user가 존재하지 않을 때 에러")
     @RequestMapping(method = RequestMethod.POST, consumes = {"multipart/form-data"})
-    public ApiResponseModel<FilterModel> apiCreateFilter(@RequestParam(value = "image") MultipartFile image,
-                                                         @RequestParam(value = "email") String email,
-                                                         @RequestParam(value = "name") String name,
-                                                         @RequestParam(value = "description") String description,
-                                                         @RequestParam(value = "exposure") Float exposure,
-                                                         @RequestParam(value = "contrast") Float contrast,
-                                                         @RequestParam(value = "adjust") Float adjust,
-                                                         @RequestParam(value = "sharpen") Float sharpen,
-                                                         @RequestParam(value = "clarity") Float clarity,
-                                                         @RequestParam(value = "saturation") Float saturation,
-                                                         @RequestParam(value = "tone") Float tone,
-                                                         @RequestParam(value = "whiteBalance") Float whiteBalance,
-                                                         @RequestParam(value = "vignette") Float vignette,
-                                                         @RequestParam(value = "grain") Float grain,
-                                                         @RequestParam(value = "fade") Float fade,
-                                                         @RequestParam(value = "splitTone") Float splitTone,
-                                                         @RequestParam(value = "colorFilter") Float colorFilter) throws IOException {
+    public ApiResponseModel<FilterModel> apiCreateFilter
+        (@RequestParam(value = "image") MultipartFile image,
+            @RequestParam(value = "email") String email,
+            @RequestParam(value = "name") String name,
+            @RequestParam(value = "description") String description,
+            @RequestParam(value = "exposure") Float exposure,
+            @RequestParam(value = "brightness") Float brightness,
+            @RequestParam(value = "contrast") Float contrast,
+            @RequestParam(value = "sharpen") Float sharpen,
+            @RequestParam(value = "saturation") Float saturation,
+            @RequestParam(value = "highlight") Float highlight,
+            @RequestParam(value = "shadow") Float shadow,
+            @RequestParam(value = "vignette") Float vignette,
+            @RequestParam(value = "grain") Float grain,
+            @RequestParam(value = "fade") Float fade,
+            @RequestParam(value = "colorFilterColor") Integer colorFilterColor,
+            @RequestParam(value = "colorFilterValue") Float colorFilterValue,
+            @RequestParam(value = "whiteBalanceTint") Float whiteBalanceTint,
+            @RequestParam(value = "whiteBalanceTemperature") Float whiteBalanceTemperature) throws IOException {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
-
-
-        FilterCheckName filterCheckName = new FilterCheckName();
 
         if (userService.checkLogin(email)) {
             log.info("로그인 상태 확인 완료");
@@ -85,7 +84,6 @@ public class FilterController {
         if (image.isEmpty()) {
             throw new BadRequestException("이미지를 넣어주세요.");
         }
-
 
         // upload img to storage
         String imageUrl = storageService.upload(image, "image");
@@ -98,17 +96,18 @@ public class FilterController {
         filterModel.setUseCount(0);
         filterModel.setExposure(exposure);
         filterModel.setContrast(contrast);
-        filterModel.setAdjust(adjust);
         filterModel.setSharpen(sharpen);
-        filterModel.setClarity(clarity);
+        filterModel.setBrightness(brightness);
+        filterModel.setHighlight(highlight);
+        filterModel.setShadow(shadow);
+        filterModel.setColorFilterColor(colorFilterColor);
+        filterModel.setColorFilterValue(colorFilterValue);
         filterModel.setSaturation(saturation);
-        filterModel.setTone(tone);
-        filterModel.setWhiteBalance(whiteBalance);
         filterModel.setVignette(vignette);
         filterModel.setGrain(grain);
         filterModel.setFade(fade);
-        filterModel.setSplitTone(splitTone);
-        filterModel.setColorFilter(colorFilter);
+        filterModel.setWhiteBalanceTint(whiteBalanceTint);
+        filterModel.setWhiteBalanceTemperature(whiteBalanceTemperature);
 
         filterService.save(email, imageUrl, filterModel);
 

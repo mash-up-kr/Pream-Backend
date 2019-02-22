@@ -54,19 +54,13 @@ public class FeedServiceImpl implements FeedService {
       feedFilterInfo.setDescription(filter.getName());
       feedFilterInfo.setImgUrl(filter.getImgUrl());
 
-      feedFilterInfo.setAdjust(filter.getAdjust());
-      feedFilterInfo.setClarity(filter.getClarity());
-      feedFilterInfo.setColorFilter(filter.getColorFilter());
       feedFilterInfo.setContrast(filter.getContrast());
       feedFilterInfo.setExposure(filter.getExposure());
       feedFilterInfo.setFade(filter.getFade());
       feedFilterInfo.setGrain(filter.getGrain());
       feedFilterInfo.setSaturation(filter.getSaturation());
       feedFilterInfo.setSharpen(filter.getSharpen());
-      feedFilterInfo.setSplitTone(filter.getSplitTone());
-      feedFilterInfo.setTone(filter.getTone());
       feedFilterInfo.setVignette(filter.getVignette());
-      feedFilterInfo.setWhiteBalance(filter.getWhiteBalance());
       feedFilterInfo.setDownload(false);
 
       for (UserFilter userFilter :userFilters) {
@@ -103,19 +97,13 @@ public class FeedServiceImpl implements FeedService {
     feedFilterInfo.setDescription(filter.getName());
     feedFilterInfo.setImgUrl(filter.getImgUrl());
 
-    feedFilterInfo.setAdjust(filter.getAdjust());
-    feedFilterInfo.setClarity(filter.getClarity());
-    feedFilterInfo.setColorFilter(filter.getColorFilter());
     feedFilterInfo.setContrast(filter.getContrast());
     feedFilterInfo.setExposure(filter.getExposure());
     feedFilterInfo.setFade(filter.getFade());
     feedFilterInfo.setGrain(filter.getGrain());
     feedFilterInfo.setSaturation(filter.getSaturation());
     feedFilterInfo.setSharpen(filter.getSharpen());
-    feedFilterInfo.setSplitTone(filter.getSplitTone());
-    feedFilterInfo.setTone(filter.getTone());
     feedFilterInfo.setVignette(filter.getVignette());
-    feedFilterInfo.setWhiteBalance(filter.getWhiteBalance());
     feedFilterInfo.setDownload(true);
 
     return feedFilterInfo;

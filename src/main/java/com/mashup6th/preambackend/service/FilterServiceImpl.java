@@ -38,22 +38,27 @@ public class FilterServiceImpl implements FilterService {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found by userId"));
 
         Filter filter = new Filter();
+
+        filter.setImgUrl(imgUrl);
         filter.setName(filterModel.getName());
+        filter.setDescription(filterModel.getDescription());
+
         filter.setExposure(filterModel.getExposure());
         filter.setContrast(filterModel.getContrast());
-        filter.setAdjust(filterModel.getAdjust());
         filter.setSharpen(filterModel.getSharpen());
-        filter.setClarity(filterModel.getClarity());
         filter.setSaturation(filterModel.getSaturation());
-        filter.setTone(filterModel.getTone());
-        filter.setWhiteBalance(filterModel.getWhiteBalance());
         filter.setVignette(filterModel.getVignette());
         filter.setGrain(filterModel.getGrain());
         filter.setFade(filterModel.getFade());
-        filter.setSplitTone(filterModel.getSplitTone());
-        filter.setColorFilter(filterModel.getColorFilter());
-        filter.setImgUrl(imgUrl);
-        filter.setDescription(filterModel.getDescription());
+        filter.setBrightness(filterModel.getBrightness());
+        filter.setHighlight(filterModel.getHighlight());
+        filter.setShadow(filterModel.getShadow());
+        filter.setColorFilterColor(filterModel.getColorFilterColor());
+        filter.setColorFilterValue(filterModel.getColorFilterValue());
+        filter.setWhiteBalanceTint(filterModel.getWhiteBalanceTint());
+        filter.setWhiteBalanceTemperature(filterModel.getWhiteBalanceTemperature());
+
+        filter.setUseCount(0);
         filter.setAdminYn(false);
         filter.setUser(user);
 
@@ -72,20 +77,21 @@ public class FilterServiceImpl implements FilterService {
         Filter filter = filterRepository.findById(id).orElseThrow(()->new NotFoundException("해당 이름을 가진 필터가 존재하지 않습니다."));
 
         FilterModel filterModel = new FilterModel();
-        filterModel.setColorFilter(filter.getColorFilter());
-        filterModel.setSplitTone(filter.getSplitTone());
+
         filterModel.setFade(filter.getFade());
         filterModel.setGrain(filter.getGrain());
         filterModel.setVignette(filter.getVignette());
-        filterModel.setWhiteBalance(filter.getWhiteBalance());
-        filterModel.setTone(filter.getTone());
         filterModel.setSaturation(filter.getSaturation());
-        filterModel.setClarity(filter.getClarity());
         filterModel.setSharpen(filter.getSharpen());
-        filterModel.setAdjust(filter.getAdjust());
         filterModel.setContrast(filter.getContrast());
         filterModel.setExposure(filter.getExposure());
-        filterModel.setName(filter.getName());
+        filterModel.setBrightness(filter.getBrightness());
+        filterModel.setHighlight(filter.getHighlight());
+        filterModel.setShadow(filter.getShadow());
+        filterModel.setColorFilterColor(filter.getColorFilterColor());
+        filterModel.setColorFilterValue(filter.getColorFilterValue());
+        filterModel.setWhiteBalanceTint(filter.getWhiteBalanceTint());
+        filterModel.setWhiteBalanceTemperature(filter.getWhiteBalanceTemperature());
 
         return filterModel;
     }
@@ -106,19 +112,20 @@ public class FilterServiceImpl implements FilterService {
             filterModel.setImgUrl(filter.getImgUrl());
             filterModel.setUseCount(1);
 
-            filterModel.setColorFilter(filter.getColorFilter());
-            filterModel.setSplitTone(filter.getSplitTone());
             filterModel.setFade(filter.getFade());
             filterModel.setGrain(filter.getGrain());
             filterModel.setVignette(filter.getVignette());
-            filterModel.setWhiteBalance(filter.getWhiteBalance());
-            filterModel.setTone(filter.getTone());
             filterModel.setSaturation(filter.getSaturation());
-            filterModel.setClarity(filter.getClarity());
             filterModel.setSharpen(filter.getSharpen());
-            filterModel.setAdjust(filter.getAdjust());
             filterModel.setContrast(filter.getContrast());
             filterModel.setExposure(filter.getExposure());
+            filterModel.setBrightness(filter.getBrightness());
+            filterModel.setHighlight(filter.getHighlight());
+            filterModel.setShadow(filter.getShadow());
+            filterModel.setColorFilterColor(filter.getColorFilterColor());
+            filterModel.setColorFilterValue(filter.getColorFilterValue());
+            filterModel.setWhiteBalanceTint(filter.getWhiteBalanceTint());
+            filterModel.setWhiteBalanceTemperature(filter.getWhiteBalanceTemperature());
 
             filterModels.add(filterModel);
         }

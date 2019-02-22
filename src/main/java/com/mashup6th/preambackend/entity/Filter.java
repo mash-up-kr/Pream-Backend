@@ -38,8 +38,6 @@ public class Filter {
     @CreationTimestamp
     private LocalDateTime shareDate;
 
-//    @Column(columnDefinition = "boolean default false")
-//    private Boolean sharedYn;
 
     @Column(nullable = false)
     private int sharedCount;
@@ -51,25 +49,28 @@ public class Filter {
     private Float exposure;
 
     @Column(columnDefinition = "float default 0.0")
-    private Float contrast;
+    private Float brightness;
 
     @Column(columnDefinition = "float default 0.0")
-    private Float adjust;
+    private Float contrast;
 
     @Column(columnDefinition = "float default 0.0")
     private Float sharpen;
 
     @Column(columnDefinition = "float default 0.0")
-    private Float clarity;
-
-    @Column(columnDefinition = "float default 0.0")
     private Float saturation;
 
     @Column(columnDefinition = "float default 0.0")
-    private Float tone;
+    private Float highlight;
 
     @Column(columnDefinition = "float default 0.0")
-    private Float whiteBalance;
+    private Float shadow;
+
+    @Column(columnDefinition = "float default 0.0")
+    private Float whiteBalanceTint;
+
+    @Column(columnDefinition = "float default 0.0")
+    private Float whiteBalanceTemperature;
 
     @Column(columnDefinition = "float default 0.0")
     private Float vignette;
@@ -80,11 +81,11 @@ public class Filter {
     @Column(columnDefinition = "float default 0.0")
     private Float fade;
 
-    @Column(columnDefinition = "float default 0.0")
-    private Float splitTone;
+    @Column(columnDefinition = "int default 0")
+    private int colorFilterColor;
 
     @Column(columnDefinition = "float default 0.0")
-    private Float colorFilter;
+    private Float colorFilterValue;
 
     //관리자가 등록한 필터값이면 true
     @Column(columnDefinition = "boolean default false")
