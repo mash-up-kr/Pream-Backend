@@ -8,11 +8,15 @@ import com.mashup6th.preambackend.exception.NotFoundException;
 import com.mashup6th.preambackend.persistence.FilterRepository;
 import com.mashup6th.preambackend.persistence.UserFilterRepository;
 import com.mashup6th.preambackend.persistence.UserRepository;
-import org.springframework.stereotype.Service;
-
+import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import sun.jvm.hotspot.debugger.Page;
 
 @Service
+@Slf4j
 public class FilterServiceImpl implements FilterService {
 
     private FilterRepository filterRepository;
@@ -31,7 +35,7 @@ public class FilterServiceImpl implements FilterService {
 
     @Override
     public void save(String email, String imgUrl, FilterModel filterModel) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found by userId"));;
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found by userId"));
 
         Filter filter = new Filter();
         filter.setName(filterModel.getName());
@@ -100,9 +104,43 @@ public class FilterServiceImpl implements FilterService {
 //    }
 
     @Override
-    public List<Filter> getFilterList(String email) {
-        userRepository.findByEmail(email);
-        return filterRepository.findAll();
+    public List<FilterModel> getFilterList(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found by userId"));
+        List<FilterModel> filterModels = new ArrayList<>();
+
+        //user_filter에서 user_id에 해당하는 filterid를 다 가져온다.
+        //그 필터아이디로 필터를 검색해서 필터모델리스트에 넣어서 보내준다.
+        List<UserFilter> userFilterList = userFilterRepository.findByUserIdHaveFilter(user.getId());
+
+        log.info("filter서비스 임플" + userFilterList.size());
+
+        for (UserFilter userFilter : userFilterList){
+            Filter filter = filterRepository.findById(userFilter.getFilter().getId()).orElseThrow(()->new IllegalArgumentException("해당 filterId에 해당하는 필터가 존재하지 않습니다."));
+            FilterModel filterModel = new FilterModel();
+
+            filterModel.setId(filter.getId());
+            filterModel.setName(filter.getName());
+            filterModel.setImgUrl(filter.getImgUrl());
+            filterModel.setUseCount(1);
+
+            filterModel.setColorFilter(filter.getColorFilter());
+            filterModel.setSplitTone(filter.getSplitTone());
+            filterModel.setFade(filter.getFade());
+            filterModel.setGrain(filter.getGrain());
+            filterModel.setVignette(filter.getVignette());
+            filterModel.setWhiteBalance(filter.getWhiteBalance());
+            filterModel.setTone(filter.getTone());
+            filterModel.setSaturation(filter.getSaturation());
+            filterModel.setClarity(filter.getClarity());
+            filterModel.setSharpen(filter.getSharpen());
+            filterModel.setAdjust(filter.getAdjust());
+            filterModel.setContrast(filter.getContrast());
+            filterModel.setExposure(filter.getExposure());
+
+            filterModels.add(filterModel);
+        }
+
+        return filterModels;
     }
 
     @Override

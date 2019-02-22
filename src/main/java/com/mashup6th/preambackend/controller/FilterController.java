@@ -8,10 +8,16 @@ import com.mashup6th.preambackend.model.ApiResponseModel;
 import com.mashup6th.preambackend.service.FilterService;
 import com.mashup6th.preambackend.service.StorageService;
 import com.mashup6th.preambackend.service.UserService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +45,6 @@ public class FilterController {
         this.storageService = storageService;
         this.userService = userService;
     }
-
 
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Created", response = FilterModel.class),
@@ -127,48 +132,15 @@ public class FilterController {
         return response;
     }
 
-    @PutMapping("{name}")
-    public ApiResponseModel<FilterModel> apiModifyFilter(@PathVariable String name, @RequestBody FilterModel filterModel, BindingResult bindingResult) {
-        ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
+    @GetMapping("/list/{email}")
+    public ApiResponseModel<List<FilterModel>> apiGetFilters(@PathVariable String email) {
+        ApiResponseModel<List<FilterModel>> response = new ApiResponseModel<>();
 
-        filterModel.setExposure(filterModel.getExposure());
-        filterModel.setContrast(filterModel.getContrast());
-        filterModel.setAdjust(filterModel.getAdjust());
-        filterModel.setSharpen(filterModel.getSharpen());
-        filterModel.setClarity(filterModel.getClarity());
-        filterModel.setSaturation(filterModel.getSaturation());
-        filterModel.setTone(filterModel.getTone());
-        filterModel.setWhiteBalance(filterModel.getWhiteBalance());
-        filterModel.setVignette(filterModel.getVignette());
-        filterModel.setGrain(filterModel.getGrain());
-        filterModel.setFade(filterModel.getFade());
-        filterModel.setSplitTone(filterModel.getSplitTone());
-        filterModel.setColorFilter(filterModel.getColorFilter());
-
-        if (bindingResult.hasErrors()) {
-            throw new BadRequestException("변경값을 제대로 입력해주세요.");
-        }
-
-        filterService.modify(name, filterModel);
+        List<FilterModel> filterModels = filterService.getFilterList(email);
 
         response.setStatusCode(HttpStatus.OK.value());
         response.setMessage(HttpStatus.OK.toString());
-        response.setResult(filterModel);
-
-        return response;
-    }
-
-    @GetMapping("/list")
-    public ApiResponseModel<FilterModel> apiGetFilters(@RequestBody String email, BindingResult bindingResult) {
-        ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
-
-        filterService.getFilterList(email);
-
-        if (bindingResult.hasErrors()) {
-            throw new BadRequestException("");
-        }
-
-        response.setStatusCode(HttpStatus.OK.value());
+        response.setResult(filterModels);
 
         return response;
     }

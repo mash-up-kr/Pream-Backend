@@ -91,7 +91,7 @@ public class Filter {
     private Boolean adminYn;
     
     //어떤 유저가 이 filter를 생성했는지에 대한 정보
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     private User user;
 
     @OneToMany(mappedBy = "filter", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

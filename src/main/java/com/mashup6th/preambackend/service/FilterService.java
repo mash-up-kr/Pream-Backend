@@ -4,6 +4,8 @@ package com.mashup6th.preambackend.service;
     import com.mashup6th.preambackend.entity.Filter;
 
     import java.util.List;
+    import org.springframework.data.domain.Page;
+    import org.springframework.data.domain.Pageable;
 
 public interface FilterService {
 
@@ -15,7 +17,7 @@ public interface FilterService {
 
 //    boolean nameCheck(String name);
 
-    List<Filter> getFilterList(String email);
+    List<FilterModel> getFilterList(String email);
 
     void delete(String name);
 }
