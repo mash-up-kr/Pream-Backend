@@ -4,6 +4,7 @@ import com.mashup6th.preambackend.dto.filter.FilterModel;
 import com.mashup6th.preambackend.entity.Filter;
 import com.mashup6th.preambackend.entity.User;
 import com.mashup6th.preambackend.entity.UserFilter;
+import com.mashup6th.preambackend.exception.BadRequestException;
 import com.mashup6th.preambackend.exception.NotFoundException;
 import com.mashup6th.preambackend.persistence.FilterRepository;
 import com.mashup6th.preambackend.persistence.UserFilterRepository;
@@ -143,10 +144,17 @@ public class FilterServiceImpl implements FilterService {
         return filterModels;
     }
 
+    //filter테이블에 그 userId와 일치하는지 확인하여 일치한다면 그 필터를 삭제 -> 이 기능은 피드에 들어가야 함
+    //userFilter에서 해당user아이디와 해당 filter아이디에 해당하는 필터를 지워주기.
     @Override
-    public void delete(String name) {
-        Filter filter = filterRepository.findByName(name).orElseThrow(()->new IllegalArgumentException("해당 이름의 필터가 존재하지 않습니다."));
-        filterRepository.deleteById(filter.getId());
+    public void delete(Long filterId, String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new BadRequestException("Not found by userId"));
+        log.info("얻어온 유저의 이메일은");
+        log.info(user.getEmail());
+
+        UserFilter userFilter = userFilterRepository.findByUserIdAndFilterId(user.getId(), filterId);
+        userFilterRepository.delete(userFilter);
+
     }
 
 

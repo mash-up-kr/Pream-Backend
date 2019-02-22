@@ -19,5 +19,5 @@ public interface FilterService {
 
     List<FilterModel> getFilterList(String email);
 
-    void delete(String name);
+    void delete(Long filterId, String email);
 }
