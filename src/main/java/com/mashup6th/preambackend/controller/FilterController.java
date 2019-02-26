@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import java.util.List;
+import javax.validation.constraints.Null;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -52,20 +53,20 @@ public class FilterController {
             @RequestParam(value = "email") String email,
             @RequestParam(value = "name") String name,
             @RequestParam(value = "description") String description,
-            @RequestParam(value = "exposure") Float exposure,
-            @RequestParam(value = "brightness") Float brightness,
-            @RequestParam(value = "contrast") Float contrast,
-            @RequestParam(value = "sharpen") Float sharpen,
-            @RequestParam(value = "saturation") Float saturation,
-            @RequestParam(value = "highlight") Float highlight,
-            @RequestParam(value = "shadow") Float shadow,
-            @RequestParam(value = "vignette") Float vignette,
-            @RequestParam(value = "grain") Float grain,
-            @RequestParam(value = "fade") Float fade,
-            @RequestParam(value = "colorFilterColor") Integer colorFilterColor,
-            @RequestParam(value = "colorFilterValue") Float colorFilterValue,
-            @RequestParam(value = "whiteBalanceTint") Float whiteBalanceTint,
-            @RequestParam(value = "whiteBalanceTemperature") Float whiteBalanceTemperature) throws IOException {
+            @RequestParam(value = "exposure",required=false,defaultValue="") Float exposure,
+            @RequestParam(value = "brightness",required=false,defaultValue="") Float brightness,
+            @RequestParam(value = "contrast",required=false,defaultValue="") Float contrast,
+            @RequestParam(value = "sharpen",required=false,defaultValue="") Float sharpen,
+            @RequestParam(value = "saturation",required=false,defaultValue="") Float saturation,
+            @RequestParam(value = "highlight",required=false,defaultValue="") Float highlight,
+            @RequestParam(value = "shadow",required=false,defaultValue="") Float shadow,
+            @RequestParam(value = "vignette",required=false,defaultValue="") Float vignette,
+            @RequestParam(value = "grain",required=false,defaultValue="") Float grain,
+            @RequestParam(value = "fade",required=false,defaultValue="") Float fade,
+            @RequestParam(value = "colorFilterColor",required=false,defaultValue="") Integer colorFilterColor,
+            @RequestParam(value = "colorFilterValue",required=false,defaultValue="") Float colorFilterValue,
+            @RequestParam(value = "whiteBalanceTint",required=false,defaultValue="") Float whiteBalanceTint,
+            @RequestParam(value = "whiteBalanceTemperature",required=false,defaultValue="") Float whiteBalanceTemperature) throws IOException {
         ApiResponseModel<FilterModel> response = new ApiResponseModel<>();
 
         if (userService.checkLogin(email)) {

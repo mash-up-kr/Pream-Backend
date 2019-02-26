@@ -42,49 +42,49 @@ public class Filter {
     @Column(nullable = false)
     private int sharedCount;
   
-    @Column
-    private int useCount = 0;
+    @Column(columnDefinition = "int default 1")
+    private int useCount;
 
-    @Column(columnDefinition = "float default 0.0")
+    @Column
     private Float exposure;
 
-    @Column(columnDefinition = "float default 0.0")
+    @Column
     private Float brightness;
 
-    @Column(columnDefinition = "float default 0.0")
+    @Column
     private Float contrast;
 
-    @Column(columnDefinition = "float default 0.0")
+    @Column
     private Float sharpen;
 
-    @Column(columnDefinition = "float default 0.0")
+    @Column
     private Float saturation;
 
-    @Column(columnDefinition = "float default 0.0")
+    @Column
     private Float highlight;
 
-    @Column(columnDefinition = "float default 0.0")
+    @Column
     private Float shadow;
 
-    @Column(columnDefinition = "float default 0.0")
+    @Column
     private Float whiteBalanceTint;
 
-    @Column(columnDefinition = "float default 0.0")
+    @Column
     private Float whiteBalanceTemperature;
 
-    @Column(columnDefinition = "float default 0.0")
+    @Column
     private Float vignette;
 
-    @Column(columnDefinition = "float default 0.0")
+    @Column
     private Float grain;
 
-    @Column(columnDefinition = "float default 0.0")
+    @Column
     private Float fade;
 
-    @Column(columnDefinition = "int default 0")
-    private int colorFilterColor;
 
-    @Column(columnDefinition = "float default 0.0")
+    private Integer colorFilterColor;
+
+    @Column
     private Float colorFilterValue;
 
     //관리자가 등록한 필터값이면 true
