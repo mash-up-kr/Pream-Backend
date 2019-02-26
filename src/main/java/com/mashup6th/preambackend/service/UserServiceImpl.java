@@ -7,6 +7,7 @@ import com.mashup6th.preambackend.entity.User;
 import com.mashup6th.preambackend.entity.constant.AuthNumber;
 import com.mashup6th.preambackend.exception.NotFoundException;
 import com.mashup6th.preambackend.persistence.UserRepository;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
@@ -27,10 +28,10 @@ public class UserServiceImpl implements UserService{
   public String emailCheck(String email) {
     //중복되면 중복된 email을 보내줌
     log.info("입력한 email은" +  email);
-    User user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Not found by userId"));;
+    Optional<User> user = userRepository.findByEmail(email);
 
     log.info("user는" + user);
-    if ( user == null){
+    if ( !user.isPresent() ){
       return email;
     } else return null;
 
