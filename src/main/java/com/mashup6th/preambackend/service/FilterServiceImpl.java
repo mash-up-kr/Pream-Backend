@@ -58,7 +58,7 @@ public class FilterServiceImpl implements FilterService {
         filter.setWhiteBalanceTint(filterModel.getWhiteBalanceTint());
         filter.setWhiteBalanceTemperature(filterModel.getWhiteBalanceTemperature());
 
-        filter.setUseCount(0);
+        filter.setUseCount(1);
         filter.setAdminYn(false);
         filter.setUser(user);
 
