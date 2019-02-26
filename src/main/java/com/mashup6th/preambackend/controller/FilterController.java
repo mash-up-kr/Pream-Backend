@@ -2,24 +2,17 @@ package com.mashup6th.preambackend.controller;
 
 import com.mashup6th.preambackend.dto.filter.FilterCheckName;
 import com.mashup6th.preambackend.dto.filter.FilterModel;
-import com.mashup6th.preambackend.exception.AlreadyExistsException;
 import com.mashup6th.preambackend.exception.BadRequestException;
 import com.mashup6th.preambackend.model.ApiResponseModel;
 import com.mashup6th.preambackend.service.FilterService;
 import com.mashup6th.preambackend.service.StorageService;
 import com.mashup6th.preambackend.service.UserService;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
